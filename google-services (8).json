@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1042095955824",
+    "project_id": "learn-99f04",
+    "storage_bucket": "learn-99f04.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1042095955824:android:0f8de6aeed1e8b192579b5",
+        "android_client_info": {
+          "package_name": "com.learnapp.japanese"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDTiSwZVhjONvJuF1ycfY868ugh_h_bMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
