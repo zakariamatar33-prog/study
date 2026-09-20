@@ -1,0 +1,9 @@
+{
+  "appId": "com.gakusei.japaneselearning",
+  "appName": "تعلّم اليابانية",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "android": {
+    "allowMixedContent": true
+  }
+}
