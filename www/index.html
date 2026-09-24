@@ -1,0 +1,2495 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>تعلّم اليابانية</title>
+
+<!-- PWA: كل شيء مضمَّن داخل هذا الملف الوحيد (لا حاجة لملفات خارجية) -->
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogItiq2LnZhNmR2YUg2KfZhNmK2KfYqNin2YbZitipIiwgInNob3J0X25hbWUiOiAi2KrYudmE2ZHZhSDYp9mE2YrYp9io2KfZhtmK2KkiLCAiZGVzY3JpcHRpb24iOiAi2KrYt9io2YrZgiDYqti52YTZkdmFINin2YTYrNmF2YQg2KfZhNmK2KfYqNin2YbZitipINin2YTZitmI2YXZitipINmF2Lkg2KfZhNmG2LfZgiDZiNi32LHZitmC2Kkg2KfZhNmC2LHYp9ih2Kkg2KjYp9mE2LnYsdio2YoiLCAic3RhcnRfdXJsIjogIi4iLCAic2NvcGUiOiAiLiIsICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLCAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLCAiYmFja2dyb3VuZF9jb2xvciI6ICIjRjVGMEU0IiwgInRoZW1lX2NvbG9yIjogIiMxQjJBNEEiLCAiZGlyIjogInJ0bCIsICJsYW5nIjogImFyIn0=">
+<meta name="theme-color" content="#1B2A4A">
+<meta name="background-color" content="#F5F0E4">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=" type="image/png">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="تعلّم اليابانية">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap"></noscript>
+<style>
+  :root{
+    --indigo:#1B2A4A;
+    --indigo-light:#2E4370;
+    --washi:#F5F0E4;
+    --card:#FFFDF8;
+    --hanko:#BD3C33;
+    --bamboo:#3F6B4C;
+    --ink:#26241F;
+    --ink-soft:#6b6558;
+    --line:#E4DBC9;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--washi);
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(189,60,51,0.05) 0, transparent 40%),
+      radial-gradient(circle at 92% 85%, rgba(27,42,74,0.06) 0, transparent 45%);
+    font-family:'Cairo', sans-serif;
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:20px 14px 30px;
+  }
+  .jp{ font-family:'Zen Maru Gothic', sans-serif; direction:ltr; }
+
+  header{
+    width:100%;
+    max-width:460px;
+    text-align:center;
+    margin-bottom:16px;
+  }
+  header h1{
+    font-size:1.5rem;
+    font-weight:800;
+    color:var(--indigo);
+    margin:0 0 2px;
+    letter-spacing:0.2px;
+  }
+  header p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.88rem;
+  }
+  header .accent-mark{
+    display:inline-block;
+    color:var(--hanko);
+  }
+
+  .tabs{
+    width:100%;
+    max-width:460px;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:4px 2px 12px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:0 0 auto;
+    padding:8px 16px;
+    border-radius:100px;
+    background:var(--card);
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    font-family:'Cairo';
+    font-weight:600;
+    font-size:0.85rem;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .15s ease;
+  }
+  .tab.active{
+    background:var(--indigo);
+    border-color:var(--indigo);
+    color:#fff;
+  }
+
+  .stage{
+    width:100%;
+    max-width:460px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:1;
+  }
+
+  .progress-row{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:10px;
+    padding:0 4px;
+  }
+  .progress-text{
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .progress-track{
+    flex:1;
+    height:4px;
+    background:var(--line);
+    border-radius:4px;
+    margin:0 12px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--hanko);
+    border-radius:4px;
+    transition:width .3s ease;
+  }
+
+  .card-wrap{
+    width:100%;
+    perspective:1400px;
+    margin-bottom:18px;
+  }
+  .card{
+    position:relative;
+    width:100%;
+    min-height:400px;
+    transform-style:preserve-3d;
+    transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card.flipped{ transform:rotateY(180deg); }
+
+  .face{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    border-radius:20px;
+    background:var(--card);
+    border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(27,20,10,0.04), 0 8px 24px rgba(27,20,10,0.06);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:32px 22px;
+  }
+  .face.back{
+    transform:rotateY(180deg);
+  }
+
+  .stamp{
+    position:absolute;
+    top:16px;
+    right:18px;
+    width:34px;
+    height:34px;
+    border:2px solid var(--hanko);
+    border-radius:8px;
+    color:var(--hanko);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'Zen Maru Gothic';
+    font-size:0.8rem;
+    font-weight:700;
+    opacity:0.55;
+    transform:rotate(-6deg);
+  }
+
+  .jp-main{
+    font-size:2.35rem;
+    font-weight:700;
+    color:var(--indigo);
+    line-height:1.5;
+    margin-bottom:14px;
+  }
+  .jp-hira{
+    font-size:1.4rem;
+    color:var(--ink-soft);
+    font-weight:500;
+    margin-bottom:4px;
+  }
+  .speak-btn{
+    position:absolute;
+    top:14px;
+    left:16px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--indigo);
+    font-size:1.05rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .speak-btn:active{ transform:scale(0.9); }
+  .speak-btn.playing{ background:var(--hanko); color:#fff; border-color:var(--hanko); }
+  .tap-hint{
+    margin-top:18px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    opacity:0.7;
+  }
+  .tap-hint::before{ content:'☞  '; }
+
+  .speak-btn{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--indigo);
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    margin-top:14px;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .speak-btn:active{ transform:scale(0.92); }
+  .speak-btn.playing{
+    background:var(--indigo);
+    color:#fff;
+  }
+
+  .fav-btn{
+    position:absolute;
+    top:14px;
+    left:64px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--hanko);
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .fav-btn:active{ transform:scale(0.9); }
+  .fav-btn.active{
+    background:var(--hanko);
+    color:#fff;
+    border-color:var(--hanko);
+  }
+
+  .record-btn{
+    position:absolute;
+    top:14px;
+    left:112px;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--ink-soft);
+    font-size:1.05rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform .12s ease, background .15s ease;
+  }
+  .record-btn:active{ transform:scale(0.9); }
+  .record-btn.has-recording{
+    border-color:var(--indigo);
+    color:var(--indigo);
+  }
+  .record-btn.recording{
+    background:#d43b3b;
+    border-color:#d43b3b;
+    color:#fff;
+    animation: recPulse 1s infinite;
+  }
+  @keyframes recPulse{
+    0%, 100%{ opacity:1; }
+    50%{ opacity:0.55; }
+  }
+
+  .ar-meaning{
+    font-size:1.65rem;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:16px;
+    line-height:1.6;
+  }
+  .divider-small{
+    width:36px;
+    height:3px;
+    background:var(--hanko);
+    border-radius:3px;
+    margin-bottom:16px;
+  }
+  .reading-label{
+    font-size:0.8rem;
+    color:var(--bamboo);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .ar-reading{
+    font-size:1.4rem;
+    color:var(--bamboo);
+    font-weight:600;
+    direction:rtl;
+  }
+
+  .controls{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin-bottom:10px;
+  }
+  .nav-btn{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--indigo);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .nav-btn:active{ transform:scale(0.92); }
+  .nav-btn.disabled{ opacity:0.3; pointer-events:none; }
+
+  .flip-btn{
+    flex:1;
+    max-width:200px;
+    height:52px;
+    border-radius:100px;
+    border:none;
+    background:var(--indigo);
+    color:#fff;
+    font-family:'Cairo';
+    font-weight:700;
+    font-size:0.95rem;
+    cursor:pointer;
+    transition:background .15s ease, transform .12s ease;
+  }
+  .flip-btn:active{ transform:scale(0.97); }
+
+  .autoplay-btn{
+    width:100%;
+    max-width:280px;
+    height:46px;
+    border-radius:100px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--indigo);
+    font-family:'Cairo';
+    font-weight:700;
+    font-size:0.88rem;
+    cursor:pointer;
+    margin-top:2px;
+    transition:background .15s ease, color .15s ease, transform .12s ease;
+  }
+  .autoplay-btn:active{ transform:scale(0.97); }
+  .autoplay-btn.active{
+    background:var(--hanko);
+    border-color:var(--hanko);
+    color:#fff;
+  }
+
+  .repeat-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    margin-top:8px;
+    width:100%;
+    max-width:280px;
+  }
+  .repeat-row label{
+    font-size:0.82rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    font-family:'Cairo';
+  }
+  .repeat-select{
+    height:34px;
+    border-radius:100px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--indigo);
+    font-family:'Cairo';
+    font-weight:700;
+    font-size:0.85rem;
+    padding:0 10px;
+    cursor:pointer;
+  }
+
+
+  footer{
+    margin-top:14px;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    opacity:0.65;
+    text-align:center;
+  }
+
+  @media (max-width:360px){
+    .jp-main{ font-size:1.9rem; }
+    .ar-meaning{ font-size:1.4rem; }
+    .ar-reading{ font-size:1.2rem; }
+  }
+
+  /* ===== SENTENCES SEED PANEL ===== */
+  .seed-toggle-btn{
+    width:100%;
+    max-width:460px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    height:42px;
+    border-radius:100px;
+    border:1px dashed var(--hanko);
+    background:var(--card);
+    color:var(--hanko);
+    font-family:'Cairo';
+    font-weight:700;
+    font-size:0.85rem;
+    cursor:pointer;
+    margin-bottom:12px;
+    transition:background .15s ease, transform .12s ease;
+  }
+  .seed-toggle-btn:active{ transform:scale(0.98); }
+  .seed-toggle-btn.active{ background:var(--hanko); color:#fff; border-style:solid; }
+
+  .seed-panel{
+    width:100%;
+    max-width:460px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:0 4px 18px rgba(27,20,10,0.06);
+  }
+  .seed-panel-title{
+    font-weight:800;
+    font-size:0.95rem;
+    color:var(--indigo);
+    margin-bottom:10px;
+  }
+  .seed-file-btn{
+    width:100%;
+    height:44px;
+    border-radius:12px;
+    border:1.5px dashed var(--line);
+    background:var(--washi);
+    color:var(--ink-soft);
+    font-family:'Cairo';
+    font-weight:600;
+    font-size:0.82rem;
+    cursor:pointer;
+    margin-bottom:10px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .seed-file-btn:hover{ border-color:var(--hanko); color:var(--hanko); }
+  .seed-textarea{
+    width:100%;
+    min-height:110px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--ink);
+    font-family:monospace;
+    font-size:0.78rem;
+    padding:10px;
+    direction:ltr;
+    text-align:left;
+    resize:vertical;
+    box-sizing:border-box;
+  }
+  .seed-cat-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+  }
+  .seed-cat-row label{
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    font-weight:600;
+    white-space:nowrap;
+  }
+  .seed-cat-input{
+    flex:1;
+    height:36px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--ink);
+    font-family:'Cairo';
+    font-size:0.82rem;
+    padding:0 10px;
+    box-sizing:border-box;
+  }
+  .seed-actions{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+  }
+  .seed-import-btn{
+    flex:1;
+    height:42px;
+    border-radius:10px;
+    border:none;
+    background:var(--bamboo);
+    color:#fff;
+    font-family:'Cairo';
+    font-weight:700;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  .seed-clear-btn{
+    height:42px;
+    padding:0 14px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--washi);
+    color:var(--hanko);
+    font-family:'Cairo';
+    font-weight:700;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  .seed-status{
+    margin-top:10px;
+    font-size:0.8rem;
+    font-weight:600;
+    min-height:18px;
+  }
+  .seed-status.ok{ color:var(--bamboo); }
+  .seed-status.err{ color:var(--hanko); }
+  .seed-format-hint{
+    margin-top:12px;
+    background:var(--washi);
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:monospace;
+    font-size:0.7rem;
+    color:var(--ink-soft);
+    direction:ltr;
+    text-align:left;
+    white-space:pre-wrap;
+    line-height:1.6;
+  }
+
+  /* ===== MODE SWITCH ===== */
+  .mode-switch{
+    width:100%;
+    max-width:460px;
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .mode-btn{
+    flex:1;
+    height:46px;
+    border-radius:100px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--ink-soft);
+    font-family:'Cairo';
+    font-weight:800;
+    font-size:0.9rem;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .mode-btn:active{ transform:scale(0.97); }
+  .mode-btn.active{
+    background:var(--indigo);
+    border-color:var(--indigo);
+    color:#fff;
+  }
+
+  #wordsMode, #sentencesMode{
+    width:100%;
+    max-width:460px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  /* ===== WORDS SECTION ===== */
+  .w-page{ display:none; width:100%; }
+  .w-page.active{ display:flex; flex-direction:column; align-items:center; }
+
+  .w-stats-row{
+    width:100%;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-bottom:14px;
+    box-sizing:border-box;
+  }
+  .w-stat-item{ min-width:64px; }
+  .w-stat-num{ font-size:1.3rem; font-weight:800; color:var(--hanko); }
+  .w-stat-label{ font-size:0.66rem; color:var(--ink-soft); margin-top:2px; }
+
+  .w-stage-banner{
+    width:100%;
+    background:#FBEFE0;
+    border:1px solid var(--hanko);
+    border-radius:14px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    font-size:0.8rem;
+    color:var(--ink);
+    box-sizing:border-box;
+  }
+  .w-stage-banner strong{ color:var(--hanko); }
+
+  .w-strip-label{
+    width:100%;
+    font-size:0.72rem; font-weight:700; color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  .w-lessons-strip{
+    width:100%;
+    display:flex; gap:12px;
+    overflow-x:auto; padding-bottom:8px;
+    scrollbar-width:none;
+  }
+  .w-lessons-strip::-webkit-scrollbar{ display:none; }
+  .w-lesson-card{
+    flex:0 0 150px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 12px;
+    cursor:pointer;
+    position:relative;
+    transition:all .15s ease;
+  }
+  .w-lesson-card:active{ transform:scale(0.97); }
+  .w-lesson-card.done{ border-color:var(--bamboo); background:#F2F8F3; }
+  .w-lesson-card.needs-quiz{ border-color:#C99A2E; }
+  .w-lesson-card.locked{ opacity:0.5; cursor:not-allowed; }
+  .w-lc-badge{ position:absolute; top:10px; left:10px; font-size:0.95rem; }
+  .w-lc-title{ font-weight:800; font-size:0.85rem; color:var(--indigo); }
+  .w-lc-ja{ font-size:0.72rem; color:var(--ink-soft); margin-top:2px; direction:ltr; }
+  .w-lc-count{ font-size:0.68rem; color:var(--ink-soft); margin-top:8px; }
+  .w-lc-bar{ height:3px; background:var(--line); border-radius:99px; margin-top:6px; overflow:hidden; }
+  .w-lc-fill{ height:100%; background:var(--hanko); }
+
+  .w-btn{
+    height:44px; border-radius:100px; border:none;
+    background:var(--indigo); color:#fff;
+    font-family:'Cairo'; font-weight:700; font-size:0.85rem;
+    cursor:pointer; padding:0 20px;
+  }
+  .w-btn:active{ transform:scale(0.97); }
+  .w-btn-outline{
+    height:40px; border-radius:100px;
+    border:1px solid var(--line); background:var(--card); color:var(--indigo);
+    font-family:'Cairo'; font-weight:700; font-size:0.8rem;
+    cursor:pointer; padding:0 16px;
+  }
+  .w-btn-danger{ color:var(--hanko); border-color:var(--hanko); }
+  .w-row-gap{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; width:100%; justify-content:center; }
+
+  .w-back-row{ display:flex; align-items:center; gap:10px; width:100%; margin-bottom:12px; }
+  .w-back-row h2{ font-size:1.05rem; font-weight:800; color:var(--indigo); margin:0; }
+  .w-back-row .sub{ font-size:0.75rem; color:var(--ink-soft); direction:ltr; }
+
+  .w-all-group{ width:100%; margin-bottom:18px; }
+  .w-all-group-label{ font-size:0.72rem; font-weight:700; color:var(--ink-soft); margin-bottom:8px; }
+  .w-all-grid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; }
+  .w-all-row{
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:6px;
+    background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:14px 8px; cursor:pointer;
+  }
+  .w-all-row.locked{ opacity:0.5; cursor:not-allowed; }
+  .w-all-row .icon{ font-size:1.2rem; }
+  .w-all-row .title{ font-weight:700; font-size:0.78rem; color:var(--indigo); }
+  .w-all-row .ja{ font-size:0.68rem; color:var(--ink-soft); direction:ltr; }
+  .w-all-row .count{ font-size:0.65rem; color:var(--ink-soft); }
+
+  .w-dots{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:14px; }
+  .w-dot{ width:8px; height:8px; border-radius:50%; background:var(--line); }
+  .w-dot.seen{ background:var(--hanko); }
+  .w-dot.cur{ background:var(--indigo); transform:scale(1.3); }
+
+  .w-quiz-score-row{ display:flex; justify-content:center; gap:24px; margin-bottom:14px; width:100%; }
+  .w-quiz-score-item{ text-align:center; }
+  .w-quiz-score-num{ font-size:1.3rem; font-weight:800; }
+  .w-quiz-score-num.ok{ color:var(--bamboo); }
+  .w-quiz-score-num.bad{ color:var(--hanko); }
+  .w-quiz-score-label{ font-size:0.68rem; color:var(--ink-soft); }
+
+  .w-quiz-q-card{
+    width:100%; background:var(--card); border:1px solid var(--line); border-radius:16px;
+    padding:20px; margin-bottom:14px; text-align:center; box-sizing:border-box;
+  }
+  .w-quiz-q-jp{ font-size:1.8rem; font-weight:700; color:var(--indigo); direction:ltr; }
+  .w-quiz-q-hira{ font-size:1rem; color:var(--ink-soft); margin-top:4px; direction:ltr; }
+  .w-quiz-answers{ display:flex; flex-direction:column; gap:8px; width:100%; }
+  .w-quiz-answer-btn{
+    height:46px; border-radius:12px; border:1px solid var(--line);
+    background:var(--card); color:var(--ink);
+    font-family:'Cairo'; font-weight:600; font-size:0.85rem; cursor:pointer;
+  }
+  .w-quiz-answer-btn.correct{ border-color:var(--bamboo); background:#EAF6EC; color:var(--bamboo); }
+  .w-quiz-answer-btn.wrong{ border-color:var(--hanko); background:#FBEAE8; color:var(--hanko); }
+  .w-quiz-answer-btn:disabled{ cursor:default; }
+
+  .w-result{ text-align:center; padding:34px 18px; background:var(--card); border:1px solid var(--line); border-radius:16px; width:100%; box-sizing:border-box; }
+  .w-result-emoji{ font-size:3rem; }
+  .w-result-score{ font-size:2.2rem; font-weight:800; color:var(--hanko); }
+  .w-result-pct{ font-size:0.9rem; color:var(--ink-soft); }
+  .w-result-msg{ font-size:0.85rem; font-weight:700; margin-top:8px; }
+
+  .w-empty{ text-align:center; color:var(--ink-soft); font-size:0.85rem; padding:30px 10px; width:100%; }
+
+  .w-admin-list-item{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:10px 0; border-bottom:1px solid var(--line); width:100%;
+  }
+  .w-admin-list-item:last-child{ border-bottom:none; }
+  .w-admin-list-item .name{ font-weight:700; font-size:0.82rem; color:var(--indigo); }
+  .w-admin-list-item .meta{ font-size:0.7rem; color:var(--ink-soft); direction:ltr; }
+
+  .w-toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+    background:var(--indigo); color:#fff; padding:10px 18px; border-radius:10px;
+    font-family:'Cairo'; font-weight:700; font-size:0.82rem;
+    box-shadow:0 8px 24px rgba(0,0,0,0.18);
+    transition:transform .3s ease; z-index:999; max-width:90vw; text-align:center;
+  }
+  .w-toast.show{ transform:translateX(-50%) translateY(0); }
+
+  /* ===== LOADER ===== */
+  #loader{
+    position:fixed; inset:0; background:var(--washi);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:14px; z-index:9999;
+  }
+  .loader-spin{
+    width:42px; height:42px; border:3px solid var(--line);
+    border-top-color:var(--hanko); border-radius:50%;
+    animation:spin .9s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  .loader-text{ color:var(--ink-soft); font-size:0.85rem; }
+
+  /* ===== USER BAR ===== */
+  .user-bar{
+    width:100%; max-width:460px; display:flex; align-items:center;
+    justify-content:flex-end; gap:10px; margin-bottom:8px;
+  }
+  .admin-badge{
+    background:#fff3cd; color:#8a5a00; border-radius:99px;
+    padding:3px 10px; font-size:0.68rem; font-weight:700;
+  }
+  .avatar{
+    width:36px; height:36px; border-radius:50%; background:var(--hanko);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-weight:700; font-size:0.85rem; cursor:pointer; position:relative;
+    overflow:visible;
+  }
+  .avatar img{ width:100%; height:100%; border-radius:50%; object-fit:cover; }
+  .avatar-menu{
+    position:absolute; top:44px; left:0; background:var(--card);
+    border:1.5px solid var(--line); border-radius:12px;
+    box-shadow:0 8px 24px rgba(27,20,10,0.14); min-width:190px;
+    overflow:hidden; display:none; z-index:200; text-align:right;
+  }
+  .avatar-menu.open{ display:block; }
+  .avatar-menu-item{ padding:11px 14px; font-size:0.82rem; cursor:pointer; transition:background .15s; }
+  .avatar-menu-item:hover{ background:var(--washi); }
+  .avatar-menu-item.danger{ color:var(--hanko); }
+  .avatar-menu-email{ color:var(--ink-soft); font-size:0.7rem; cursor:default; padding:10px 14px; }
+</style>
+</head>
+<body>
+
+<!-- APP ROOT -->
+<div id="appRoot" style="display:flex;flex-direction:column;align-items:center;width:100%">
+
+<header>
+  <h1>تعلّم اليابانية<span class="accent-mark"> 日本語</span></h1>
+  <p>اختر وضع التعلّم: كلمات مقسّمة إلى دروس واختبارات، أو جمل يومية جاهزة</p>
+</header>
+
+<div class="user-bar">
+  <span class="admin-badge" id="adminBadge" style="display:none">مسؤول</span>
+  <div class="avatar" id="userAvatar">
+    <span id="avatarLetter">…</span>
+    <div class="avatar-menu" id="avatarMenu">
+      <div class="avatar-menu-email" id="menuEmail"></div>
+      <div style="height:1px;background:var(--line)"></div>
+      <div class="avatar-menu-item danger" id="signOutItem">🔄 إعادة تعيين البيانات</div>
+    </div>
+  </div>
+</div>
+
+<div class="mode-switch" id="modeSwitch">
+  <button class="mode-btn active" id="modeWordsBtn" type="button">📚 الكلمات</button>
+  <button class="mode-btn" id="modeSentencesBtn" type="button">📝 الجمل</button>
+</div>
+
+<!-- ================= WORDS MODE ================= -->
+<div id="wordsMode">
+
+  <div class="w-page active" id="wPageHome">
+    <div class="w-stats-row">
+      <div class="w-stat-item"><div class="w-stat-num" id="wStatWords">0</div><div class="w-stat-label">كلمات تعلمتها</div></div>
+      <div class="w-stat-item"><div class="w-stat-num" id="wStatQuizzes">0</div><div class="w-stat-label">اختبارات ناجحة</div></div>
+      <div class="w-stat-item"><div class="w-stat-num" id="wStatDone">0</div><div class="w-stat-label">دروس مكتملة</div></div>
+      <div class="w-stat-item"><div class="w-stat-num" id="wStatScore">—</div><div class="w-stat-label">آخر نتيجة</div></div>
+    </div>
+
+    <div class="w-stage-banner" id="wStageBanner" style="display:none"></div>
+
+    <div class="w-strip-label" id="wStripLabel">دروسك الحالية</div>
+    <div class="w-lessons-strip" id="wLessonsStrip"></div>
+
+    <div class="w-row-gap">
+      <button class="w-btn-outline" id="wViewAllBtn" type="button">📚 كل الدروس والأقسام</button>
+      <button class="w-btn-outline" id="wAdminBtn" type="button" style="display:none">📥 إضافة درس (Seed)</button>
+    </div>
+  </div>
+
+  <div class="w-page" id="wPageAll">
+    <div class="w-back-row">
+      <button class="w-btn-outline" id="wAllBackBtn" type="button">‹ رجوع</button>
+      <h2>📚 كل الدروس (الأقسام)</h2>
+    </div>
+    <div id="wAllLessonsRows" style="width:100%"></div>
+  </div>
+
+  <div class="w-page" id="wPageCards">
+    <div class="w-back-row">
+      <button class="w-btn-outline" id="wCardsBackBtn" type="button">‹ رجوع</button>
+      <div>
+        <h2 id="wCardsTitle">—</h2>
+        <div class="sub" id="wCardsTitleJa">—</div>
+      </div>
+    </div>
+    <div class="progress-text" id="wCardsCounter" style="margin-bottom:8px">1 / 1</div>
+
+    <div class="card-wrap">
+      <div class="card" id="wCard">
+        <div class="face front">
+          <div class="stamp">字</div>
+          <div class="jp-main" id="wKanji"></div>
+          <div class="jp-hira" id="wHira"></div>
+          <button class="speak-btn" id="wSpeakBtn" aria-label="استمع للنطق">🔊</button>
+          <div class="tap-hint">اضغط على البطاقة لرؤية المعنى</div>
+        </div>
+        <div class="face back">
+          <div class="stamp">意</div>
+          <div class="ar-meaning" id="wMeaning"></div>
+          <div class="divider-small"></div>
+          <div class="reading-label">الرومانجي</div>
+          <div class="ar-reading" id="wRomaji"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-dots" id="wDots"></div>
+
+    <div class="controls">
+      <button class="nav-btn" id="wPrevBtn" aria-label="السابق">›</button>
+      <button class="flip-btn" id="wFlipBtn">اقلب البطاقة</button>
+      <button class="nav-btn" id="wNextBtn" aria-label="التالي">‹</button>
+    </div>
+
+    <button class="w-btn" id="wStartQuizBtn" type="button" style="margin-top:6px">🧪 ابدأ اختبار الدرس</button>
+  </div>
+
+  <div class="w-page" id="wPageQuiz">
+    <div class="w-back-row">
+      <button class="w-btn-outline" id="wQuizBackBtn" type="button">‹ رجوع</button>
+      <h2 id="wQuizTitle">اختبار</h2>
+    </div>
+    <div id="wQuizArea" style="width:100%;display:flex;flex-direction:column;align-items:center"></div>
+  </div>
+
+  <div class="w-page" id="wPageAdmin">
+    <div class="w-back-row">
+      <button class="w-btn-outline" id="wAdminBackBtn" type="button">‹ رجوع</button>
+      <h2>📥 إضافة دروس كلمات (Seed)</h2>
+    </div>
+
+    <input type="file" id="wSeedFileInput" accept=".json" multiple style="display:none">
+    <button class="seed-file-btn" id="wSeedFileBtn" type="button" style="width:100%">📂 اختر ملف/ملفات JSON</button>
+
+    <textarea class="seed-textarea" id="wSeedTextarea" dir="ltr" placeholder='{"id":"lesson-1","title":"...","titleJa":"...","cards":[{"kanji":"...","hiragana":"...","meaning":"...","romaji":"..."}]}'></textarea>
+
+    <div class="seed-actions">
+      <button class="seed-import-btn" id="wSeedImportBtn" type="button">✅ استيراد الدرس/الدروس</button>
+    </div>
+
+    <div class="seed-status" id="wSeedStatus"></div>
+
+    <div class="seed-format-hint">تنسيق ملف درس الكلمات (Seed):
+{
+  "id": "hiragana-basic",
+  "title": "أساسيات الهيراغانا",
+  "titleJa": "ひらがな",
+  "cards": [
+    { "kanji": "あ", "hiragana": "あ", "meaning": "a", "romaji": "a" }
+  ]
+}
+يمكن رفع عدة ملفات دفعة واحدة، أو ملف واحد يحتوي مصفوفة من عدة
+دروس. كل درس يُضاف تلقائيًا كقسم جديد، ويُفتح الدرس التالي فقط
+بعد إكمال بطاقات الدرس واجتياز اختباره بنسبة 80%+ (كل 5 دروس
+تُجمّع تلقائيًا في مرحلة/قسم واحد).</div>
+
+    <div style="height:1px;background:var(--line);margin:16px 0;width:100%"></div>
+    <div style="font-weight:800;color:var(--indigo);font-size:0.85rem;margin-bottom:8px;width:100%">الدروس الحالية</div>
+    <div id="wAdminLessonList" style="width:100%"></div>
+
+    <div style="height:1px;background:var(--line);margin:16px 0;width:100%"></div>
+    <div style="font-weight:800;color:var(--indigo);font-size:0.85rem;margin-bottom:8px;width:100%">👥 الطلاب</div>
+    <div id="wStudentsList" style="width:100%"></div>
+  </div>
+
+</div>
+
+<!-- ================= SENTENCES MODE ================= -->
+<div id="sentencesMode" style="display:none">
+
+<div style="width:100%;max-width:460px;text-align:center;margin-bottom:10px;color:var(--ink-soft);font-size:0.85rem">جُمل يومية مع الهيراغانا والمعنى وطريقة القراءة بالعربي</div>
+
+<button class="seed-toggle-btn" id="seedToggleBtn" type="button">📥 إضافة جمل جديدة (رفع ملف Seed)</button>
+
+<div class="seed-panel" id="seedPanel" style="display:none">
+  <div class="seed-panel-title">📝 استيراد جمل يابانية جديدة</div>
+
+  <input type="file" id="seedFileInput" accept=".json" style="display:none">
+  <button class="seed-file-btn" id="seedFileBtn" type="button">📂 اختر ملف JSON من جهازك</button>
+
+  <textarea class="seed-textarea" id="seedTextarea" dir="ltr" placeholder='[{"jp":"日本語の文","hira":"にほんごのぶん","ar":"جملة يابانية","read":"نيهونغو نو بون"}]'></textarea>
+
+  <div class="seed-cat-row">
+    <label for="seedCatInput">الفئة الافتراضية:</label>
+    <input type="text" class="seed-cat-input" id="seedCatInput" value="الجمل">
+  </div>
+
+  <div class="seed-actions">
+    <button class="seed-import-btn" id="seedImportBtn" type="button">✅ استيراد الجمل</button>
+    <button class="seed-clear-btn" id="seedClearBtn" type="button">🗑️ حذف المُضاف</button>
+  </div>
+
+  <div class="seed-status" id="seedStatus"></div>
+
+  <div class="seed-format-hint">تنسيق ملف الـ Seed (مصفوفة JSON):
+[
+  {
+    "jp": "日本語の文",
+    "hira": "にほんごのぶん",
+    "ar": "جملة يابانية",
+    "read": "نيهونغو نو بون",
+    "cat": "الجمل"   // اختياري، الافتراضي كما هو محدد أعلاه
+  }
+]
+حقلا "hira" و"read" اختياريان أيضًا. الجمل المستوردة تُحفظ في المتصفح
+وتظهر ضمن فئة جديدة قابلة للتصفح مع بقية الدروس.</div>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="stage">
+  <div class="progress-row">
+    <span class="progress-text" id="progressText">1 / 10</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-text" id="categoryLabel"></span>
+  </div>
+
+  <div class="card-wrap">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="stamp">日</div>
+        <div class="jp-main" id="jpMain"></div>
+        <div class="jp-hira" id="jpHira"></div>
+        <button class="speak-btn" id="speakBtn" aria-label="استمع للنطق">🔊</button>
+        <button class="fav-btn" id="favBtn" aria-label="إضافة إلى المفضلة">☆</button>
+        <button class="record-btn" id="recordBtn" aria-label="سجّل صوتك لهذه الجملة">🎙️</button>
+        <div class="tap-hint">اضغط على البطاقة لرؤية المعنى</div>
+      </div>
+      <div class="face back">
+        <div class="stamp">意</div>
+        <div class="ar-meaning" id="arMeaning"></div>
+        <div class="divider-small"></div>
+        <div class="reading-label">طريقة القراءة</div>
+        <div class="ar-reading" id="arReading"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" id="prevBtn" aria-label="السابق">›</button>
+    <button class="flip-btn" id="flipBtn">اقلب البطاقة</button>
+    <button class="nav-btn" id="nextBtn" aria-label="التالي">‹</button>
+  </div>
+
+  <button class="autoplay-btn" id="autoplayBtn">▶  تشغيل تلقائي مع النطق</button>
+
+  <div class="repeat-row">
+    <label for="repeatSelect">عدد مرات القراءة لكل جملة</label>
+    <select class="repeat-select" id="repeatSelect">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+  </div>
+
+  <audio id="bgKeepAlive" loop playsinline
+    src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="></audio>
+  <audio id="ttsAudioPlayer" preload="none" playsinline></audio>
+</div>
+
+<footer>اضغط على الفئات في الأعلى للتنقّل بين المواضيع</footer>
+
+</div><!-- /sentencesMode -->
+
+<div class="w-toast" id="wToastEl"></div>
+
+</div><!-- /appRoot -->
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, signInAnonymously, onAuthStateChanged, signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, getDocs, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ── CONFIG (نفس مشروع Firebase المستخدم سابقًا) ──
+const firebaseConfig = {
+  apiKey: "AIzaSyA-OUfKoXFa-VceEdSatx_c38uwlhh4Qf8",
+  authDomain: "learn-99f04.firebaseapp.com",
+  projectId: "learn-99f04",
+  storageBucket: "learn-99f04.firebasestorage.app",
+  messagingSenderId: "1042095955824",
+  appId: "1:1042095955824:web:5461f9ef58c58dd0e7ed5b",
+  measurementId: "G-CVJ3ECXVDJ"
+};
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+
+// الدروس الافتراضية تُستخدم فقط لتهيئة مجموعة "lessons" في Firestore
+// في أول مرة تكون فيها فارغة تمامًا.
+const DEFAULT_WORD_LESSONS_SEED = [
+  { id:'greetings-1', title:'تحيات أساسية', titleJa:'あいさつ', order:0, cards:[
+    {kanji:'おはよう', hiragana:'おはよう', meaning:'صباح الخير', romaji:'ohayō'},
+    {kanji:'こんにちは', hiragana:'こんにちは', meaning:'مرحبًا', romaji:'konnichiwa'},
+    {kanji:'こんばんは', hiragana:'こんばんは', meaning:'مساء الخير', romaji:'konbanwa'},
+    {kanji:'ありがとう', hiragana:'ありがとう', meaning:'شكرًا', romaji:'arigatō'},
+    {kanji:'すみません', hiragana:'すみません', meaning:'آسف / عفوًا', romaji:'sumimasen'},
+    {kanji:'さようなら', hiragana:'さようなら', meaning:'إلى اللقاء', romaji:'sayōnara'}
+  ]},
+  { id:'numbers-1', title:'الأرقام 1-6', titleJa:'すうじ', order:1, cards:[
+    {kanji:'一', hiragana:'いち', meaning:'واحد', romaji:'ichi'},
+    {kanji:'二', hiragana:'に', meaning:'اثنان', romaji:'ni'},
+    {kanji:'三', hiragana:'さん', meaning:'ثلاثة', romaji:'san'},
+    {kanji:'四', hiragana:'よん', meaning:'أربعة', romaji:'yon'},
+    {kanji:'五', hiragana:'ご', meaning:'خمسة', romaji:'go'},
+    {kanji:'六', hiragana:'ろく', meaning:'ستة', romaji:'roku'}
+  ]},
+  { id:'family-1', title:'أفراد العائلة', titleJa:'かぞく', order:2, cards:[
+    {kanji:'家族', hiragana:'かぞく', meaning:'العائلة', romaji:'kazoku'},
+    {kanji:'父', hiragana:'ちち', meaning:'أب', romaji:'chichi'},
+    {kanji:'母', hiragana:'はは', meaning:'أم', romaji:'haha'},
+    {kanji:'兄', hiragana:'あに', meaning:'أخ أكبر', romaji:'ani'},
+    {kanji:'姉', hiragana:'あね', meaning:'أخت كبرى', romaji:'ane'},
+    {kanji:'子供', hiragana:'こども', meaning:'طفل', romaji:'kodomo'}
+  ]}
+];
+
+// ── ADMIN CHECK ──
+// لجعل مستخدم "مسؤولًا": من Firebase Console → Firestore، أنشئ مجموعة
+// اسمها "admins" وأضف مستندًا معرّفه (ID) هو نفس uid الخاص بالمستخدم.
+async function checkIsAdmin(uid){
+  try{
+    const snap = await getDoc(doc(db, 'admins', uid));
+    return snap.exists();
+  }catch(e){ return false; }
+}
+
+async function fetchLessonsFromFirestore(){
+  const snap = await getDocs(collection(db, 'lessons'));
+  if(snap.empty){
+    // أول تشغيل على الإطلاق: نزرع الدروس الافتراضية في Firestore
+    await Promise.all(DEFAULT_WORD_LESSONS_SEED.map(l => setDoc(doc(db, 'lessons', l.id), l)));
+    return DEFAULT_WORD_LESSONS_SEED.slice();
+  }
+  const arr = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+  arr.sort((a,b) => (a.order ?? 9999) - (b.order ?? 9999));
+  return arr;
+}
+
+async function fetchUserDoc(uid, email){
+  const ref = doc(db, 'users', uid);
+  const snap = await getDoc(ref);
+  if(snap.exists()){
+    const d = snap.data();
+    return { completed: d.completed || {}, quizPassed: d.quizPassed || {}, lastScore: d.lastScore ?? null };
+  }
+  const fresh = { email: email || null, completed:{}, quizPassed:{}, lastScore:null, createdAt: serverTimestamp() };
+  await setDoc(ref, fresh);
+  return { completed:{}, quizPassed:{}, lastScore:null };
+}
+
+// ── واجهات يستدعيها الـ script التقليدي (قسم الكلمات) ──
+window.wFirebaseSaveLesson = (lessonObj) => setDoc(doc(db, 'lessons', lessonObj.id), lessonObj);
+window.wFirebaseDeleteLesson = (id) => deleteDoc(doc(db, 'lessons', id));
+window.wFirebaseSaveProgress = (progress) => {
+  if(!window.wCurrentUser) return Promise.resolve();
+  return updateDoc(doc(db, 'users', window.wCurrentUser.uid), {
+    completed: progress.completed, quizPassed: progress.quizPassed, lastScore: progress.lastScore
+  });
+};
+window.wFirebaseFetchStudents = async () => {
+  const snap = await getDocs(collection(db, 'users'));
+  return snap.docs.map(d => ({ id:d.id, ...d.data() }));
+};
+
+// ── AUTH UI WIRING ──
+// لا حاجة لتسجيل دخول يدوي: يدخل التطبيق كـ "زائر" تلقائيًا (Firebase
+// Anonymous Auth) بحيث يعمل التطبيق فورًا بدون أي شاشة تسجيل دخول.
+const userAvatar = document.getElementById('userAvatar');
+const avatarMenu = document.getElementById('avatarMenu');
+userAvatar.addEventListener('click', ()=> avatarMenu.classList.toggle('open'));
+document.addEventListener('click', (e)=>{
+  if(!userAvatar.contains(e.target)) avatarMenu.classList.remove('open');
+});
+
+document.getElementById('signOutItem').addEventListener('click', async ()=>{
+  avatarMenu.classList.remove('open');
+  const ok = confirm('سيتم مسح بياناتك المحلية (تقدّمك في الدروس) وبدء جلسة زائر جديدة. متابعة؟');
+  if(!ok) return;
+  try{
+    await signOut(auth);
+    await signInAnonymously(auth);
+  }catch(e){
+    alert('حدث خطأ: ' + e.message);
+  }
+});
+
+// ── AUTH STATE ──
+onAuthStateChanged(auth, async (user)=>{
+  if(!user){
+    // لا يوجد مستخدم بعد: سجّل دخولًا مجهولًا تلقائيًا (بدون أي واجهة تسجيل دخول)
+    try{ await signInAnonymously(auth); }
+    catch(e){ console.warn('signInAnonymously failed', e); }
+    return; // onAuthStateChanged سيُستدعى مجددًا بعد نجاح الدخول المجهول
+  }
+
+  window.wCurrentUser = user;
+  window.wIsAdmin = await checkIsAdmin(user.uid);
+
+  const avatarLetter = document.getElementById('avatarLetter');
+  if(user.photoURL){
+    document.getElementById('userAvatar').querySelector('span#avatarLetter').outerHTML =
+      `<img src="${user.photoURL}" alt="">`;
+  } else {
+    avatarLetter.textContent = (user.displayName || user.email || 'ض')[0].toUpperCase();
+  }
+  document.getElementById('menuEmail').textContent = user.email || 'مستخدم زائر (بدون تسجيل دخول)';
+  if(window.wIsAdmin) document.getElementById('adminBadge').style.display = 'inline';
+
+  // اطلب من الـ script التقليدي (قسم الكلمات) تطبيق حالة الأدمن على الواجهة
+  if(window.wApplyAdminState) window.wApplyAdminState(window.wIsAdmin);
+
+  try{
+    const lessons = await fetchLessonsFromFirestore();
+    if(window.wApplyFirebaseLessons) window.wApplyFirebaseLessons(lessons);
+  }catch(e){ console.warn('fetchLessonsFromFirestore failed', e); }
+
+  try{
+    const progress = await fetchUserDoc(user.uid, user.email);
+    if(window.wApplyFirebaseProgress) window.wApplyFirebaseProgress(progress);
+  }catch(e){ console.warn('fetchUserDoc failed', e); }
+});
+</script>
+
+<script>
+const baseData = [
+  {cat:"تحيات", jp:"おはようございます", hira:"おはようございます", ar:"صباح الخير (رسمي)", read:"أوهايو غوزايماس"},
+  {cat:"تحيات", jp:"こんにちは", hira:"こんにちは", ar:"مرحبًا / طاب يومك", read:"كونِّتشيوا"},
+  {cat:"تحيات", jp:"こんばんは", hira:"こんばんは", ar:"مساء الخير", read:"كونبانوا"},
+  {cat:"تحيات", jp:"さようなら", hira:"さようなら", ar:"إلى اللقاء", read:"سايوناراَ"},
+  {cat:"تحيات", jp:"ありがとうございます", hira:"ありがとうございます", ar:"شكرًا جزيلًا", read:"أريغاتو غوزايماس"},
+  {cat:"تحيات", jp:"すみません", hira:"すみません", ar:"عفوًا / آسف", read:"سوميماسِن"},
+  {cat:"تحيات", jp:"はじめまして", hira:"はじめまして", ar:"تشرّفت بلقائك", read:"هاجيميماشيتيه"},
+  {cat:"تحيات", jp:"お元気ですか", hira:"おげんきですか", ar:"كيف حالك؟", read:"أوغينكي ديسكا"},
+  {cat:"تحيات", jp:"元気です", hira:"げんきです", ar:"أنا بخير", read:"غينكي ديس"},
+  {cat:"تحيات", jp:"お休みなさい", hira:"おやすみなさい", ar:"تصبح على خير", read:"أوياسوميناساي"},
+
+  {cat:"حياة يومية", jp:"私の名前は田中です", hira:"わたしのなまえはたなかです", ar:"اسمي تاناكا", read:"واتاشي نو نامائيه وا تاناكا ديس"},
+  {cat:"حياة يومية", jp:"日本語を勉強しています", hira:"にほんごをべんきょうしています", ar:"أنا أدرس اللغة اليابانية", read:"نيهونغو وو بينكيو شيتيه إيماس"},
+  {cat:"حياة يومية", jp:"今何時ですか", hira:"いまなんじですか", ar:"كم الساعة الآن؟", read:"إيما نانجي ديسكا"},
+  {cat:"حياة يومية", jp:"お腹が空きました", hira:"おなかがすきました", ar:"أنا جائع", read:"أوناكا غا سوكيماشيتا"},
+  {cat:"حياة يومية", jp:"喉が渇きました", hira:"のどがかわきました", ar:"أنا عطشان", read:"نودو غا كاواكيماشيتا"},
+  {cat:"حياة يومية", jp:"今日は暑いです", hira:"きょうはあついです", ar:"الجو حار اليوم", read:"كيو وا أتسوي ديس"},
+  {cat:"حياة يومية", jp:"明日雨が降ります", hira:"あしたあめがふります", ar:"ستمطر غدًا", read:"أشيتا أميه غا فوريماس"},
+  {cat:"حياة يومية", jp:"これは何ですか", hira:"これはなんですか", ar:"ما هذا؟", read:"كوريه وا نان ديسكا"},
+  {cat:"حياة يومية", jp:"わかりません", hira:"わかりません", ar:"لا أفهم", read:"واكاريماسِن"},
+  {cat:"حياة يومية", jp:"もう一度言ってください", hira:"もういちどいってください", ar:"من فضلك أعِد القول مرة أخرى", read:"مو إيتشيدو إيتّيه كوداساي"},
+
+  {cat:"في المطعم", jp:"メニューを見せてください", hira:"メニューをみせてください", ar:"أرِني القائمة من فضلك", read:"مينيو وو ميسيتيه كوداساي"},
+  {cat:"في المطعم", jp:"これをください", hira:"これをください", ar:"أعطني هذا من فضلك", read:"كوريه وو كوداساي"},
+  {cat:"في المطعم", jp:"とても美味しいです", hira:"とてもおいしいです", ar:"إنه لذيذ جدًا", read:"توتيمو أويشي ديس"},
+  {cat:"في المطعم", jp:"お会計お願いします", hira:"おかいけいおねがいします", ar:"الفاتورة من فضلك", read:"أوكايكيه أونيغايشيماس"},
+  {cat:"في المطعم", jp:"水をください", hira:"みずをください", ar:"أعطني ماءً من فضلك", read:"ميزو وو كوداساي"},
+
+  {cat:"التسوق", jp:"いくらですか", hira:"いくらですか", ar:"كم السعر؟", read:"إيكورا ديسكا"},
+  {cat:"التسوق", jp:"高すぎます", hira:"たかすぎます", ar:"غالٍ جدًا", read:"تاكاسوغيماس"},
+  {cat:"التسوق", jp:"安いです", hira:"やすいです", ar:"إنه رخيص", read:"ياسوي ديس"},
+  {cat:"التسوق", jp:"これを試着してもいいですか", hira:"これをしちゃくしてもいいですか", ar:"هل يمكنني تجربة هذا؟", read:"كوريه وو شيتشاكو شيتيمو إي ديسكا"},
+  {cat:"التسوق", jp:"カードで払えますか", hira:"カードではらえますか", ar:"هل يمكنني الدفع بالبطاقة؟", read:"كاأدو ديه هاراإماسكا"},
+
+  {cat:"السفر", jp:"駅はどこですか", hira:"えきはどこですか", ar:"أين المحطة؟", read:"إيكي وا دوكو ديسكا"},
+  {cat:"السفر", jp:"トイレはどこですか", hira:"トイレはどこですか", ar:"أين الحمّام؟", read:"توئيريه وا دوكو ديسكا"},
+  {cat:"السفر", jp:"空港まで行きたいです", hira:"くうこうまでいきたいです", ar:"أريد الذهاب إلى المطار", read:"كوكو ماديه إيكيتاي ديس"},
+  {cat:"السفر", jp:"道に迷いました", hira:"みちにまよいました", ar:"لقد تهت في الطريق", read:"ميتشي ني مايويماشيتا"},
+  {cat:"السفر", jp:"助けてください", hira:"たすけてください", ar:"ساعدني من فضلك", read:"تاسوكيتيه كوداساي"},
+
+  {cat:"أسئلة", jp:"お名前は何ですか", hira:"おなまえはなんですか", ar:"ما اسمك؟", read:"أونامائيه وا نان ديسكا"},
+  {cat:"أسئلة", jp:"どこから来ましたか", hira:"どこからきましたか", ar:"من أين أتيت؟", read:"دوكو كارا كيماشيتاكا"},
+  {cat:"أسئلة", jp:"何歳ですか", hira:"なんさいですか", ar:"كم عمرك؟", read:"نانساي ديسكا"},
+  {cat:"أسئلة", jp:"日本語が話せますか", hira:"にほんごがはなせますか", ar:"هل تتحدث اليابانية؟", read:"نيهونغو غا هاناسيماسكا"},
+  {cat:"أسئلة", jp:"好きな食べ物は何ですか", hira:"すきなたべものはなんですか", ar:"ما هو طعامك المفضل؟", read:"سوكينا تابيمونو وا نان ديسكا"},
+
+  {cat:"العائلة والعمل", jp:"今日、息子を保育園から家に連れて帰りました", hira:"きょう、むすこをほいくえんからいえにつれてかえりました", ar:"اليوم أخذت ابني من الحضانة إلى المنزل", read:"كيو، موسوكو وو هويكوإن كارا إيه ني تسوريتيه كائيريماشيتا"},
+  {cat:"العائلة والعمل", jp:"息子を保育園に連れて行きます", hira:"むすこをほいくえんにつれていきます", ar:"سآخذ ابني إلى الحضانة", read:"موسوكو وو هويكوإن ني تسوريتيه إيكيماس"},
+  {cat:"العائلة والعمل", jp:"パンと牛乳を買いに行きます", hira:"ぱんとぎゅうにゅうをかいにいきます", ar:"سأذهب لأشتري الخبز والحليب", read:"پان تو غيونيو وو كاي ني إيكيماس"},
+  {cat:"العائلة والعمل", jp:"今から仕事に行きます", hira:"いまからしごとにいきます", ar:"سأذهب إلى العمل الآن", read:"إيما كارا شيغوتو ني إيكيماس"},
+];
+
+// ── SEEDED SENTENCES (imported by the user, persisted in the browser) ──
+const SEED_STORAGE_KEY = 'jp_app_custom_sentences';
+
+function loadSeedData(){
+  try{
+    const raw = localStorage.getItem(SEED_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  }catch(e){
+    return [];
+  }
+}
+function saveSeedData(items){
+  try{ localStorage.setItem(SEED_STORAGE_KEY, JSON.stringify(items)); }catch(e){}
+}
+
+let seedData = loadSeedData();
+let data = baseData.concat(seedData);
+
+// ── FAVORITES (الجمل المفضّلة، محفوظة في المتصفح) ──
+const FAV_STORAGE_KEY = 'jp_app_favorite_sentences';
+const FAV_CAT = '⭐ المفضلة';
+
+function sentenceKey(item){
+  return (item.jp || '') + '||' + (item.ar || '');
+}
+function loadFavorites(){
+  try{
+    const raw = localStorage.getItem(FAV_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return new Set(Array.isArray(parsed) ? parsed : []);
+  }catch(e){
+    return new Set();
+  }
+}
+function saveFavorites(){
+  try{ localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify([...favorites])); }catch(e){}
+}
+let favorites = loadFavorites();
+function isFavorite(item){ return favorites.has(sentenceKey(item)); }
+function toggleFavorite(item){
+  const key = sentenceKey(item);
+  if(favorites.has(key)) favorites.delete(key);
+  else favorites.add(key);
+  saveFavorites();
+}
+function getFavoriteSentences(){
+  return data.filter(d => favorites.has(sentenceKey(d)));
+}
+
+let categories = ["الكل", ...new Set(data.map(d=>d.cat))];
+let currentCat = "الكل";
+let list = data.slice();
+let idx = 0;
+let flipped = false;
+
+const tabsEl = document.getElementById('tabs');
+const cardEl = document.getElementById('card');
+const jpMain = document.getElementById('jpMain');
+const jpHira = document.getElementById('jpHira');
+const arMeaning = document.getElementById('arMeaning');
+const arReading = document.getElementById('arReading');
+const progressText = document.getElementById('progressText');
+const progressFill = document.getElementById('progressFill');
+const categoryLabel = document.getElementById('categoryLabel');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const flipBtn = document.getElementById('flipBtn');
+const speakBtn = document.getElementById('speakBtn');
+const favBtn = document.getElementById('favBtn');
+const autoplayBtn = document.getElementById('autoplayBtn');
+const repeatSelect = document.getElementById('repeatSelect');
+const bgKeepAlive = document.getElementById('bgKeepAlive');
+
+let autoplaying = false;
+let autoplayTimer = null;
+let cachedJaVoice = null;
+let wakeLock = null;
+let speechWatchdog = null;
+
+// متصفحات الجوال (خصوصًا Chrome) توقف window.speechSynthesis تلقائيًا بعد ثوانٍ
+// عندما تصبح الصفحة في الخلفية (تصغير النافذة أو تبديل التطبيق)، حتى لو الشاشة
+// لم تُقفل. هذا يوقظ محرّك النطق دوريًا ويمنعه من التجمّد.
+function startSpeechWatchdog(){
+  stopSpeechWatchdog();
+  speechWatchdog = setInterval(()=>{
+    if(!autoplaying) return;
+    if(window.speechSynthesis.paused){
+      window.speechSynthesis.resume();
+    }
+    // حيلة معروفة: استدعاء resume() حتى بدون توقّف فعلي يمنع كروم من تجميد المحرك
+    window.speechSynthesis.resume();
+  }, 2000);
+}
+
+function stopSpeechWatchdog(){
+  if(speechWatchdog){
+    clearInterval(speechWatchdog);
+    speechWatchdog = null;
+  }
+}
+
+document.addEventListener('visibilitychange', ()=>{
+  if(autoplaying && document.visibilityState === 'hidden'){
+    // إيقاظ فوري عند تصغير الصفحة أو تبديل التطبيق
+    window.speechSynthesis.resume();
+  }
+});
+
+// يحافظ على تشغيل الجهاز نشطًا وعلى استمرار الصوت قدر الإمكان أثناء التشغيل التلقائي،
+// مشابه لما يفعله تطبيق مثل Spotify. ملاحظة: هذا لا يضمن 100% الاستمرار عند
+// قفل الشاشة على كل الهواتف (خاصة آيفون Safari)، لأن المتصفحات تُقيّد ذلك لأسباب تتعلق
+// بالبطارية، لكنه يمنع قفل الشاشة تلقائيًا ويُحسّن الاستمرارية كثيرًا.
+async function requestWakeLock(){
+  try{
+    if('wakeLock' in navigator){
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', ()=>{ wakeLock = null; });
+    }
+  }catch(err){ /* تجاهل إن رفض النظام الطلب */ }
+}
+
+function releaseWakeLock(){
+  if(wakeLock){
+    wakeLock.release().catch(()=>{});
+    wakeLock = null;
+  }
+}
+
+document.addEventListener('visibilitychange', ()=>{
+  if(autoplaying && document.visibilityState === 'visible'){
+    requestWakeLock();
+  }
+});
+
+function setupMediaSession(){
+  if(!('mediaSession' in navigator)) return;
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: 'محادثة يابانية',
+    artist: 'تشغيل تلقائي مع النطق',
+    album: 'تطبيق تعلم اليابانية'
+  });
+  navigator.mediaSession.setActionHandler('play', ()=>{
+    if(!autoplaying) autoplayBtn.click();
+  });
+  navigator.mediaSession.setActionHandler('pause', ()=>{
+    if(autoplaying) autoplayBtn.click();
+  });
+  navigator.mediaSession.setActionHandler('previoustrack', ()=>{
+    if(idx > 0){ idx--; flipped=false; renderCard(); if(autoplaying){ stopAutoplay(); autoplayBtn.click(); } }
+  });
+  navigator.mediaSession.setActionHandler('nexttrack', ()=>{
+    if(idx < list.length-1){ idx++; flipped=false; renderCard(); if(autoplaying){ stopAutoplay(); autoplayBtn.click(); } }
+  });
+}
+let repeatCount = parseInt(localStorage.getItem('sentenceRepeatCount'), 10) || 1;
+
+if(repeatSelect){
+  repeatSelect.value = String(repeatCount);
+  repeatSelect.addEventListener('change', ()=>{
+    repeatCount = parseInt(repeatSelect.value, 10) || 1;
+    localStorage.setItem('sentenceRepeatCount', String(repeatCount));
+  });
+}
+
+function readingOf(item){
+  return (item && (item.hira || item.jp)) || '';
+}
+
+function loadJaVoice(){
+  if(!('speechSynthesis' in window)) return;
+  const voices = window.speechSynthesis.getVoices();
+  const found = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
+  if(found) cachedJaVoice = found;
+}
+if('speechSynthesis' in window){
+  loadJaVoice();
+  window.speechSynthesis.onvoiceschanged = loadJaVoice;
+}
+
+let audioManifest = {};
+const ttsAudioPlayer = document.getElementById('ttsAudioPlayer');
+
+// ── تسجيل صوتك بنفسك لكل جملة (محفوظ داخل المتصفح عبر IndexedDB) ──
+// هذا صوت حقيقي مسجَّل فعليًا، وليس نطقًا آليًا حيًّا، لذلك يشتغل بالخلفية
+// أفضل بكثير من speechSynthesis. كل شيء يبقى داخل هذا الملف/المتصفح، بدون
+// أي خدمة خارجية أو خطوة على الجهاز.
+const RECORDINGS_DB = 'jpRecordingsDB';
+const RECORDINGS_STORE = 'recordings';
+let recordingsDBPromise = null;
+
+function openRecordingsDB(){
+  if(recordingsDBPromise) return recordingsDBPromise;
+  recordingsDBPromise = new Promise((resolve, reject)=>{
+    if(!('indexedDB' in window)){ reject(new Error('no indexeddb')); return; }
+    const req = indexedDB.open(RECORDINGS_DB, 1);
+    req.onupgradeneeded = ()=>{ req.result.createObjectStore(RECORDINGS_STORE); };
+    req.onsuccess = ()=> resolve(req.result);
+    req.onerror = ()=> reject(req.error);
+  });
+  return recordingsDBPromise;
+}
+
+async function saveRecording(key, blob){
+  const db = await openRecordingsDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(RECORDINGS_STORE, 'readwrite');
+    tx.objectStore(RECORDINGS_STORE).put(blob, key);
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+
+async function getRecording(key){
+  if(!key) return null;
+  try{
+    const db = await openRecordingsDB();
+    return await new Promise((resolve, reject)=>{
+      const tx = db.transaction(RECORDINGS_STORE, 'readonly');
+      const req = tx.objectStore(RECORDINGS_STORE).get(key);
+      req.onsuccess = ()=> resolve(req.result || null);
+      req.onerror = ()=> reject(req.error);
+    });
+  }catch(e){
+    return null;
+  }
+}
+
+async function deleteRecording(key){
+  const db = await openRecordingsDB();
+  return new Promise((resolve, reject)=>{
+    const tx = db.transaction(RECORDINGS_STORE, 'readwrite');
+    tx.objectStore(RECORDINGS_STORE).delete(key);
+    tx.oncomplete = ()=> resolve();
+    tx.onerror = ()=> reject(tx.error);
+  });
+}
+
+const recordBtn = document.getElementById('recordBtn');
+let mediaRecorder = null;
+let recordedChunks = [];
+let isRecording = false;
+let micStream = null;
+
+async function startRecording(){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    alert('المتصفح لا يدعم التسجيل، أو الصفحة مفتوحة بدون رابط https آمن.');
+    return;
+  }
+  try{
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  }catch(err){
+    alert('تعذّر الوصول إلى الميكروفون. تأكد من السماح بإذن الميكروفون للصفحة.');
+    return;
+  }
+  recordedChunks = [];
+  mediaRecorder = new MediaRecorder(micStream);
+  mediaRecorder.ondataavailable = (e)=>{ if(e.data && e.data.size > 0) recordedChunks.push(e.data); };
+  mediaRecorder.onstop = async ()=>{
+    const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+    const key = readingOf(list[idx]);
+    if(key && blob.size > 0){
+      await saveRecording(key, blob);
+    }
+    if(micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream = null; }
+    updateRecordBtnState();
+  };
+  mediaRecorder.start();
+  isRecording = true;
+  recordBtn.classList.add('recording');
+  recordBtn.textContent = '⏺';
+}
+
+function stopRecording(){
+  if(mediaRecorder && isRecording){
+    mediaRecorder.stop();
+  }
+  isRecording = false;
+  recordBtn.classList.remove('recording');
+  recordBtn.textContent = '🎙️';
+}
+
+if(recordBtn){
+  recordBtn.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    if(isRecording){ stopRecording(); }
+    else { startRecording(); }
+  });
+}
+
+async function updateRecordBtnState(){
+  if(!recordBtn) return;
+  const key = readingOf(list[idx]);
+  const rec = await getRecording(key);
+  recordBtn.classList.toggle('has-recording', !!rec);
+}
+
+// إن وُجد ملف audio-manifest.json (يُنشئه سكربت التوليد لمرة واحدة)، تُستخدم
+// الملفات الصوتية الحقيقية بدل النطق الحي كلما توفّر ملف مطابق للجملة.
+// إن لم يوجد الملف بعد (أو الجملة غير موجودة فيه)، يعمل التطبيق كما كان بالنطق الحي.
+fetch('audio-manifest.json')
+  .then(r => r.ok ? r.json() : {})
+  .then(m => { audioManifest = m || {}; })
+  .catch(() => { audioManifest = {}; });
+
+function speakJapanese(text, onDone, btnEl){
+  const targetBtn = btnEl || speakBtn;
+  getRecording(text).then(blob=>{
+    if(blob){
+      playRecordingBlob(blob, onDone, targetBtn);
+      return;
+    }
+    const fname = audioManifest[text];
+    if(fname){
+      playPrerecordedAudio(text, fname, onDone, targetBtn);
+    } else {
+      speakJapaneseLive(text, onDone, targetBtn);
+    }
+  });
+}
+
+function playRecordingBlob(blob, onDone, targetBtn){
+  const player = ttsAudioPlayer;
+  const url = URL.createObjectURL(blob);
+  const cleanup = ()=>{
+    player.removeEventListener('ended', finish);
+    player.removeEventListener('error', onError);
+    URL.revokeObjectURL(url);
+  };
+  const finish = ()=>{
+    cleanup();
+    if(targetBtn) targetBtn.classList.remove('playing');
+    if(onDone) onDone();
+  };
+  const onError = ()=>{
+    cleanup();
+    if(targetBtn) targetBtn.classList.remove('playing');
+    if(onDone) onDone();
+  };
+  player.pause();
+  player.currentTime = 0;
+  player.src = url;
+  if(targetBtn) targetBtn.classList.add('playing');
+  player.addEventListener('ended', finish, { once:true });
+  player.addEventListener('error', onError, { once:true });
+  player.play().catch(onError);
+}
+
+function playPrerecordedAudio(text, fname, onDone, targetBtn){
+  const player = ttsAudioPlayer;
+  const finish = ()=>{
+    player.removeEventListener('ended', finish);
+    player.removeEventListener('error', onError);
+    if(targetBtn) targetBtn.classList.remove('playing');
+    if(onDone) onDone();
+  };
+  const onError = ()=>{
+    player.removeEventListener('ended', finish);
+    player.removeEventListener('error', onError);
+    if(targetBtn) targetBtn.classList.remove('playing');
+    // فشل تشغيل الملف المسجّل (مثلاً لم يُرفَع بعد) → نرجع للنطق الحي كخطة بديلة
+    speakJapaneseLive(text, onDone, targetBtn);
+  };
+  try{
+    player.pause();
+    player.currentTime = 0;
+    player.src = 'audio/' + fname;
+    if(targetBtn) targetBtn.classList.add('playing');
+    player.addEventListener('ended', finish, { once:true });
+    player.addEventListener('error', onError, { once:true });
+    player.play().catch(onError);
+  }catch(err){
+    onError();
+  }
+}
+
+function speakJapaneseLive(text, onDone, targetBtn){
+  if(!('speechSynthesis' in window)){
+    if(onDone) onDone();
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ja-JP';
+  utter.rate = 0.8;
+  utter.pitch = 1;
+  if(cachedJaVoice) utter.voice = cachedJaVoice;
+  if(targetBtn) targetBtn.classList.add('playing');
+  const finish = ()=>{
+    if(targetBtn) targetBtn.classList.remove('playing');
+    if(onDone) onDone();
+  };
+  utter.onend = finish;
+  utter.onerror = finish;
+  window.speechSynthesis.speak(utter);
+}
+
+speakBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  speakJapanese(readingOf(list[idx]));
+});
+
+favBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleFavorite(list[idx]);
+  renderFavBtn();
+  // إن كنّا نتصفّح فئة "المفضلة" وأُزيلت الجملة، أعِد بناء القائمة فورًا
+  if(currentCat === FAV_CAT){
+    list = getFavoriteSentences();
+    if(idx >= list.length) idx = Math.max(0, list.length - 1);
+    if(!list.length){ renderTabs(); return; }
+    renderCard();
+  }
+  renderTabs();
+});
+
+function renderFavBtn(){
+  const active = isFavorite(list[idx]);
+  favBtn.classList.toggle('active', active);
+  favBtn.textContent = active ? '★' : '☆';
+  favBtn.setAttribute('aria-label', active ? 'إزالة من المفضلة' : 'إضافة إلى المفضلة');
+}
+
+function stopAutoplay(){
+  autoplaying = false;
+  clearTimeout(autoplayTimer);
+  window.speechSynthesis.cancel();
+  ttsAudioPlayer.pause();
+  autoplayBtn.classList.remove('active');
+  autoplayBtn.textContent = '▶  تشغيل تلقائي مع النطق';
+  releaseWakeLock();
+  stopSpeechWatchdog();
+  if(bgKeepAlive){ bgKeepAlive.pause(); }
+  if('mediaSession' in navigator){ navigator.mediaSession.playbackState = 'paused'; }
+}
+
+function speakSentenceRepeated(text, timesLeft, onAllDone){
+  if(!autoplaying) return;
+  speakJapanese(text, ()=>{
+    if(!autoplaying) return;
+    autoplayTimer = setTimeout(()=>{
+      if(!autoplaying) return;
+      if(timesLeft > 1){
+        speakSentenceRepeated(text, timesLeft - 1, onAllDone);
+      } else {
+        onAllDone();
+      }
+    }, 800);
+  });
+}
+
+function autoplayStep(){
+  if(!autoplaying) return;
+  flipped = false;
+  renderCard();
+  speakSentenceRepeated(readingOf(list[idx]), repeatCount, ()=>{
+    if(!autoplaying) return;
+    if(idx < list.length - 1){
+      idx++;
+    } else {
+      idx = 0;
+    }
+    autoplayStep();
+  });
+}
+
+autoplayBtn.addEventListener('click', ()=>{
+  if(autoplaying){
+    stopAutoplay();
+  } else {
+    autoplaying = true;
+    autoplayBtn.classList.add('active');
+    autoplayBtn.textContent = '⏸  إيقاف التشغيل التلقائي';
+    requestWakeLock();
+    setupMediaSession();
+    startSpeechWatchdog();
+    if(bgKeepAlive){ bgKeepAlive.play().catch(()=>{}); }
+    if('mediaSession' in navigator){ navigator.mediaSession.playbackState = 'playing'; }
+    autoplayStep();
+  }
+});
+
+function renderTabs(){
+  tabsEl.innerHTML = "";
+  const favCount = getFavoriteSentences().length;
+  const allTabs = categories.concat([FAV_CAT]);
+  allTabs.forEach(cat=>{
+    const btn = document.createElement('button');
+    btn.className = 'tab' + (cat===currentCat ? ' active' : '');
+    btn.textContent = cat===FAV_CAT ? `${FAV_CAT} (${favCount})` : cat;
+    btn.onclick = ()=>{
+      stopAutoplay();
+      currentCat = cat;
+      if(cat===FAV_CAT) list = getFavoriteSentences();
+      else list = cat==="الكل" ? data.slice() : data.filter(d=>d.cat===cat);
+      idx = 0;
+      flipped = false;
+      renderTabs();
+      if(!list.length){
+        jpMain.textContent = '';
+        jpHira.textContent = '';
+        arMeaning.textContent = 'لا توجد جمل مفضّلة بعد — اضغط ☆ على أي جملة لإضافتها';
+        arReading.textContent = '';
+        categoryLabel.textContent = cat;
+        progressText.textContent = '0 / 0';
+        progressFill.style.width = '0%';
+        return;
+      }
+      renderCard();
+    };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function renderCard(){
+  const item = list[idx];
+  jpMain.textContent = item.jp;
+  jpHira.textContent = item.hira;
+  arMeaning.textContent = item.ar;
+  arReading.textContent = item.read;
+  categoryLabel.textContent = item.cat;
+  progressText.textContent = (idx+1) + " / " + list.length;
+  progressFill.style.width = (((idx+1)/list.length)*100) + "%";
+  cardEl.classList.toggle('flipped', flipped);
+  prevBtn.classList.toggle('disabled', idx===list.length-1);
+  nextBtn.classList.toggle('disabled', idx===0);
+  renderFavBtn();
+  updateRecordBtnState();
+}
+
+cardEl.addEventListener('click', ()=>{
+  stopAutoplay();
+  flipped = !flipped;
+  cardEl.classList.toggle('flipped', flipped);
+});
+
+flipBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  stopAutoplay();
+  flipped = !flipped;
+  cardEl.classList.toggle('flipped', flipped);
+});
+
+prevBtn.addEventListener('click', ()=>{
+  stopAutoplay();
+  if(idx < list.length-1){
+    idx++;
+    flipped = false;
+    renderCard();
+  }
+});
+nextBtn.addEventListener('click', ()=>{
+  stopAutoplay();
+  if(idx > 0){
+    idx--;
+    flipped = false;
+    renderCard();
+  }
+});
+
+// ── SEED PANEL WIRING ────────────────────────────
+const seedToggleBtn = document.getElementById('seedToggleBtn');
+const seedPanel = document.getElementById('seedPanel');
+const seedFileInput = document.getElementById('seedFileInput');
+const seedFileBtn = document.getElementById('seedFileBtn');
+const seedTextarea = document.getElementById('seedTextarea');
+const seedCatInput = document.getElementById('seedCatInput');
+const seedImportBtn = document.getElementById('seedImportBtn');
+const seedClearBtn = document.getElementById('seedClearBtn');
+const seedStatus = document.getElementById('seedStatus');
+
+seedToggleBtn.addEventListener('click', ()=>{
+  const open = seedPanel.style.display === 'none';
+  seedPanel.style.display = open ? 'block' : 'none';
+  seedToggleBtn.classList.toggle('active', open);
+});
+
+seedFileBtn.addEventListener('click', ()=> seedFileInput.click());
+
+seedFileInput.addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    seedTextarea.value = ev.target.result;
+    setSeedStatus('', '');
+  };
+  reader.onerror = ()=> setSeedStatus('err', '❌ تعذّرت قراءة الملف');
+  reader.readAsText(file);
+  seedFileInput.value = '';
+});
+
+function setSeedStatus(type, msg){
+  seedStatus.textContent = msg;
+  seedStatus.className = 'seed-status' + (type ? ' ' + type : '');
+}
+
+function extractSeedArray(parsed){
+  if(Array.isArray(parsed)) return parsed;
+  if(parsed && Array.isArray(parsed.items)) return parsed.items;
+  if(parsed && Array.isArray(parsed.cards)) return parsed.cards;
+  return null;
+}
+
+seedImportBtn.addEventListener('click', ()=>{
+  const raw = seedTextarea.value.trim();
+  if(!raw){
+    setSeedStatus('err', '❌ الصق أو ارفع محتوى JSON أولاً');
+    return;
+  }
+  let parsed;
+  try{
+    parsed = JSON.parse(raw);
+  }catch(e){
+    setSeedStatus('err', '❌ صيغة JSON غير صحيحة: ' + e.message);
+    return;
+  }
+  const arr = extractSeedArray(parsed);
+  if(!arr){
+    setSeedStatus('err', '❌ يجب أن يكون الملف مصفوفة من الجمل (أو يحتوي "items")');
+    return;
+  }
+
+  const defaultCat = (seedCatInput.value || 'الجمل').trim() || 'الجمل';
+  const valid = [];
+  let skipped = 0;
+
+  arr.forEach(item=>{
+    if(!item || typeof item !== 'object' || !item.jp || !item.ar){
+      skipped++;
+      return;
+    }
+    valid.push({
+      cat: (item.cat && String(item.cat).trim()) || defaultCat,
+      jp: String(item.jp),
+      hira: item.hira ? String(item.hira) : String(item.jp),
+      ar: String(item.ar),
+      read: item.read ? String(item.read) : ''
+    });
+  });
+
+  if(!valid.length){
+    setSeedStatus('err', '❌ لم يتم العثور على جمل صالحة (يجب توفر "jp" و"ar" على الأقل)');
+    return;
+  }
+
+  seedData = seedData.concat(valid);
+  saveSeedData(seedData);
+  rebuildDataAndSwitchTo(valid[0].cat);
+
+  let msg = `✅ تم استيراد ${valid.length} جملة`;
+  if(skipped) msg += ` (تم تجاهل ${skipped} عنصر غير صالح)`;
+  setSeedStatus('ok', msg);
+  seedTextarea.value = '';
+});
+
+seedClearBtn.addEventListener('click', ()=>{
+  if(!seedData.length){
+    setSeedStatus('', 'لا توجد جمل مُضافة لحذفها');
+    return;
+  }
+  const ok = confirm('هل أنت متأكد من حذف كل الجمل التي أضفتها؟ لا يمكن التراجع عن هذا.');
+  if(!ok) return;
+  seedData = [];
+  saveSeedData(seedData);
+  rebuildDataAndSwitchTo('الكل');
+  setSeedStatus('ok', '🗑️ تم حذف الجمل المُضافة');
+});
+
+function rebuildDataAndSwitchTo(targetCat){
+  stopAutoplay();
+  data = baseData.concat(seedData);
+  categories = ["الكل", ...new Set(data.map(d=>d.cat))];
+  currentCat = categories.includes(targetCat) ? targetCat : "الكل";
+  list = currentCat === "الكل" ? data.slice() : data.filter(d=>d.cat===currentCat);
+  idx = 0;
+  flipped = false;
+  renderTabs();
+  renderCard();
+}
+
+// ══════════════════════════════════════════════════════════════
+// ============  قسم "الكلمات": دروس + أقسام + اختبارات  ============
+// ══════════════════════════════════════════════════════════════
+
+const W_STAGE_SIZE = 5; // عدد الدروس في كل قسم/مرحلة
+
+let wLessons = [];
+let wProgress = { completed:{}, quizPassed:{}, lastScore:null };
+let wIsAdmin = false;
+let wActiveLesson = null;
+let wCardIndex = 0;
+let wQuizQuestions = [];
+let wQuizIndex = 0;
+let wQuizCorrect = 0;
+let wQuizWrong = 0;
+
+const W_LESSONS_CACHE_KEY = 'jp_words_lessons_cache';
+const W_PROGRESS_CACHE_KEY = 'jp_words_progress_cache';
+
+window.wApplyFirebaseLessons = function(lessons){
+  wLessons = lessons;
+  try{ localStorage.setItem(W_LESSONS_CACHE_KEY, JSON.stringify(lessons)); }catch(e){}
+  wRenderHome();
+};
+window.wApplyFirebaseProgress = function(progress){
+  wProgress = progress;
+  try{ localStorage.setItem(W_PROGRESS_CACHE_KEY, JSON.stringify(progress)); }catch(e){}
+  wRenderHome();
+};
+
+// عرض فوري من نسخة محفوظة محليًا (إن وُجدت) قبل وصول بيانات Firebase،
+// حتى تظهر دروسك وتقدّمك فورًا عند فتح التطبيق دون انتظار الشبكة —
+// ثم تُحدَّث تلقائيًا في الخلفية بمجرد وصول البيانات الحقيقية.
+(function primeWordsFromLocalCache(){
+  try{
+    const cachedLessons = localStorage.getItem(W_LESSONS_CACHE_KEY);
+    if(cachedLessons) wLessons = JSON.parse(cachedLessons);
+  }catch(e){}
+  try{
+    const cachedProgress = localStorage.getItem(W_PROGRESS_CACHE_KEY);
+    if(cachedProgress) wProgress = JSON.parse(cachedProgress);
+  }catch(e){}
+})();
+window.wApplyAdminState = function(isAdmin){
+  wIsAdmin = isAdmin;
+  const adminBtn = document.getElementById('wAdminBtn');
+  if(adminBtn) adminBtn.style.display = isAdmin ? 'inline-flex' : 'none';
+  wRenderAdminList();
+};
+
+function wSaveProgress(){
+  if(window.wFirebaseSaveProgress) window.wFirebaseSaveProgress(wProgress).catch(e=>console.warn('wSaveProgress', e));
+}
+function wSaveLessonToFirebase(lessonObj){
+  if(window.wFirebaseSaveLesson) return window.wFirebaseSaveLesson(lessonObj);
+  return Promise.resolve();
+}
+function wDeleteLessonFromFirebase(id){
+  if(window.wFirebaseDeleteLesson) return window.wFirebaseDeleteLesson(id);
+  return Promise.resolve();
+}
+
+function wEsc(str){ return String(str).replace(/\\/g,'\\\\').replace(/'/g,"\\'"); }
+function wSafe(str){ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+let wToastTimer = null;
+function wToast(msg, dur){
+  const el = document.getElementById('wToastEl');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(wToastTimer);
+  wToastTimer = setTimeout(()=> el.classList.remove('show'), dur || 2600);
+}
+
+function wIsUnlocked(pos){
+  if(pos === 0) return true;
+  const prev = wLessons[pos-1];
+  return !!wProgress.quizPassed[prev.id];
+}
+function wFindCurrentPosition(){
+  const i = wLessons.findIndex(l => !wProgress.quizPassed[l.id]);
+  return i === -1 ? Math.max(wLessons.length-1, 0) : i;
+}
+function wStageIndex(pos){ return Math.floor(pos / W_STAGE_SIZE); }
+
+function wShowPage(name){
+  document.querySelectorAll('.w-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  if(name === 'wPageHome') wRenderHome();
+  if(name === 'wPageAll') wRenderAllPage();
+  if(name === 'wPageAdmin') wRenderAdminList();
+}
+
+function wRenderHome(){
+  wRenderStats();
+  wRenderStageBanner();
+  wRenderStrip();
+}
+
+function wRenderStats(){
+  const done = wLessons.filter(l => wProgress.completed[l.id]).length;
+  const quizzesPassed = wLessons.filter(l => wProgress.quizPassed[l.id]).length;
+  const wordsLearned = wLessons.reduce((a,l)=> a + (wProgress.completed[l.id] ? (l.cards?.length||0) : 0), 0);
+  document.getElementById('wStatWords').textContent = wordsLearned;
+  document.getElementById('wStatQuizzes').textContent = quizzesPassed;
+  document.getElementById('wStatDone').textContent = done;
+  document.getElementById('wStatScore').textContent = wProgress.lastScore !== null ? wProgress.lastScore + '%' : '—';
+}
+
+function wRenderStageBanner(){
+  const banner = document.getElementById('wStageBanner');
+  if(!wLessons.length){ banner.style.display = 'none'; return; }
+  const nextLockedIdx = wLessons.findIndex((l,i)=> !wIsUnlocked(i));
+  if(nextLockedIdx === -1){ banner.style.display = 'none'; return; }
+  const stageNum = wStageIndex(nextLockedIdx) + 1;
+  const prevLesson = wLessons[nextLockedIdx - 1];
+  banner.style.display = 'block';
+  if(prevLesson && wProgress.completed[prevLesson.id] && !wProgress.quizPassed[prevLesson.id]){
+    banner.innerHTML = `📝 اجتز اختبار درس «<strong>${wSafe(prevLesson.title)}</strong>» (80%+) لفتح الدرس التالي`;
+  } else {
+    banner.innerHTML = `🔒 أكمل الدروس السابقة (بطاقات + اختبار) لفتح القسم ${stageNum}`;
+  }
+}
+
+function wRenderStrip(){
+  const strip = document.getElementById('wLessonsStrip');
+  const label = document.getElementById('wStripLabel');
+  if(!wLessons.length){
+    label.textContent = 'لا توجد دروس بعد';
+    strip.innerHTML = `<div class="w-empty">أضف درسك الأول عبر «📥 إضافة درس (Seed)» أدناه</div>`;
+    return;
+  }
+  const currentPos = wFindCurrentPosition();
+  const rowStart = Math.floor(currentPos / W_STAGE_SIZE) * W_STAGE_SIZE;
+  const rowEnd = Math.min(rowStart + W_STAGE_SIZE, wLessons.length);
+  const rowLessons = wLessons.slice(rowStart, rowEnd);
+  label.textContent = 'دروسك الحالية — مرر لرؤية المزيد ←';
+  strip.innerHTML = rowLessons.map((l,j)=> wLessonCardHtml(l, rowStart + j)).join('');
+}
+
+function wLessonCardHtml(l, i){
+  const done = !!wProgress.completed[l.id];
+  const passed = !!wProgress.quizPassed[l.id];
+  const unlocked = wIsUnlocked(i);
+  let cls = '';
+  if(!unlocked) cls = 'locked';
+  else if(done && !passed) cls = 'needs-quiz';
+  else if(done && passed) cls = 'done';
+  let badge = '';
+  if(!unlocked) badge = '🔒';
+  else if(passed) badge = '✅';
+  else if(done) badge = '📝';
+  return `
+    <div class="w-lesson-card ${cls}" onclick="${unlocked ? `wOpenCards('${wEsc(l.id)}')` : `wToast('🔒 أكمل الدرس السابق أولاً')`}">
+      ${badge ? `<div class="w-lc-badge">${badge}</div>` : ''}
+      <div class="w-lc-title">${wSafe(l.title)}</div>
+      <div class="w-lc-ja">${wSafe(l.titleJa || '')}</div>
+      <div class="w-lc-count">${l.cards?.length || 0} كلمة</div>
+      <div class="w-lc-bar"><div class="w-lc-fill" style="width:${passed?100:done?50:0}%"></div></div>
+    </div>
+  `;
+}
+
+function wRenderAllPage(){
+  const container = document.getElementById('wAllLessonsRows');
+  if(!wLessons.length){
+    container.innerHTML = `<div class="w-empty">لا توجد دروس بعد.</div>`;
+    return;
+  }
+  const groups = [];
+  for(let i=0; i<wLessons.length; i+=W_STAGE_SIZE) groups.push(wLessons.slice(i, i+W_STAGE_SIZE));
+  container.innerHTML = groups.map((group, gIdx)=>{
+    const rows = group.map((l,j)=>{
+      const i = gIdx * W_STAGE_SIZE + j;
+      const done = !!wProgress.completed[l.id];
+      const passed = !!wProgress.quizPassed[l.id];
+      const unlocked = wIsUnlocked(i);
+      let icon = '⭕';
+      if(!unlocked) icon = '🔒'; else if(passed) icon = '✅'; else if(done) icon = '📝';
+      return `
+        <div class="w-all-row ${!unlocked ? 'locked' : ''}" onclick="${unlocked ? `wOpenCards('${wEsc(l.id)}')` : `wToast('🔒 أكمل الدرس السابق أولاً')`}">
+          <div class="icon">${icon}</div>
+          <div class="title">${wSafe(l.title)}</div>
+          <div class="ja">${wSafe(l.titleJa || '')}</div>
+          <div class="count">${l.cards?.length || 0} كلمة</div>
+        </div>
+      `;
+    }).join('');
+    return `<div class="w-all-group"><div class="w-all-group-label">القسم ${gIdx+1}</div><div class="w-all-grid">${rows}</div></div>`;
+  }).join('');
+}
+
+function wOpenCards(id){
+  const pos = wLessons.findIndex(l => l.id === id);
+  if(pos > 0 && !wIsUnlocked(pos)){
+    wToast('🔒 هذا الدرس مقفل، أكمل الدرس السابق أولاً');
+    return;
+  }
+  wActiveLesson = wLessons.find(l => l.id === id);
+  if(!wActiveLesson) return;
+  wCardIndex = 0;
+  document.getElementById('wCardsTitle').textContent = wActiveLesson.title;
+  document.getElementById('wCardsTitleJa').textContent = wActiveLesson.titleJa || '';
+  wUpdateCard();
+  wShowPage('wPageCards');
+}
+
+function wUpdateCard(){
+  const card = wActiveLesson.cards[wCardIndex];
+  document.getElementById('wCard').classList.remove('flipped');
+  document.getElementById('wKanji').textContent = card.kanji;
+  document.getElementById('wHira').textContent = card.hiragana || '';
+  document.getElementById('wMeaning').textContent = card.meaning;
+  document.getElementById('wRomaji').textContent = card.romaji || '';
+  document.getElementById('wCardsCounter').textContent = `${wCardIndex+1} / ${wActiveLesson.cards.length}`;
+  document.getElementById('wDots').innerHTML = wActiveLesson.cards.map((_,i)=>
+    `<div class="w-dot ${i<wCardIndex?'seen':''} ${i===wCardIndex?'cur':''}"></div>`
+  ).join('');
+}
+
+document.getElementById('wCard').addEventListener('click', ()=>{
+  document.getElementById('wCard').classList.toggle('flipped');
+});
+document.getElementById('wFlipBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  document.getElementById('wCard').classList.toggle('flipped');
+});
+document.getElementById('wSpeakBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const card = wActiveLesson?.cards[wCardIndex];
+  if(card) speakJapanese(card.hiragana || card.kanji, null, document.getElementById('wSpeakBtn'));
+});
+
+document.getElementById('wPrevBtn').addEventListener('click', ()=>{
+  if(!wActiveLesson) return;
+  if(wCardIndex < wActiveLesson.cards.length - 1){
+    wCardIndex++; wUpdateCard();
+  } else {
+    const already = !!wProgress.completed[wActiveLesson.id];
+    wProgress.completed[wActiveLesson.id] = true;
+    wSaveProgress();
+    wRenderHome();
+    if(!already) wToast(`✅ أكملت بطاقات درس «${wActiveLesson.title}»! اجتز الاختبار الآن لفتح الدرس التالي`);
+  }
+});
+document.getElementById('wNextBtn').addEventListener('click', ()=>{
+  if(wCardIndex > 0){ wCardIndex--; wUpdateCard(); }
+});
+document.getElementById('wStartQuizBtn').addEventListener('click', ()=>{
+  if(wActiveLesson) wOpenQuiz(wActiveLesson.id);
+});
+
+function wOpenQuiz(id){
+  wActiveLesson = wLessons.find(l => l.id === id);
+  if(!wActiveLesson || !wActiveLesson.cards.length) return;
+  wQuizQuestions = [...wActiveLesson.cards].sort(()=>Math.random()-0.5);
+  wQuizIndex = 0;
+  wQuizCorrect = 0;
+  wQuizWrong = 0;
+  document.getElementById('wQuizTitle').textContent = `اختبار: ${wActiveLesson.title}`;
+  wRenderQuizQuestion();
+  wShowPage('wPageQuiz');
+}
+
+function wRenderQuizQuestion(){
+  const area = document.getElementById('wQuizArea');
+  const card = wQuizQuestions[wQuizIndex];
+  const wrongPool = wActiveLesson.cards.filter(c => c.kanji !== card.kanji);
+  const wrongs = [...wrongPool].sort(()=>Math.random()-0.5).slice(0,3).map(c=>c.meaning);
+  const options = [...wrongs, card.meaning].sort(()=>Math.random()-0.5);
+
+  area.innerHTML = `
+    <div class="w-quiz-score-row">
+      <div class="w-quiz-score-item"><div class="w-quiz-score-num ok">${wQuizCorrect}</div><div class="w-quiz-score-label">صحيح</div></div>
+      <div class="w-quiz-score-item"><div class="w-quiz-score-num bad">${wQuizWrong}</div><div class="w-quiz-score-label">خطأ</div></div>
+      <div class="w-quiz-score-item"><div class="w-quiz-score-num" style="color:var(--indigo)">${wQuizIndex}/${wQuizQuestions.length}</div><div class="w-quiz-score-label">التقدم</div></div>
+    </div>
+    <div class="w-quiz-q-card">
+      <div class="w-quiz-q-jp">${wSafe(card.kanji)}</div>
+      <div class="w-quiz-q-hira">${wSafe(card.hiragana || '')}</div>
+    </div>
+    <div class="w-quiz-answers" id="wQuizAnswers">
+      ${options.map(opt => `<button class="w-quiz-answer-btn" data-correct="${opt===card.meaning?'1':'0'}">${wSafe(opt)}</button>`).join('')}
+    </div>
+  `;
+  document.querySelectorAll('#wQuizAnswers .w-quiz-answer-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> wAnswerQuiz(btn));
+  });
+}
+
+function wAnswerQuiz(btn){
+  const isCorrect = btn.dataset.correct === '1';
+  document.querySelectorAll('#wQuizAnswers .w-quiz-answer-btn').forEach(b=>{
+    b.disabled = true;
+    if(b.dataset.correct === '1') b.classList.add('correct');
+    else if(b === btn && !isCorrect) b.classList.add('wrong');
+  });
+  if(isCorrect) wQuizCorrect++; else wQuizWrong++;
+  setTimeout(()=>{
+    wQuizIndex++;
+    if(wQuizIndex >= wQuizQuestions.length) wShowQuizResult();
+    else wRenderQuizQuestion();
+  }, 900);
+}
+
+function wShowQuizResult(){
+  const total = wQuizQuestions.length;
+  const pct = Math.round((wQuizCorrect / total) * 100);
+  wProgress.lastScore = pct;
+  const passed = pct >= 80;
+  if(passed) wProgress.quizPassed[wActiveLesson.id] = true;
+  wSaveProgress();
+  wRenderHome();
+
+  const emoji = pct === 100 ? '🏆' : pct >= 60 ? '⭐' : '📚';
+  const msg = passed
+    ? `<span style="color:var(--bamboo)">ممتاز! نجحت — تم فتح الدرس التالي</span>`
+    : pct >= 60
+    ? `<span style="color:var(--indigo)">قريب! تحتاج 80%+ لفتح الدرس التالي</span>`
+    : `<span style="color:var(--hanko)">يحتاج مزيدًا من المراجعة — حاول مجددًا</span>`;
+
+  document.getElementById('wQuizArea').innerHTML = `
+    <div class="w-result">
+      <div class="w-result-emoji">${emoji}</div>
+      <div class="w-result-score">${wQuizCorrect}/${total}</div>
+      <div class="w-result-pct">${pct}% إجابات صحيحة</div>
+      <div class="w-result-msg">${msg}</div>
+      <div class="w-row-gap" style="justify-content:center">
+        <button class="w-btn" id="wRetryQuizBtn" type="button">🔄 إعادة الاختبار</button>
+        <button class="w-btn-outline" id="wReviewCardsBtn" type="button">📖 مراجعة البطاقات</button>
+        <button class="w-btn-outline" id="wQuizHomeBtn" type="button">🏠 الرئيسية</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('wRetryQuizBtn').addEventListener('click', ()=> wOpenQuiz(wActiveLesson.id));
+  document.getElementById('wReviewCardsBtn').addEventListener('click', ()=> wOpenCards(wActiveLesson.id));
+  document.getElementById('wQuizHomeBtn').addEventListener('click', ()=> wShowPage('wPageHome'));
+}
+
+const wSeedFileInput = document.getElementById('wSeedFileInput');
+const wSeedFileBtn = document.getElementById('wSeedFileBtn');
+const wSeedTextarea = document.getElementById('wSeedTextarea');
+const wSeedImportBtn = document.getElementById('wSeedImportBtn');
+const wSeedStatus = document.getElementById('wSeedStatus');
+
+function wSetSeedStatus(type, msg){
+  wSeedStatus.textContent = msg;
+  wSeedStatus.className = 'seed-status' + (type ? ' ' + type : '');
+}
+
+wSeedFileBtn.addEventListener('click', ()=> wSeedFileInput.click());
+wSeedFileInput.addEventListener('change', (e)=>{
+  const files = Array.from(e.target.files);
+  if(!files.length) return;
+  Promise.all(files.map(f => f.text())).then(texts=>{
+    if(texts.length === 1){
+      wSeedTextarea.value = texts[0];
+    } else {
+      try{
+        const combined = texts.map(t => JSON.parse(t));
+        wSeedTextarea.value = JSON.stringify(combined, null, 2);
+      }catch(err){
+        wSeedTextarea.value = texts.join('\n\n');
+      }
+    }
+    wSetSeedStatus('', '');
+  }).catch(()=> wSetSeedStatus('err', '❌ تعذّرت قراءة أحد الملفات'));
+  wSeedFileInput.value = '';
+});
+
+wSeedImportBtn.addEventListener('click', async ()=>{
+  if(!wIsAdmin){ wSetSeedStatus('err', '❌ إضافة الدروس متاحة للمسؤولين فقط'); return; }
+  const raw = wSeedTextarea.value.trim();
+  if(!raw){ wSetSeedStatus('err', '❌ الصق أو ارفع محتوى JSON أولاً'); return; }
+
+  let parsed;
+  try{ parsed = JSON.parse(raw); }
+  catch(e){ wSetSeedStatus('err', '❌ صيغة JSON غير صحيحة: ' + e.message); return; }
+
+  const lessonsToImport = Array.isArray(parsed) ? parsed : [parsed];
+  let imported = 0, updated = 0, skipped = 0;
+  const errors = [];
+  let nextOrder = wLessons.length;
+  const toSave = [];
+
+  lessonsToImport.forEach(seed=>{
+    if(!seed || typeof seed !== 'object' || !seed.id || !seed.title || !Array.isArray(seed.cards) || !seed.cards.length){
+      skipped++; errors.push((seed && seed.id) || '(بدون id)');
+      return;
+    }
+    const cleanCards = seed.cards.filter(c => c && c.kanji && c.meaning).map(c=>({
+      kanji: String(c.kanji),
+      hiragana: c.hiragana ? String(c.hiragana) : String(c.kanji),
+      meaning: String(c.meaning),
+      romaji: c.romaji ? String(c.romaji) : ''
+    }));
+    if(!cleanCards.length){ skipped++; errors.push(seed.id + ' (لا كلمات صالحة)'); return; }
+
+    const idx = wLessons.findIndex(l => l.id === String(seed.id));
+    const lessonObj = {
+      id: String(seed.id),
+      title: String(seed.title),
+      titleJa: seed.titleJa ? String(seed.titleJa) : '',
+      cards: cleanCards,
+      order: idx >= 0 ? (wLessons[idx].order ?? nextOrder) : nextOrder
+    };
+    if(idx >= 0){ wLessons[idx] = lessonObj; updated++; }
+    else { wLessons.push(lessonObj); nextOrder++; imported++; }
+    toSave.push(lessonObj);
+  });
+
+  wSetSeedStatus('', '⏳ جارِ الحفظ في Firebase…');
+  try{
+    await Promise.all(toSave.map(l => wSaveLessonToFirebase(l)));
+  }catch(e){
+    wSetSeedStatus('err', '❌ فشل الحفظ في Firebase: ' + e.message);
+    return;
+  }
+
+  wRenderHome();
+  wRenderAdminList();
+
+  let msg = `✅ تمت إضافة ${imported} درس جديد`;
+  if(updated) msg += ` وتحديث ${updated} درس موجود`;
+  if(skipped) msg += ` — ⚠️ تم تجاهل ${skipped}: ${errors.join('، ')}`;
+  wSetSeedStatus((skipped && !imported && !updated) ? 'err' : 'ok', msg);
+  if(imported || updated) wSeedTextarea.value = '';
+});
+
+function wRenderAdminList(){
+  const list = document.getElementById('wAdminLessonList');
+  if(!list) return;
+  if(!wIsAdmin){
+    list.innerHTML = `<div class="w-empty">🔒 هذه الصفحة مخصّصة للمسؤولين فقط.</div>`;
+    return;
+  }
+  if(!wLessons.length){
+    list.innerHTML = `<div class="w-empty">لا توجد دروس بعد.</div>`;
+  } else {
+    list.innerHTML = wLessons.map((l,i)=>`
+      <div class="w-admin-list-item">
+        <div>
+          <div class="name">${i+1}. ${wSafe(l.title)}</div>
+          <div class="meta">${wSafe(l.titleJa || '')} • ${l.cards?.length || 0} كلمة${wProgress.quizPassed[l.id] ? ' • ✓ مكتمل' : ''}</div>
+        </div>
+        <button class="w-btn-outline w-btn-danger" onclick="wDeleteLesson('${wEsc(l.id)}','${wEsc(l.title)}')">🗑️ حذف</button>
+      </div>
+    `).join('');
+  }
+
+  wRenderStudentsPanel();
+}
+
+async function wRenderStudentsPanel(){
+  const el = document.getElementById('wStudentsList');
+  if(!el || !wIsAdmin) return;
+  el.innerHTML = `<div class="w-empty">جارِ التحميل…</div>`;
+  if(!window.wFirebaseFetchStudents) return;
+  try{
+    const students = await window.wFirebaseFetchStudents();
+    if(!students.length){ el.innerHTML = `<div class="w-empty">لا يوجد طلاب مسجّلون بعد.</div>`; return; }
+    el.innerHTML = students.map(s=>{
+      const passed = Object.keys(s.quizPassed || {}).filter(k=>s.quizPassed[k]).length;
+      const done = Object.keys(s.completed || {}).filter(k=>s.completed[k]).length;
+      const stage = Math.floor(passed / W_STAGE_SIZE) + 1;
+      return `
+        <div class="w-admin-list-item">
+          <div>
+            <div class="name">${wSafe(s.email || s.id)}</div>
+            <div class="meta">${done}/${wLessons.length} دروس مكتملة • مرحلة ${stage} (${passed} اختبار ناجح) • آخر نتيجة: ${s.lastScore != null ? s.lastScore + '%' : '—'}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }catch(e){
+    el.innerHTML = `<div class="w-empty">تعذّر تحميل بيانات الطلاب: ${wSafe(e.message)}</div>`;
+  }
+}
+
+function wDeleteLesson(id, title){
+  if(!wIsAdmin) return;
+  const ok = confirm(`هل أنت متأكد من حذف الدرس «${title}»؟ لا يمكن التراجع عن هذا.`);
+  if(!ok) return;
+  wLessons = wLessons.filter(l => l.id !== id);
+  delete wProgress.completed[id];
+  delete wProgress.quizPassed[id];
+  wDeleteLessonFromFirebase(id).catch(e=>console.warn('wDeleteLesson', e));
+  wSaveProgress();
+  wRenderAdminList();
+  wRenderHome();
+  wToast(`🗑️ تم حذف الدرس «${title}»`);
+}
+
+document.getElementById('wViewAllBtn').addEventListener('click', ()=> wShowPage('wPageAll'));
+document.getElementById('wAllBackBtn').addEventListener('click', ()=> wShowPage('wPageHome'));
+document.getElementById('wCardsBackBtn').addEventListener('click', ()=> wShowPage('wPageHome'));
+document.getElementById('wQuizBackBtn').addEventListener('click', ()=> wActiveLesson ? wOpenCards(wActiveLesson.id) : wShowPage('wPageHome'));
+document.getElementById('wAdminBtn').addEventListener('click', ()=> wShowPage('wPageAdmin'));
+document.getElementById('wAdminBackBtn').addEventListener('click', ()=> wShowPage('wPageHome'));
+
+const modeWordsBtn = document.getElementById('modeWordsBtn');
+const modeSentencesBtn = document.getElementById('modeSentencesBtn');
+const wordsModeEl = document.getElementById('wordsMode');
+const sentencesModeEl = document.getElementById('sentencesMode');
+
+modeWordsBtn.addEventListener('click', ()=>{
+  modeWordsBtn.classList.add('active');
+  modeSentencesBtn.classList.remove('active');
+  wordsModeEl.style.display = 'flex';
+  sentencesModeEl.style.display = 'none';
+  stopAutoplay();
+});
+modeSentencesBtn.addEventListener('click', ()=>{
+  modeSentencesBtn.classList.add('active');
+  modeWordsBtn.classList.remove('active');
+  sentencesModeEl.style.display = 'flex';
+  wordsModeEl.style.display = 'none';
+});
+
+wRenderHome();
+
+renderTabs();
+renderCard();
+
+</script>
+
+</body>
+</html>
