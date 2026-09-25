@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار القراءة الصوتية</title>
+<style>
+  body {
+    font-family: -apple-system, "Segoe UI", Tahoma, sans-serif;
+    background: #f4f4f8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+  }
+  textarea {
+    width: 100%;
+    min-height: 140px;
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family: inherit;
+  }
+  .controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  button {
+    flex: 1;
+    padding: 14px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  #startBtn { background: #2563eb; color: #fff; }
+  #stopBtn { background: #e5e7eb; color: #333; }
+  #status { margin-top: 12px; font-size: 14px; color: #666; text-align: center; }
+  .note { margin-top: 14px; font-size: 12.5px; color: #999; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>اختبار القراءة الصوتية (Web Speech API)</h2>
+    <textarea id="textInput">مرحباً، هذا نص تجريبي لاختبار خاصية القراءة الصوتية. اضغط زر ابدأ القراءة لسماع النص.</textarea>
+    <div class="controls">
+      <button id="startBtn">▶ ابدأ القراءة</button>
+      <button id="stopBtn">⏹ إيقاف</button>
+    </div>
+    <div id="status">جاهز</div>
+    <div class="note">
+      الصفحة بتطلب Wake Lock وبتفعّل Media Session عشان تحافظ على القراءة أطول وقت ممكن أثناء تصغير المتصفح، لكن لما تقفل الشاشة فعليًا، أغلب المتصفحات بتوقف الصوت — ده قيد من نظام التشغيل مش حاجة الصفحة نفسها تقدر تتخطاها. الضمان الكامل بيكون بس من التطبيق الـ native (Foreground Service).
+    </div>
+  </div>
+
+<script>
+  const textInput = document.getElementById('textInput');
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const status = document.getElementById('status');
+
+  let utterance = null;
+  let wakeLock = null;
+
+  async function requestWakeLock() {
+    try {
+      if ('wakeLock' in navigator) {
+        wakeLock = await navigator.wakeLock.request('screen');
+        wakeLock.addEventListener('release', () => {
+          console.log('Wake Lock released');
+        });
+      }
+    } catch (err) {
+      console.warn('Wake Lock failed:', err);
+    }
+  }
+
+  function releaseWakeLock() {
+    if (wakeLock) {
+      wakeLock.release();
+      wakeLock = null;
+    }
+  }
+
+  function setupMediaSession() {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: 'قراءة نصية',
+        artist: 'اختبار التطبيق',
+      });
+      navigator.mediaSession.setActionHandler('play', speak);
+      navigator.mediaSession.setActionHandler('pause', stop);
+      navigator.mediaSession.setActionHandler('stop', stop);
+    }
+  }
+
+  function speak() {
+    if (!('speechSynthesis' in window)) {
+      status.textContent = 'المتصفح لا يدعم القراءة الصوتية';
+      return;
+    }
+    window.speechSynthesis.cancel();
+    utterance = new SpeechSynthesisUtterance(textInput.value);
+    utterance.lang = 'ar-SA';
+    utterance.rate = 1;
+
+    utterance.onstart = () => {
+      status.textContent = '🔊 جاري القراءة...';
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'playing';
+    };
+    utterance.onend = () => {
+      status.textContent = 'انتهت القراءة';
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+      releaseWakeLock();
+    };
+    utterance.onerror = (e) => status.textContent = 'خطأ: ' + e.error;
+
+    window.speechSynthesis.speak(utterance);
+    requestWakeLock();
+  }
+
+  function stop() {
+    window.speechSynthesis.cancel();
+    status.textContent = 'تم الإيقاف';
+    if ('mediaSession' in navigator) navigator.mediaSession.playbackState = 'paused';
+    releaseWakeLock();
+  }
+
+  // إعادة طلب الـ Wake Lock لو رجع التاب يبقى ظاهر أثناء القراءة
+  document.addEventListener('visibilitychange', async () => {
+    if (document.visibilityState === 'visible' && window.speechSynthesis.speaking) {
+      await requestWakeLock();
+    }
+  });
+
+  setupMediaSession();
+  startBtn.addEventListener('click', speak);
+  stopBtn.addEventListener('click', stop);
+</script>
+</body>
+</html>
