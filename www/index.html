@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعلّم الياباني - جمل يومية</title>
+<style>
+  :root {
+    --blue: #2563eb;
+    --bg: #f4f4f8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Tahoma, sans-serif;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 14px 40px;
+  }
+  h2 { margin: 4px 0 2px; }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 20px;
+    max-width: 480px;
+    width: 100%;
+  }
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .tabs button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    background: #eef2ff;
+    color: var(--blue);
+    cursor: pointer;
+  }
+  .tabs button.active {
+    background: var(--blue);
+    color: #fff;
+  }
+  button { font-family: inherit; }
+  .mainBtn {
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    background: var(--blue);
+    color: #fff;
+    margin-top: 10px;
+  }
+  #stopBtn { background: #e5e7eb; color: #333; }
+  .toolsRow { display: flex; gap: 8px; margin-top: 4px; }
+  .toolsRow button {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: var(--blue);
+    cursor: pointer;
+  }
+  #status {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #333;
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 10px;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  /* List view */
+  #sentencesList { margin-top: 12px; max-height: 340px; overflow-y: auto; border-radius: 8px; background: #f9fafb; padding: 6px 10px; }
+  .sentenceItem { display: flex; align-items: flex-start; gap: 10px; padding: 10px 2px; direction: ltr; text-align: left; }
+  .sentenceItem input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 4px; }
+  .sentenceItem .txt { line-height: 1.6; }
+  .sentenceItem .jp { font-size: 16px; }
+  .sentenceItem .ar { font-size: 13px; color: #6b7280; direction: rtl; text-align: right; margin-top: 2px; }
+  .num { color: var(--blue); font-weight: bold; }
+  .sep { border: none; border-top: 1px dashed #d1d5db; margin: 0; }
+
+  /* Flashcards view */
+  .flashWrap { display: none; flex-direction: column; align-items: center; margin-top: 10px; }
+  .flashcard {
+    width: 100%;
+    min-height: 220px;
+    background: linear-gradient(180deg,#eef2ff,#fff);
+    border: 2px solid #dbe3ff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .flashcard .jpBig { font-size: 26px; font-weight: bold; direction: ltr; }
+  .flashcard .arBig { font-size: 17px; color: #4b5563; margin-top: 16px; direction: rtl; display: none; }
+  .flashcard.revealed .arBig { display: block; }
+  .flashHint { font-size: 12px; color: #9ca3af; margin-top: 10px; }
+  .flashNav { display: flex; gap: 8px; width: 100%; margin-top: 12px; }
+  .flashNav button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: var(--blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .flashCounter { margin-top: 8px; font-size: 13px; color: #6b7280; }
+  .flashPlayBtn { margin-top: 12px; background: var(--blue); color: #fff; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>تعلّم الياباني - جمل يومية</h2>
+
+    <div class="tabs">
+      <button id="tabList" class="active">📋 قائمة</button>
+      <button id="tabCards">🗂 بطاقات</button>
+    </div>
+
+    <!-- List view -->
+    <div id="listView">
+      <p style="margin:0 0 8px;font-size:14px;">اختار الجمل اللي تريد قراءتها (هتتقرأ كل جملة مرتين):</p>
+      <div class="toolsRow">
+        <button id="selectAllBtn">تحديد الكل</button>
+        <button id="clearAllBtn">إلغاء التحديد</button>
+      </div>
+      <div id="sentencesList"></div>
+      <button id="startBtn" class="mainBtn">▶ ابدأ القراءة</button>
+      <button id="stopBtn" class="mainBtn">⏹ إيقاف</button>
+    </div>
+
+    <!-- Flashcards view -->
+    <div id="cardsView" class="flashWrap">
+      <div class="flashcard" id="flashcard">
+        <div class="jpBig" id="flashJp"></div>
+        <div class="arBig" id="flashAr"></div>
+        <div class="flashHint">اضغط على البطاقة لإظهار/إخفاء الترجمة</div>
+      </div>
+      <div class="flashCounter" id="flashCounter"></div>
+      <div class="flashNav">
+        <button id="prevBtn">◀ السابقة</button>
+        <button id="shuffleBtn">🔀 عشوائي</button>
+        <button id="nextBtn">التالية ▶</button>
+      </div>
+      <button id="flashPlayBtn" class="mainBtn flashPlayBtn">🔊 اقرأ هذه الجملة</button>
+      <button id="flashStopBtn" class="mainBtn" style="background:#e5e7eb;color:#333;">⏹ إيقاف</button>
+    </div>
+
+    <div id="status">جاري فحص البيئة...</div>
+  </div>
+
+<script>
+  var statusEl = document.getElementById('status');
+  var listEl = document.getElementById('sentencesList');
+
+  // 50 جملة يابانية للحياة اليومية + الترجمة العربية
+  var sentences = [
+    ["おはようございます。", "صباح الخير"],
+    ["おやすみなさい。", "تصبح على خير"],
+    ["ただいま。", "لقد عدت (عند دخول المنزل)"],
+    ["いってきます。", "سأذهب وأعود (عند الخروج)"],
+    ["いってらっしゃい。", "إلى اللقاء (رد على الخارج)"],
+    ["ありがとうございます。", "شكرًا جزيلاً"],
+    ["すみません。", "المعذرة / آسف"],
+    ["お願いします。", "من فضلك"],
+    ["わかりました。", "فهمت"],
+    ["わかりません。", "لا أفهم"],
+    ["今何時ですか。", "كم الساعة الآن؟"],
+    ["トイレはどこですか。", "أين الحمام؟"],
+    ["これはいくらですか。", "كم سعر هذا؟"],
+    ["水をください。", "أعطني ماء من فضلك"],
+    ["お腹が空きました。", "أنا جائع"],
+    ["喉が渇きました。", "أنا عطشان"],
+    ["疲れました。", "أنا متعب"],
+    ["眠いです。", "أنا نعسان"],
+    ["今日は暑いですね。", "الجو حار اليوم"],
+    ["今日は寒いですね。", "الجو بارد اليوم"],
+    ["雨が降っています。", "إنها تمطر"],
+    ["電車に乗ります。", "سأركب القطار"],
+    ["バスを待っています。", "أنتظر الحافلة"],
+    ["駅まで歩きます。", "سأمشي إلى المحطة"],
+    ["会社に行きます。", "سأذهب إلى الشركة"],
+    ["学校に行きます。", "سأذهب إلى المدرسة"],
+    ["家に帰ります。", "سأعود إلى المنزل"],
+    ["買い物に行きます。", "سأذهب للتسوق"],
+    ["コンビニに寄ります。", "سأمر على المتجر"],
+    ["スーパーで野菜を買います。", "سأشتري خضروات من السوبرماركت"],
+    ["ご飯を食べます。", "سآكل الطعام"],
+    ["水を飲みます。", "سأشرب الماء"],
+    ["歯を磨きます。", "سأنظف أسناني"],
+    ["お風呂に入ります。", "سأستحم"],
+    ["窓を開けてください。", "افتح النافذة من فضلك"],
+    ["ドアを閉めてください。", "أغلق الباب من فضلك"],
+    ["ここに座ってください。", "اجلس هنا من فضلك"],
+    ["ちょっと待ってください。", "انتظر قليلاً من فضلك"],
+    ["もう一度言ってください。", "قل ذلك مرة أخرى من فضلك"],
+    ["ゆっくり話してください。", "تكلم ببطء من فضلك"],
+    ["日本語が少しわかります。", "أفهم القليل من اليابانية"],
+    ["英語が話せますか。", "هل تتحدث الإنجليزية؟"],
+    ["名前は何ですか。", "ما اسمك؟"],
+    ["お元気ですか。", "كيف حالك؟"],
+    ["元気です。", "أنا بخير"],
+    ["今日は何曜日ですか。", "ما هو يوم اليوم؟"],
+    ["明日は休みです。", "غدًا إجازة"],
+    ["週末は忙しいです。", "نهاية الأسبوع مشغولة"],
+    ["また明日会いましょう。", "لنلتقِ غدًا"],
+    ["お疲れ様でした。", "شكرًا على مجهودك"]
+  ];
+
+  function log(msg) {
+    statusEl.textContent += '\n' + msg;
+    statusEl.scrollTop = statusEl.scrollHeight;
+    console.log(msg);
+  }
+
+  function ttsAvailable() {
+    return !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TtsPlugin);
+  }
+
+  function speak(text) {
+    if (!ttsAvailable()) {
+      log('❌ TtsPlugin مش متاح. تأكد إن الـ APK اتبنى بآخر نسخة من الـ workflow.');
+      return;
+    }
+    // lang: "ja" لازم تتطابق مع الكود على جهة الأندرويد عشان يشتغل صوت ياباني حقيقي
+    window.Capacitor.Plugins.TtsPlugin.speak({ text: text, lang: 'ja' })
+      .then(function () { log('✅ الأمر اتبعت بنجاح.'); })
+      .catch(function (err) { log('❌ خطأ: ' + (err && err.message ? err.message : JSON.stringify(err))); });
+  }
+
+  function stopSpeak() {
+    if (!ttsAvailable()) return;
+    window.Capacitor.Plugins.TtsPlugin.stop()
+      .then(function () { log('⏹ تم الإيقاف.'); })
+      .catch(function (err) { log('❌ خطأ إيقاف: ' + err.message); });
+  }
+
+  /* ---------- List view ---------- */
+  function renderList() {
+    listEl.innerHTML = '';
+    sentences.forEach(function (s, i) {
+      var row = document.createElement('div');
+      row.className = 'sentenceItem';
+
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = 'chk-' + i;
+      checkbox.checked = true;
+
+      var txt = document.createElement('div');
+      txt.className = 'txt';
+      txt.innerHTML =
+        '<div class="jp"><span class="num">' + (i + 1) + '.</span> ' + s[0] + '</div>' +
+        '<div class="ar">' + s[1] + '</div>';
+
+      row.appendChild(checkbox);
+      row.appendChild(txt);
+      listEl.appendChild(row);
+
+      if (i < sentences.length - 1) {
+        var hr = document.createElement('hr');
+        hr.className = 'sep';
+        listEl.appendChild(hr);
+      }
+    });
+  }
+
+  function getSelectedSentences() {
+    var selected = [];
+    sentences.forEach(function (s, i) {
+      var chk = document.getElementById('chk-' + i);
+      if (chk && chk.checked) selected.push(s[0]);
+    });
+    return selected;
+  }
+
+  // كل جملة مكررة مرتين، متفصولة بفاصل زمني (نقطة+مسافة) عشان محرك الـ TTS ميبلعش أجزاء من النص
+  function buildParagraph(selected) {
+    var parts = [];
+    selected.forEach(function (s) {
+      parts.push(s);
+      parts.push(s);
+    });
+    return parts.join(' ');
+  }
+
+  document.getElementById('selectAllBtn').addEventListener('click', function () {
+    sentences.forEach(function (s, i) {
+      var chk = document.getElementById('chk-' + i);
+      if (chk) chk.checked = true;
+    });
+  });
+
+  document.getElementById('clearAllBtn').addEventListener('click', function () {
+    sentences.forEach(function (s, i) {
+      var chk = document.getElementById('chk-' + i);
+      if (chk) chk.checked = false;
+    });
+  });
+
+  document.getElementById('startBtn').addEventListener('click', function () {
+    var selected = getSelectedSentences();
+    if (selected.length === 0) {
+      log('⚠️ محتاج تختار جملة واحدة على الأقل.');
+      return;
+    }
+    var paragraph = buildParagraph(selected);
+    log('▶ بعتنا فقرة فيها ' + selected.length + ' جملة...');
+    speak(paragraph);
+  });
+
+  document.getElementById('stopBtn').addEventListener('click', stopSpeak);
+
+  /* ---------- Flashcards view ---------- */
+  var order = sentences.map(function (_, i) { return i; });
+  var cardIndex = 0;
+
+  var flashcardEl = document.getElementById('flashcard');
+  var flashJpEl = document.getElementById('flashJp');
+  var flashArEl = document.getElementById('flashAr');
+  var flashCounterEl = document.getElementById('flashCounter');
+
+  function renderCard() {
+    var idx = order[cardIndex];
+    flashJpEl.textContent = sentences[idx][0];
+    flashArEl.textContent = sentences[idx][1];
+    flashcardEl.classList.remove('revealed');
+    flashCounterEl.textContent = (cardIndex + 1) + ' / ' + order.length;
+  }
+
+  flashcardEl.addEventListener('click', function () {
+    flashcardEl.classList.toggle('revealed');
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', function () {
+    cardIndex = (cardIndex + 1) % order.length;
+    renderCard();
+  });
+
+  document.getElementById('prevBtn').addEventListener('click', function () {
+    cardIndex = (cardIndex - 1 + order.length) % order.length;
+    renderCard();
+  });
+
+  document.getElementById('shuffleBtn').addEventListener('click', function () {
+    for (var i = order.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+    }
+    cardIndex = 0;
+    renderCard();
+  });
+
+  document.getElementById('flashPlayBtn').addEventListener('click', function () {
+    var idx = order[cardIndex];
+    speak(sentences[idx][0] + ' ' + sentences[idx][0]);
+  });
+
+  document.getElementById('flashStopBtn').addEventListener('click', stopSpeak);
+
+  /* ---------- Tabs ---------- */
+  var tabList = document.getElementById('tabList');
+  var tabCards = document.getElementById('tabCards');
+  var listView = document.getElementById('listView');
+  var cardsView = document.getElementById('cardsView');
+
+  tabList.addEventListener('click', function () {
+    tabList.classList.add('active');
+    tabCards.classList.remove('active');
+    listView.style.display = '';
+    cardsView.style.display = 'none';
+  });
+
+  tabCards.addEventListener('click', function () {
+    tabCards.classList.add('active');
+    tabList.classList.remove('active');
+    listView.style.display = 'none';
+    cardsView.style.display = 'flex';
+    renderCard();
+  });
+
+  /* ---------- Init ---------- */
+  window.addEventListener('load', function () {
+    renderList();
+    statusEl.textContent = 'فحص البيئة:';
+    log('window.Capacitor موجود؟ ' + (typeof window.Capacitor !== 'undefined'));
+    if (window.Capacitor) {
+      log('isNativePlatform؟ ' + (window.Capacitor.isNativePlatform ? window.Capacitor.isNativePlatform() : 'غير معروف'));
+      log('TtsPlugin موجود؟ ' + ttsAvailable());
+    } else {
+      log('⚠️ الصفحة مش شغالة جوه تطبيق Capacitor أصلاً.');
+    }
+  });
+</script>
+</body>
+</html>
