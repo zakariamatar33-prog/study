@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعلّم الياباني - جمل يومية</title>
+<style>
+  :root { --blue: #2563eb; --bg: #f4f4f8; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Tahoma, sans-serif;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px 14px 40px;
+  }
+  h2 { margin: 4px 0 2px; }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    padding: 20px;
+    max-width: 480px;
+    width: 100%;
+  }
+  .catRow { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .catRow button {
+    flex: 1;
+    min-width: 70px;
+    padding: 10px 6px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 13px;
+    background: #f3f4f6;
+    color: #374151;
+    cursor: pointer;
+  }
+  .catRow button.active { background: #1e3a8a; color: #fff; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .tabs button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    background: #eef2ff;
+    color: var(--blue);
+    cursor: pointer;
+  }
+  .tabs button.active { background: var(--blue); color: #fff; }
+  button { font-family: inherit; }
+  .mainBtn {
+    width: 100%;
+    padding: 15px;
+    font-size: 17px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    background: var(--blue);
+    color: #fff;
+    margin-top: 10px;
+  }
+  #stopBtn { background: #e5e7eb; color: #333; }
+  .toolsRow { display: flex; gap: 8px; margin-top: 4px; }
+  .toolsRow button {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #eef2ff;
+    color: var(--blue);
+    cursor: pointer;
+  }
+  #status {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #333;
+    background: #f9fafb;
+    border-radius: 8px;
+    padding: 10px;
+    white-space: pre-wrap;
+    line-height: 1.7;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  /* List view */
+  #sentencesList { margin-top: 12px; max-height: 340px; overflow-y: auto; border-radius: 8px; background: #f9fafb; padding: 6px 10px; }
+  .sentenceItem { display: flex; align-items: flex-start; gap: 10px; padding: 10px 2px; direction: ltr; text-align: left; }
+  .sentenceItem input { width: 18px; height: 18px; flex-shrink: 0; margin-top: 4px; }
+  .sentenceItem .txt { line-height: 1.5; }
+  .sentenceItem .jp { font-size: 16px; }
+  .sentenceItem .hira { font-size: 13px; color: #2563eb; }
+  .sentenceItem .ar { font-size: 13px; color: #6b7280; direction: rtl; text-align: right; margin-top: 2px; }
+  .num { color: var(--blue); font-weight: bold; }
+  .sep { border: none; border-top: 1px dashed #d1d5db; margin: 0; }
+
+  /* Flashcards view */
+  .flashWrap { display: none; flex-direction: column; align-items: center; margin-top: 10px; }
+  .flashcard {
+    width: 100%;
+    min-height: 220px;
+    background: linear-gradient(180deg,#eef2ff,#fff);
+    border: 2px solid #dbe3ff;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px 16px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .flashcard .jpBig { font-size: 26px; font-weight: bold; direction: ltr; }
+  .flashcard .hiraBig { font-size: 15px; color: var(--blue); margin-top: 8px; direction: ltr; }
+  .flashcard .arBig { font-size: 17px; color: #4b5563; margin-top: 16px; direction: rtl; display: none; }
+  .flashcard.revealed .arBig { display: block; }
+  .flashHint { font-size: 12px; color: #9ca3af; margin-top: 10px; }
+  .flashNav { display: flex; gap: 8px; width: 100%; margin-top: 12px; }
+  .flashNav button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: var(--blue);
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .flashCounter { margin-top: 8px; font-size: 13px; color: #6b7280; }
+  .flashPlayBtn { margin-top: 12px; background: var(--blue); color: #fff; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h2>تعلّم الياباني - جمل يومية</h2>
+
+    <div class="catRow" id="catRow"></div>
+
+    <div class="tabs">
+      <button id="tabList" class="active">📋 قائمة</button>
+      <button id="tabCards">🗂 بطاقات</button>
+    </div>
+
+    <!-- List view -->
+    <div id="listView">
+      <div class="toolsRow">
+        <button id="selectAllBtn">تحديد الكل</button>
+        <button id="clearAllBtn">إلغاء التحديد</button>
+      </div>
+      <div id="sentencesList"></div>
+      <button id="startBtn" class="mainBtn">▶ ابدأ القراءة</button>
+      <button id="stopBtn" class="mainBtn">⏹ إيقاف</button>
+    </div>
+
+    <!-- Flashcards view -->
+    <div id="cardsView" class="flashWrap">
+      <div class="flashcard" id="flashcard">
+        <div class="jpBig" id="flashJp"></div>
+        <div class="hiraBig" id="flashHira"></div>
+        <div class="arBig" id="flashAr"></div>
+        <div class="flashHint">اضغط على البطاقة لإظهار/إخفاء الترجمة</div>
+      </div>
+      <div class="flashCounter" id="flashCounter"></div>
+      <div class="flashNav">
+        <button id="prevBtn">◀ السابقة</button>
+        <button id="shuffleBtn">🔀 عشوائي</button>
+        <button id="nextBtn">التالية ▶</button>
+      </div>
+      <button id="flashPlayBtn" class="mainBtn flashPlayBtn">🔊 اقرأ هذه الجملة</button>
+      <button id="flashStopBtn" class="mainBtn" style="background:#e5e7eb;color:#333;">⏹ إيقاف</button>
+    </div>
+
+    <div id="status">جاري فحص البيئة...</div>
+  </div>
+
+<script>
+  var statusEl = document.getElementById('status');
+  var listEl = document.getElementById('sentencesList');
+
+  // كل جملة: [الياباني (كانجي/كانا), القراءة بالهيراغانا, الترجمة بالعربي]
+  var categories = {
+    daily: {
+      label: '📅 يومية',
+      items: [
+        ["おはようございます。", "おはようございます。", "صباح الخير"],
+        ["おやすみなさい。", "おやすみなさい。", "تصبح على خير"],
+        ["ただいま。", "ただいま。", "لقد عدت (عند دخول المنزل)"],
+        ["いってきます。", "いってきます。", "سأذهب وأعود (عند الخروج)"],
+        ["いってらっしゃい。", "いってらっしゃい。", "إلى اللقاء (رد على الخارج)"],
+        ["ありがとうございます。", "ありがとうございます。", "شكرًا جزيلاً"],
+        ["すみません。", "すみません。", "المعذرة / آسف"],
+        ["お願いします。", "おねがいします。", "من فضلك"],
+        ["わかりました。", "わかりました。", "فهمت"],
+        ["わかりません。", "わかりません。", "لا أفهم"],
+        ["今何時ですか。", "いまなんじですか。", "كم الساعة الآن؟"],
+        ["トイレはどこですか。", "といれはどこですか。", "أين الحمام؟"],
+        ["これはいくらですか。", "これはいくらですか。", "كم سعر هذا؟"],
+        ["水をください。", "みずをください。", "أعطني ماء من فضلك"],
+        ["お腹が空きました。", "おなかがすきました。", "أنا جائع"],
+        ["喉が渇きました。", "のどがかわきました。", "أنا عطشان"],
+        ["疲れました。", "つかれました。", "أنا متعب"],
+        ["眠いです。", "ねむいです。", "أنا نعسان"],
+        ["今日は暑いですね。", "きょうはあついですね。", "الجو حار اليوم"],
+        ["今日は寒いですね。", "きょうはさむいですね。", "الجو بارد اليوم"],
+        ["雨が降っています。", "あめがふっています。", "إنها تمطر"],
+        ["電車に乗ります。", "でんしゃにのります。", "سأركب القطار"],
+        ["バスを待っています。", "ばすをまっています。", "أنتظر الحافلة"],
+        ["駅まで歩きます。", "えきまであるきます。", "سأمشي إلى المحطة"],
+        ["会社に行きます。", "かいしゃにいきます。", "سأذهب إلى الشركة"],
+        ["学校に行きます。", "がっこうにいきます。", "سأذهب إلى المدرسة"],
+        ["家に帰ります。", "いえにかえります。", "سأعود إلى المنزل"],
+        ["買い物に行きます。", "かいものにいきます。", "سأذهب للتسوق"],
+        ["コンビニに寄ります。", "こんびにによります。", "سأمر على المتجر"],
+        ["スーパーで野菜を買います。", "すーぱーでやさいをかいます。", "سأشتري خضروات من السوبرماركت"],
+        ["ご飯を食べます。", "ごはんをたべます。", "سآكل الطعام"],
+        ["水を飲みます。", "みずをのみます。", "سأشرب الماء"],
+        ["歯を磨きます。", "はをみがきます。", "سأنظف أسناني"],
+        ["お風呂に入ります。", "おふろにはいります。", "سأستحم"],
+        ["窓を開けてください。", "まどをあけてください。", "افتح النافذة من فضلك"],
+        ["ドアを閉めてください。", "どあをしめてください。", "أغلق الباب من فضلك"],
+        ["ここに座ってください。", "ここにすわってください。", "اجلس هنا من فضلك"],
+        ["ちょっと待ってください。", "ちょっとまってください。", "انتظر قليلاً من فضلك"],
+        ["もう一度言ってください。", "もういちどいってください。", "قل ذلك مرة أخرى من فضلك"],
+        ["ゆっくり話してください。", "ゆっくりはなしてください。", "تكلم ببطء من فضلك"],
+        ["日本語が少しわかります。", "にほんごがすこしわかります。", "أفهم القليل من اليابانية"],
+        ["英語が話せますか。", "えいごがはなせますか。", "هل تتحدث الإنجليزية؟"],
+        ["名前は何ですか。", "なまえはなんですか。", "ما اسمك؟"],
+        ["お元気ですか。", "おげんきですか。", "كيف حالك؟"],
+        ["元気です。", "げんきです。", "أنا بخير"],
+        ["今日は何曜日ですか。", "きょうはなんようびですか。", "ما هو يوم اليوم؟"],
+        ["明日は休みです。", "あしたはやすみです。", "غدًا إجازة"],
+        ["週末は忙しいです。", "しゅうまつはいそがしいです。", "نهاية الأسبوع مشغولة"],
+        ["また明日会いましょう。", "またあしたあいましょう。", "لنلتقِ غدًا"],
+        ["お疲れ様でした。", "おつかれさまでした。", "شكرًا على مجهودك"]
+      ]
+    },
+    work: {
+      label: '💼 العمل',
+      items: [
+        ["会議は何時からですか。", "かいぎはなんじからですか。", "متى يبدأ الاجتماع؟"],
+        ["資料を送ってください。", "しりょうをおくってください。", "أرسل المستندات من فضلك"],
+        ["今日は残業します。", "きょうはざんぎょうします。", "سأعمل إضافيًا اليوم"],
+        ["休憩を取りましょう。", "きゅうけいをとりましょう。", "لنأخذ استراحة"],
+        ["これを確認してください。", "これをかくにんしてください。", "تأكد من هذا من فضلك"],
+        ["明日までに終わらせます。", "あしたまでにおわらせます。", "سأنهيه بحلول الغد"],
+        ["お先に失礼します。", "おさきにしつれいします。", "سأنصرف أولاً"],
+        ["コピーを取ってください。", "こぴーをとってください。", "خذ نسخة من فضلك"],
+        ["メールを確認しました。", "めーるをかくにんしました。", "تحققت من البريد الإلكتروني"],
+        ["上司に相談します。", "じょうしにそうだんします。", "سأستشير المدير"]
+      ]
+    },
+    home: {
+      label: '🏠 المنزل',
+      items: [
+        ["テレビを見ます。", "てれびをみます。", "سأشاهد التلفاز"],
+        ["掃除をします。", "そうじをします。", "سأنظف"],
+        ["洗濯をします。", "せんたくをします。", "سأغسل الملابس"],
+        ["ゴミを出します。", "ごみをだします。", "سأخرج القمامة"],
+        ["電気を消してください。", "でんきをけしてください。", "أطفئ الضوء من فضلك"],
+        ["エアコンをつけます。", "えあこんをつけます。", "سأشغّل المكيف"],
+        ["子供と遊びます。", "こどもとあそびます。", "سألعب مع الأطفال"],
+        ["夕飯を作ります。", "ゆうはんをつくります。", "سأحضّر العشاء"],
+        ["お皿を洗います。", "おさらをあらいます。", "سأغسل الأطباق"],
+        ["早く寝てください。", "はやくねてください。", "نم مبكرًا من فضلك"]
+      ]
+    },
+    personal: {
+      label: '⭐ جمل خاصة',
+      items: [
+        ["今日は息子を保育園に連れて行きます。", "きょうはむすこをほいくえんにつれていきます。", "اليوم سآخذ ابني للحضانة"],
+        ["今日は雨が止んだ後、息子と出かけます。", "きょうはあめがやんだあと、むすことでかけます。", "اليوم سأخرج مع ابني بعد توقف المطر"],
+        ["今日は寒いので、外に出ませんでした。", "きょうはさむいので、そとにでませんでした。", "اليوم الجو بارد، لم أخرج"],
+        ["息子と一緒にパンと牛乳を買いに行きます。", "むすこといっしょにぱんとぎゅうにゅうをかいにいきます。", "سأذهب مع ابني لشراء الخبز والحليب"],
+        ["何時に帰ってきても、駅で待っています。", "なんじにかえってきても、えきでまっています。", "سأنتظرك في المحطة أي ساعة سترجع"]
+      ]
+    }
+  };
+
+  var currentCat = 'daily';
+  var order = [];
+  var cardIndex = 0;
+
+  function log(msg) {
+    statusEl.textContent += '\n' + msg;
+    statusEl.scrollTop = statusEl.scrollHeight;
+    console.log(msg);
+  }
+
+  function ttsAvailable() {
+    return !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TtsPlugin);
+  }
+
+  function speak(text) {
+    if (!ttsAvailable()) {
+      log('❌ TtsPlugin مش متاح. تأكد إن الـ APK اتبنى بآخر نسخة من الـ workflow.');
+      return;
+    }
+    window.Capacitor.Plugins.TtsPlugin.speak({ text: text, lang: 'ja' })
+      .then(function () { log('✅ الأمر اتبعت بنجاح.'); })
+      .catch(function (err) { log('❌ خطأ: ' + (err && err.message ? err.message : JSON.stringify(err))); });
+  }
+
+  function stopSpeak() {
+    if (!ttsAvailable()) return;
+    window.Capacitor.Plugins.TtsPlugin.stop()
+      .then(function () { log('⏹ تم الإيقاف.'); })
+      .catch(function (err) { log('❌ خطأ إيقاف: ' + err.message); });
+  }
+
+  /* ---------- Category tabs ---------- */
+  var catRow = document.getElementById('catRow');
+  Object.keys(categories).forEach(function (key) {
+    var btn = document.createElement('button');
+    btn.textContent = categories[key].label;
+    btn.dataset.key = key;
+    if (key === currentCat) btn.classList.add('active');
+    btn.addEventListener('click', function () {
+      currentCat = key;
+      Array.prototype.forEach.call(catRow.children, function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      renderList();
+      order = categories[currentCat].items.map(function (_, i) { return i; });
+      cardIndex = 0;
+      if (cardsView.style.display !== 'none') renderCard();
+    });
+    catRow.appendChild(btn);
+  });
+
+  /* ---------- List view ---------- */
+  function renderList() {
+    listEl.innerHTML = '';
+    var items = categories[currentCat].items;
+    items.forEach(function (s, i) {
+      var row = document.createElement('div');
+      row.className = 'sentenceItem';
+
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.id = 'chk-' + i;
+      checkbox.checked = true;
+
+      var txt = document.createElement('div');
+      txt.className = 'txt';
+      txt.innerHTML =
+        '<div class="jp"><span class="num">' + (i + 1) + '.</span> ' + s[0] + '</div>' +
+        '<div class="hira">' + s[1] + '</div>' +
+        '<div class="ar">' + s[2] + '</div>';
+
+      row.appendChild(checkbox);
+      row.appendChild(txt);
+      listEl.appendChild(row);
+
+      if (i < items.length - 1) {
+        var hr = document.createElement('hr');
+        hr.className = 'sep';
+        listEl.appendChild(hr);
+      }
+    });
+  }
+
+  function getSelectedSentences() {
+    var selected = [];
+    categories[currentCat].items.forEach(function (s, i) {
+      var chk = document.getElementById('chk-' + i);
+      if (chk && chk.checked) selected.push(s[0]);
+    });
+    return selected;
+  }
+
+  function buildParagraph(selected) {
+    var parts = [];
+    selected.forEach(function (s) { parts.push(s); parts.push(s); });
+    return parts.join(' ');
+  }
+
+  document.getElementById('selectAllBtn').addEventListener('click', function () {
+    categories[currentCat].items.forEach(function (s, i) {
+      var chk = document.getElementById('chk-' + i);
+      if (chk) chk.checked = true;
+    });
+  });
+
+  document.getElementById('clearAllBtn').addEventListener('click', function () {
+    categories[currentCat].items.forEach(function (s, i) {
+      var chk = document.getElementById('chk-' + i);
+      if (chk) chk.checked = false;
+    });
+  });
+
+  document.getElementById('startBtn').addEventListener('click', function () {
+    var selected = getSelectedSentences();
+    if (selected.length === 0) {
+      log('⚠️ محتاج تختار جملة واحدة على الأقل.');
+      return;
+    }
+    log('▶ بعتنا فقرة فيها ' + selected.length + ' جملة...');
+    speak(buildParagraph(selected));
+  });
+
+  document.getElementById('stopBtn').addEventListener('click', stopSpeak);
+
+  /* ---------- Flashcards view ---------- */
+  var flashcardEl = document.getElementById('flashcard');
+  var flashJpEl = document.getElementById('flashJp');
+  var flashHiraEl = document.getElementById('flashHira');
+  var flashArEl = document.getElementById('flashAr');
+  var flashCounterEl = document.getElementById('flashCounter');
+
+  function renderCard() {
+    var items = categories[currentCat].items;
+    var idx = order[cardIndex];
+    flashJpEl.textContent = items[idx][0];
+    flashHiraEl.textContent = items[idx][1];
+    flashArEl.textContent = items[idx][2];
+    flashcardEl.classList.remove('revealed');
+    flashCounterEl.textContent = (cardIndex + 1) + ' / ' + order.length;
+  }
+
+  flashcardEl.addEventListener('click', function () { flashcardEl.classList.toggle('revealed'); });
+
+  document.getElementById('nextBtn').addEventListener('click', function () {
+    cardIndex = (cardIndex + 1) % order.length;
+    renderCard();
+  });
+  document.getElementById('prevBtn').addEventListener('click', function () {
+    cardIndex = (cardIndex - 1 + order.length) % order.length;
+    renderCard();
+  });
+  document.getElementById('shuffleBtn').addEventListener('click', function () {
+    for (var i = order.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+    }
+    cardIndex = 0;
+    renderCard();
+  });
+  document.getElementById('flashPlayBtn').addEventListener('click', function () {
+    var items = categories[currentCat].items;
+    var idx = order[cardIndex];
+    speak(items[idx][0] + ' ' + items[idx][0]);
+  });
+  document.getElementById('flashStopBtn').addEventListener('click', stopSpeak);
+
+  /* ---------- Tabs (list/cards) ---------- */
+  var tabList = document.getElementById('tabList');
+  var tabCards = document.getElementById('tabCards');
+  var listView = document.getElementById('listView');
+  var cardsView = document.getElementById('cardsView');
+
+  tabList.addEventListener('click', function () {
+    tabList.classList.add('active'); tabCards.classList.remove('active');
+    listView.style.display = ''; cardsView.style.display = 'none';
+  });
+  tabCards.addEventListener('click', function () {
+    tabCards.classList.add('active'); tabList.classList.remove('active');
+    listView.style.display = 'none'; cardsView.style.display = 'flex';
+    renderCard();
+  });
+
+  /* ---------- Init ---------- */
+  window.addEventListener('load', function () {
+    order = categories[currentCat].items.map(function (_, i) { return i; });
+    renderList();
+    statusEl.textContent = 'فحص البيئة:';
+    log('window.Capacitor موجود؟ ' + (typeof window.Capacitor !== 'undefined'));
+    if (window.Capacitor) {
+      log('isNativePlatform؟ ' + (window.Capacitor.isNativePlatform ? window.Capacitor.isNativePlatform() : 'غير معروف'));
+      log('TtsPlugin موجود؟ ' + ttsAvailable());
+    } else {
+      log('⚠️ الصفحة مش شغالة جوه تطبيق Capacitor أصلاً.');
+    }
+  });
+</script>
+</body>
+</html>
