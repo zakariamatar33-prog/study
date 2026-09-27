@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ساكورا نيهونغو - تعلّم الياباني</title>
+<style>
+  :root {
+    --red: #d0342f;
+    --red-dark: #b32a26;
+    --red-soft: #fdeceb;
+    --orange: #f0a83a;
+    --orange-dark: #d4860f;
+    --orange-soft: #fdf3e2;
+    --bg: #f5f4f7;
+    --card: #ffffff;
+    --ink: #1c1c1e;
+    --sub: #7b7b85;
+    --line: #ece9f1;
+    --purple-soft: #f1edfb;
+    --green-soft: #e8f6ee;
+    --blue-soft: #eaf1fd;
+    --yellow-soft: #fdf6e3;
+    --navy-sheet: #232c3d;
+    --navy-sheet-2: #1b222f;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", Tahoma, sans-serif;
+    background: var(--bg);
+    margin: 0;
+    color: var(--ink);
+    padding-bottom: 78px;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 16px 16px 20px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ===== header (shared) ===== */
+  .appHeader { display: flex; align-items: center; justify-content: space-between; padding: 4px 2px 18px; }
+  .headerIcons { display: flex; gap: 14px; align-items: center; }
+  .headerIcons button { border: none; background: none; font-size: 19px; color: var(--ink); cursor: pointer; padding: 4px; }
+  .headerTitleBox { text-align: center; flex: 1; }
+  .appName { font-size: 19px; font-weight: 800; color: var(--ink); }
+  .appSub { font-size: 12px; color: var(--sub); margin-top: 2px; }
+  .logoBtn {
+    width: 46px; height: 46px; border-radius: 14px; background: var(--red); border: none; color: #fff;
+    font-size: 19px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 6px 14px rgba(208,52,47,0.35);
+  }
+
+  /* ===== HOME ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--red) 0%, #a92a26 100%);
+    border-radius: 22px; padding: 22px 20px 24px; color: #fff; position: relative; overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.07) 2px, transparent 2px);
+    background-size: 18px 18px; opacity: 0.5;
+  }
+  .heroTag { display: inline-block; background: rgba(255,255,255,0.18); border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 14px; margin-bottom: 14px; position: relative; }
+  .heroTitle { font-size: 22px; font-weight: 800; line-height: 1.5; position: relative; margin-bottom: 8px; }
+  .heroDesc { font-size: 13px; line-height: 1.8; opacity: 0.92; position: relative; margin-bottom: 18px; }
+  .heroBtns { display: flex; gap: 10px; position: relative; }
+  .heroBtnGhost, .heroBtnSolid {
+    flex: 1; border: none; border-radius: 999px; padding: 13px 10px; font-weight: 700; font-size: 13.5px;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .heroBtnGhost { background: rgba(0,0,0,0.18); color: #fff; }
+  .heroBtnSolid { background: #fff; color: var(--red); }
+
+  .progressCard { background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 22px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); }
+  .progressTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .progressPct { font-weight: 800; font-size: 14px; color: var(--red); }
+  .progressLbl { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .progressTrackHome { height: 6px; background: #efeaf6; border-radius: 4px; overflow: hidden; }
+
+  .sectionLabel { font-size: 16px; font-weight: 800; margin: 4px 2px 12px; display: flex; align-items: center; gap: 6px; }
+
+  .gridFour { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+  .gridCard { background: var(--card); border-radius: 16px; padding: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(28,28,30,0.04); border: none; text-align: right; font-family: inherit; }
+  .gridCard .gi { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 20px; }
+  .gridCard .gt { font-size: 14px; font-weight: 800; color: var(--ink); }
+  .gridCard .gs { font-size: 11.5px; color: var(--sub); margin-top: 3px; }
+  .gc1 .gi { background: var(--green-soft); } .gc2 .gi { background: var(--blue-soft); }
+  .gc3 .gi { background: var(--yellow-soft); } .gc4 .gi { background: var(--purple-soft); }
+
+  .rowHead { display: flex; align-items: center; justify-content: space-between; margin: 4px 2px 12px; }
+  .seeAll { color: var(--red); font-size: 13px; font-weight: 700; text-decoration: none; background: none; border: none; cursor: pointer; font-family: inherit; }
+
+  /* ===== lesson card (shared: Home preview + Lessons list) ===== */
+  .lessonCard { background: var(--card); border-radius: 20px; padding: 18px; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); }
+  .lessonTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .lessonPlayBtn { background: var(--red); color: #fff; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .lessonBadge { background: var(--red-soft); color: var(--red-dark); font-size: 11px; font-weight: 800; border-radius: 8px; padding: 3px 7px; margin-inline-start: 8px; }
+  .lessonInfo { text-align: right; flex: 1; }
+  .lessonTitle { font-size: 16px; font-weight: 800; line-height: 1.4; }
+  .lessonCount { font-size: 12.5px; color: var(--sub); margin-top: 4px; }
+  .lessonIcon { width: 46px; height: 46px; border-radius: 14px; background: var(--red-soft); display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; }
+  .lessonSubLabel { font-size: 12px; color: var(--sub); margin-bottom: 8px; }
+  .lessonSubRow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .subBtn { border: none; border-radius: 14px; padding: 10px 4px; text-align: center; cursor: pointer; font-family: inherit; }
+  .subBtn .si { font-size: 17px; margin-bottom: 6px; }
+  .subBtn .sl { font-size: 11.5px; font-weight: 700; color: var(--ink); }
+  .subBtn .sc { font-size: 10.5px; color: var(--sub); margin-top: 1px; }
+  .sub-listen { background: var(--yellow-soft); } .sub-kanji { background: var(--purple-soft); }
+  .sub-sentence { background: var(--green-soft); } .sub-words { background: var(--blue-soft); }
+
+  /* ===== LESSONS screen ===== */
+  .lessonsHead { margin-bottom: 6px; }
+  .lessonsMainBtn { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 999px; padding: 15px; font-weight: 700; font-size: 14.5px; margin: 14px 0 14px; cursor: pointer; font-family: inherit; }
+  .levelTabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+  .levelTabs::-webkit-scrollbar { display: none; }
+  .levelTabs button { flex-shrink: 0; border: none; border-radius: 999px; padding: 11px 18px; font-size: 13px; font-weight: 700; background: var(--card); color: var(--ink); cursor: pointer; font-family: inherit; }
+  .levelTabs button.active { background: var(--red); color: #fff; }
+
+  /* ===== FAVORITES screen ===== */
+  .favBanner { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 999px; padding: 16px; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-family: inherit; margin-bottom: 8px; }
+  .favEmpty { text-align: center; padding: 70px 20px; color: var(--sub); font-size: 14px; }
+  .favEmpty .fes { font-size: 46px; color: #dcd9e6; display: block; margin-bottom: 16px; }
+  .favListWrap { display: none; }
+  .favListWrap.show { display: block; }
+  .favEmpty.hide { display: none; }
+
+  /* ===== bottom nav ===== */
+  .bottomNav { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 10px 6px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 40; }
+  .navItem { border: none; background: none; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: inherit; font-size: 11px; font-weight: 700; color: var(--sub); cursor: pointer; padding: 4px 10px; }
+  .navItem .ni { font-size: 19px; }
+  .navItem.active { color: var(--red); }
+
+  /* ===== PLAYER overlay ===== */
+  #playerOverlay {
+    position: fixed; inset: 0; background: var(--bg); z-index: 100; overflow-y: auto;
+    display: none; padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+  #playerOverlay.show { display: block; }
+  .playerTopBar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .playerTopBar .miniTitle { font-size: 12.5px; color: var(--sub); font-weight: 700; }
+  #playerCloseBtn { border: none; background: none; font-size: 20px; color: var(--ink); cursor: pointer; }
+  .lessonTagLine { text-align: center; font-size: 13.5px; font-weight: 800; color: var(--ink); margin-bottom: 16px; }
+  .playerListToggle { border: none; background: var(--red-soft); color: var(--red-dark); font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 6px 12px; cursor: pointer; font-family: inherit; }
+
+  .flashcard {
+    background: var(--navy-sheet-2); border-radius: 22px; min-height: 300px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 34px 20px 26px; position: relative; cursor: pointer; user-select: none;
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .cardProgTrack { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.12); }
+  .cardProgTrack .progressFill { height: 100%; background: var(--red); }
+  .jpBig { font-size: 30px; font-weight: 800; direction: ltr; line-height: 1.35; color: #fff; }
+  .hiraBig { font-size: 15px; color: #e58e8a; margin-top: 14px; direction: ltr; font-weight: 700; }
+  .arBig { font-size: 15px; color: #fff; direction: rtl; display: none; font-weight: 700; margin-top: 20px; background: rgba(255,255,255,0.08); border-radius: 14px; padding: 13px 16px; width: 100%; }
+  .flashcard.revealed .arBig { display: block; }
+  .flashcard.revealed .flashHint { display: none; }
+  .flashHint { font-size: 12.5px; color: #8a8fa3; margin-top: 22px; }
+  #flipBtn { display: none; }
+
+  .transportPanel { background: var(--navy-sheet); border-radius: 22px; padding: 16px 18px 18px; }
+  .transRow { display: flex; align-items: center; justify-content: space-between; padding: 8px 2px; font-size: 12.5px; color: #b9bdca; font-weight: 700; }
+  .transRow .decoSlider { width: 90px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 3px; position: relative; }
+  .transRow .decoSlider::after { content:''; position:absolute; right: 30%; top:50%; width:14px; height:14px; border-radius:50%; background: var(--red); transform: translateY(-50%); }
+  .speedPills { display: flex; gap: 8px; }
+  .speedPills button { border: none; border-radius: 999px; padding: 6px 14px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; background: rgba(255,255,255,0.08); color: #fff; }
+  .speedPills button.active { background: var(--red); }
+  .controlsRow { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 0 4px; }
+  .navCircle { width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255,255,255,0.08); color: #fff; font-size: 17px; cursor: pointer; }
+  .decoIcon { border: none; background: none; color: #b9bdca; font-size: 19px; cursor: default; }
+  .speakerBtn { border: none; background: rgba(255,255,255,0.08); color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+  .favBtn { border: none; background: none; font-size: 21px; cursor: pointer; color: rgba(255,255,255,0.55); }
+  .favBtn.faved { color: var(--orange); }
+  #autoPlayBtn {
+    width: 58px; height: 58px; border-radius: 50%; border: none; background: var(--red); cursor: pointer;
+    position: relative; color: transparent; font-size: 0; flex-shrink: 0;
+  }
+  #autoPlayBtn::before { content: '▶'; color: #fff; font-size: 21px; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #autoPlayBtn.playing::before { content: '⏸'; }
+  .counterLine { text-align: center; font-size: 12.5px; color: #b9bdca; margin-top: 12px; }
+
+  /* ---- list mode (secondary, inside player) ---- */
+  #listSection { display: none; }
+  .panel { background: var(--card); border-radius: 18px; box-shadow: 0 4px 14px rgba(28,28,30,0.05); padding: 16px; margin-bottom: 14px; }
+  .panelTitle { font-size: 13.5px; font-weight: 800; color: var(--ink); margin-bottom: 10px; }
+  .bulkCatList { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .bulkCatList label { display: flex; align-items: center; gap: 5px; background: var(--red-soft); color: var(--red-dark); border-radius: 20px; padding: 7px 13px; font-size: 12.5px; font-weight: 600; }
+  .rowBtns { display: flex; gap: 8px; }
+  .btn { border: none; border-radius: 999px; padding: 12px; font-weight: 700; font-size: 13.5px; cursor: pointer; flex: 1; font-family: inherit; }
+  .btn.primary { background: var(--red); color: #fff; }
+  .btn.ghost { background: var(--red-soft); color: var(--red-dark); }
+  .btn.muted { background: #f1eff5; color: var(--ink); }
+  #sentencesList { max-height: 360px; overflow-y: auto; }
+  .sentenceItem { display: flex; align-items: flex-start; gap: 8px; padding: 13px 4px; direction: ltr; text-align: left; border-bottom: 1px solid var(--line); }
+  .sentenceItem:last-child { border-bottom: none; }
+  .sentenceItem input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 4px; accent-color: var(--red); }
+  .sentenceItem .txt { line-height: 1.55; flex: 1; }
+  .sentenceItem .jp { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .sentenceItem .hira { font-size: 12.5px; color: var(--sub); }
+  .sentenceItem .ar { font-size: 13px; color: var(--sub); direction: rtl; text-align: right; margin-top: 3px; }
+  .num { color: var(--red); font-weight: 800; }
+  .starBtn { border: none; background: none; font-size: 20px; cursor: pointer; flex-shrink: 0; margin-top: 2px; color: #d8dce1; }
+  .starBtn.faved { color: var(--orange); }
+  .toolsRow { display: flex; gap: 8px; margin-bottom: 10px; }
+  .emptyMsg { padding: 30px 10px; text-align: center; color: var(--sub); font-size: 14px; }
+
+  /* hidden functional control surface (real category tabs, driven programmatically) */
+  #catRow { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+  .catHeaderRow { display: none; }
+
+  #status { font-size: 11.5px; color: var(--sub); background: var(--card); border-radius: 12px; padding: 10px; margin-top: 12px; white-space: pre-wrap; line-height: 1.7; max-height: 90px; overflow-y: auto; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="appHeader">
+    <div class="headerIcons">
+      <button id="searchIconBtn" title="بحث">🔍</button>
+      <button id="themeIconBtn" title="الوضع الليلي">🌙</button>
+    </div>
+    <div class="headerTitleBox">
+      <div class="appName">ساكورا نيهونغو</div>
+      <div class="appSub">منهج التحدث والقراءة التلقائية</div>
+    </div>
+    <button class="logoBtn" id="homeLogoBtn" title="الرئيسية">📅</button>
+  </div>
+
+  <!-- ============ HOME SCREEN ============ -->
+  <div class="screen active" id="screenHome">
+    <div class="hero">
+      <span class="heroTag">العرض الصوتي التفاعلي</span>
+      <div class="heroTitle">شغّل القراءة التلقائية وانطلق!</div>
+      <div class="heroDesc">استمع للكلمات والجمل والكانجي مترجمة ومقروءة تلقائياً بدون الحاجة للضغط المتكرر.</div>
+      <div class="heroBtns">
+        <button class="heroBtnGhost" id="browseLessonsBtn">استعراض الدروس</button>
+        <button class="heroBtnSolid" id="heroPlayAllBtn">▶ تشغيل الكل تلقائياً</button>
+      </div>
+    </div>
+
+    <div class="progressCard">
+      <div class="progressTop">
+        <span class="progressPct" id="homePct">0%</span>
+        <span class="progressLbl">مستوى التقدم في المنهج</span>
+      </div>
+      <div class="progressTrackHome"><div id="homeProgressFill" style="height:100%;background:var(--red);border-radius:4px;width:0%"></div></div>
+    </div>
+
+    <div class="sectionLabel">📚 الأقسام التعليمية الأربعة</div>
+    <div class="gridFour" id="shortcutGrid">
+      <button class="gridCard gc1" data-cat="daily" data-mode="card"><div class="gi">📝</div><div class="gt">قسم الجمل</div><div class="gs">تراكيب ومحادثات</div></button>
+      <button class="gridCard gc2" data-cat="work" data-mode="list"><div class="gi">💬</div><div class="gt">قسم الكلمات</div><div class="gs">تشغيل كافة الكلمات</div></button>
+      <button class="gridCard gc3" data-cat="home" data-mode="card-auto"><div class="gi">🎧</div><div class="gt">المحادثة والاستماع</div><div class="gs">حوارات يومية</div></button>
+      <button class="gridCard gc4" data-cat="personal" data-mode="list"><div class="gi">⛩️</div><div class="gt">الكانجي والقواعد</div><div class="gs">الرموز والقواعد</div></button>
+    </div>
+
+    <div class="rowHead">
+      <button class="seeAll" id="seeAllLessonsBtn">عرض كل الدروس ←</button>
+      <div class="sectionLabel" style="margin:0;">الدروس الرئيسية</div>
+    </div>
+    <div id="homeLessonsPreview"></div>
+  </div>
+
+  <!-- ============ LESSONS SCREEN ============ -->
+  <div class="screen" id="screenLessons">
+    <div class="lessonsHead">
+      <div class="sectionLabel">قائمة دروس المنهج الكامل</div>
+      <div class="appSub" style="margin-bottom:2px;">كل درس يحتوي على 4 أقسام في سطر واحد</div>
+    </div>
+    <button class="lessonsMainBtn" id="lessonsPlayAllBtn">▶ تشغيل الكل</button>
+    <div class="levelTabs">
+      <button class="active">جميع الدروس 🌸</button>
+      <button>مستوى المبتدئين N5</button>
+      <button>مستوى المتوسط</button>
+    </div>
+    <div id="lessonsFullList"></div>
+  </div>
+
+  <!-- ============ FAVORITES SCREEN ============ -->
+  <div class="screen" id="screenFavorites">
+    <div class="sectionLabel">⭐ المفضلة</div>
+    <button class="favBanner" id="favPlayAllBtn">▶ تشغيل المفضلة تلقائياً</button>
+    <div class="favEmpty" id="favEmptyState">
+      <span class="fes">☆</span>
+      لا توجد كلمات أو جمل محفوظة في المفضلة بعد.
+    </div>
+    <div class="favListWrap" id="favListPreview"></div>
+  </div>
+
+</div>
+
+<div class="bottomNav">
+  <button class="navItem" id="navFav"><span class="ni">⭐</span>المفضلة</button>
+  <button class="navItem" id="navQuiz"><span class="ni">🎓</span>الاختبار</button>
+  <button class="navItem" id="navLessons"><span class="ni">📖</span>الدروس</button>
+  <button class="navItem active" id="navHome"><span class="ni">🏠</span>الرئيسية</button>
+</div>
+
+<!-- ============ PLAYER (full-screen, dark card + transport panel) ============ -->
+<div id="playerOverlay">
+  <div class="playerTopBar">
+    <button class="favBtn" id="cardFavBtn">☆</button>
+    <span class="miniTitle">مشغّل القراءة والعرض التلقائي</span>
+    <button id="playerCloseBtn">⌄</button>
+  </div>
+  <div class="lessonTagLine">الدرس: <span id="catNameLabel">-</span> • كافة الأقسام</div>
+  <div style="text-align:center;margin-bottom:14px;">
+    <button class="playerListToggle" id="modeToggle">📋 عرض القائمة</button>
+  </div>
+
+  <div id="cardSection">
+    <div class="flashcard" id="flashcard">
+      <div class="cardProgTrack"><div class="progressFill" id="progressFill" style="width:0%"></div></div>
+      <div class="jpBig" id="flashJp"></div>
+      <div class="hiraBig" id="flashHira"></div>
+      <div class="arBig" id="flashAr"></div>
+      <div class="flashHint" id="flashHint">☞ اضغط على البطاقة لرؤية المعنى</div>
+    </div>
+
+    <div class="transportPanel">
+      <div class="transRow"><span>فاصل الانتقال: 2.5 ثانية</span><span class="decoSlider"></span></div>
+      <div class="transRow">
+        <span>سرعة النطق الصوتي:</span>
+        <span class="speedPills"><button class="active" type="button">عادي</button><button type="button">بطيء</button></span>
+      </div>
+      <div class="controlsRow">
+        <button class="navCircle" id="prevBtn">⏮</button>
+        <button class="decoIcon" type="button">🔁</button>
+        <button id="autoPlayBtn">▶ تشغيل تلقائي مع النطق</button>
+        <button class="speakerBtn" id="cardSpeakBtn">🔊</button>
+        <button class="navCircle" id="nextBtn">⏭</button>
+      </div>
+      <div class="counterLine" id="progressCount">0 / 0</div>
+    </div>
+    <button id="flipBtn">اقلب البطاقة</button>
+  </div>
+
+  <!-- List / bulk section (secondary) -->
+  <div id="listSection">
+    <div class="panel">
+      <div class="panelTitle">📢 قراءة جماعية لعدة أقسام</div>
+      <div class="bulkCatList" id="bulkCatList"></div>
+      <div class="rowBtns">
+        <button id="readSelectedCatsBtn" class="btn primary">اقرأ الأقسام المحددة</button>
+        <button id="readAllBtn" class="btn muted">اقرأ الكل</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="toolsRow">
+        <button id="selectAllBtn" class="btn ghost">تحديد الكل</button>
+        <button id="clearAllBtn" class="btn ghost">إلغاء التحديد</button>
+      </div>
+      <div id="sentencesList"></div>
+      <div class="rowBtns" style="margin-top:12px;">
+        <button id="startBtn" class="btn primary">▶ ابدأ القراءة</button>
+        <button id="stopBtn" class="btn muted">⏹ إيقاف</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="status">جاري فحص البيئة...</div>
+</div>
+
+<!-- hidden functional control surface required by the original logic (category tabs) -->
+<div class="pillTabs" id="catRow"></div>
+<div class="catHeaderRow"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyA-OUfKoXFa-VceEdSatx_c38uwlhh4Qf8",
+    authDomain: "learn-99f04.firebaseapp.com",
+    projectId: "learn-99f04",
+    storageBucket: "learn-99f04.firebasestorage.app",
+    messagingSenderId: "1042095955824",
+    appId: "1:1042095955824:web:689166a89249d1822579b5"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var __db = firebase.firestore();
+  window.__fetchCloudLessons = function () {
+    return __db.collection("lessons").get().then(function (snap) {
+      var out = [];
+      snap.forEach(function (docSnap) {
+        var d = docSnap.data();
+        out.push({ id: docSnap.id, label: d.label || docSnap.id, order: d.order || 0, items: Array.isArray(d.items) ? d.items : [] });
+      });
+      out.sort(function (a, b) { return a.order - b.order; });
+      return out;
+    }).catch(function (e) { console.log("cloud lessons fetch failed", e); return []; });
+  };
+</script>
+
+<script>
+  var statusEl = document.getElementById('status');
+  var listEl = document.getElementById('sentencesList');
+
+  var categories = {
+    daily: { label: '📅 يومية', items: [
+        ["おはようございます。", "おはようございます。", "صباح الخير"],
+        ["おやすみなさい。", "おやすみなさい。", "تصبح على خير"],
+        ["ただいま。", "ただいま。", "لقد عدت (عند دخول المنزل)"],
+        ["いってきます。", "いってきます。", "سأذهب وأعود (عند الخروج)"],
+        ["いってらっしゃい。", "いってらっしゃい。", "إلى اللقاء (رد على الخارج)"],
+        ["ありがとうございます。", "ありがとうございます。", "شكرًا جزيلاً"],
+        ["すみません。", "すみません。", "المعذرة / آسف"],
+        ["お願いします。", "おねがいします。", "من فضلك"],
+        ["わかりました。", "わかりました。", "فهمت"],
+        ["わかりません。", "わかりません。", "لا أفهم"],
+        ["今何時ですか。", "いまなんじですか。", "كم الساعة الآن؟"],
+        ["トイレはどこですか。", "といれはどこですか。", "أين الحمام؟"],
+        ["これはいくらですか。", "これはいくらですか。", "كم سعر هذا؟"],
+        ["水をください。", "みずをください。", "أعطني ماء من فضلك"],
+        ["お腹が空きました。", "おなかがすきました。", "أنا جائع"],
+        ["喉が渇きました。", "のどがかわきました。", "أنا عطشان"],
+        ["疲れました。", "つかれました。", "أنا متعب"],
+        ["眠いです。", "ねむいです。", "أنا نعسان"],
+        ["今日は暑いですね。", "きょうはあついですね。", "الجو حار اليوم"],
+        ["今日は寒いですね。", "きょうはさむいですね。", "الجو بارد اليوم"],
+        ["雨が降っています。", "あめがふっています。", "إنها تمطر"],
+        ["電車に乗ります。", "でんしゃにのります。", "سأركب القطار"],
+        ["バスを待っています。", "ばすをまっています。", "أنتظر الحافلة"],
+        ["駅まで歩きます。", "えきまであるきます。", "سأمشي إلى المحطة"],
+        ["会社に行きます。", "かいしゃにいきます。", "سأذهب إلى الشركة"],
+        ["学校に行きます。", "がっこうにいきます。", "سأذهب إلى المدرسة"],
+        ["家に帰ります。", "いえにかえります。", "سأعود إلى المنزل"],
+        ["買い物に行きます。", "かいものにいきます。", "سأذهب للتسوق"],
+        ["コンビニに寄ります。", "こんびにによります。", "سأمر على المتجر"],
+        ["スーパーで野菜を買います。", "すーぱーでやさいをかいます。", "سأشتري خضروات من السوبرماركت"],
+        ["ご飯を食べます。", "ごはんをたべます。", "سآكل الطعام"],
+        ["水を飲みます。", "みずをのみます。", "سأشرب الماء"],
+        ["歯を磨きます。", "はをみがきます。", "سأنظف أسناني"],
+        ["お風呂に入ります。", "おふろにはいります。", "سأستحم"],
+        ["窓を開けてください。", "まどをあけてください。", "افتح النافذة من فضلك"],
+        ["ドアを閉めてください。", "どあをしめてください。", "أغلق الباب من فضلك"],
+        ["ここに座ってください。", "ここにすわってください。", "اجلس هنا من فضلك"],
+        ["ちょっと待ってください。", "ちょっとまってください。", "انتظر قليلاً من فضلك"],
+        ["もう一度言ってください。", "もういちどいってください。", "قل ذلك مرة أخرى من فضلك"],
+        ["ゆっくり話してください。", "ゆっくりはなしてください。", "تكلم ببطء من فضلك"],
+        ["日本語が少しわかります。", "にほんごがすこしわかります。", "أفهم القليل من اليابانية"],
+        ["英語が話せますか。", "えいごがはなせますか。", "هل تتحدث الإنجليزية؟"],
+        ["名前は何ですか。", "なまえはなんですか。", "ما اسمك؟"],
+        ["お元気ですか。", "おげんきですか。", "كيف حالك؟"],
+        ["元気です。", "げんきです。", "أنا بخير"],
+        ["今日は何曜日ですか。", "きょうはなんようびですか。", "ما هو يوم اليوم؟"],
+        ["明日は休みです。", "あしたはやすみです。", "غدًا إجازة"],
+        ["週末は忙しいです。", "しゅうまつはいそがしいです。", "نهاية الأسبوع مشغولة"],
+        ["また明日会いましょう。", "またあしたあいましょう。", "لنلتقِ غدًا"],
+        ["お疲れ様でした。", "おつかれさまでした。", "شكرًا على مجهودك"]
+    ]},
+    work: { label: '💼 العمل', items: [
+        ["会議は何時からですか。", "かいぎはなんじからですか。", "متى يبدأ الاجتماع؟"],
+        ["資料を送ってください。", "しりょうをおくってください。", "أرسل المستندات من فضلك"],
+        ["今日は残業します。", "きょうはざんぎょうします。", "سأعمل إضافيًا اليوم"],
+        ["休憩を取りましょう。", "きゅうけいをとりましょう。", "لنأخذ استراحة"],
+        ["これを確認してください。", "これをかくにんしてください。", "تأكد من هذا من فضلك"],
+        ["明日までに終わらせます。", "あしたまでにおわらせます。", "سأنهيه بحلول الغد"],
+        ["お先に失礼します。", "おさきにしつれいします。", "سأنصرف أولاً"],
+        ["コピーを取ってください。", "こぴーをとってください。", "خذ نسخة من فضلك"],
+        ["メールを確認しました。", "めーるをかくにんしました。", "تحققت من البريد الإلكتروني"],
+        ["上司に相談します。", "じょうしにそうだんします。", "سأستشير المدير"]
+    ]},
+    home: { label: '🏠 المنزل', items: [
+        ["テレビを見ます。", "てれびをみます。", "سأشاهد التلفاز"],
+        ["掃除をします。", "そうじをします。", "سأنظف"],
+        ["洗濯をします。", "せんたくをします。", "سأغسل الملابس"],
+        ["ゴミを出します。", "ごみをだします。", "سأخرج القمامة"],
+        ["電気を消してください。", "でんきをけしてください。", "أطفئ الضوء من فضلك"],
+        ["エアコンをつけます。", "えあこんをつけます。", "سأشغّل المكيف"],
+        ["子供と遊びます。", "こどもとあそびます。", "سألعب مع الأطفال"],
+        ["夕飯を作ります。", "ゆうはんをつくります。", "سأحضّر العشاء"],
+        ["お皿を洗います。", "おさらをあらいます。", "سأغسل الأطباق"],
+        ["早く寝てください。", "はやくねてください。", "نم مبكرًا من فضلك"]
+    ]},
+    personal: { label: '⭐ خاصة', items: [
+        ["今日は息子を保育園に連れて行きます。", "きょうはむすこをほいくえんにつれていきます。", "اليوم سآخذ ابني للحضانة"],
+        ["今日は雨が止んだ後、息子と出かけます。", "きょうはあめがやんだあと、むすことでかけます。", "اليوم سأخرج مع ابني بعد توقف المطر"],
+        ["今日は寒いので、外に出ませんでした。", "きょうはさむいので、そとにでませんでした。", "اليوم الجو بارد، لم أخرج"],
+        ["息子と一緒にパンと牛乳を買いに行きます。", "むすこといっしょにぱんとぎゅうにゅうをかいにいきます。", "سأذهب مع ابني لشراء الخبز والحليب"],
+        ["何時に帰ってきても、駅で待っています。", "なんじにかえってきても、えきでまっています。", "سأنتظرك في المحطة أي ساعة سترجع"]
+    ]}
+  };
+
+  var BASE_KEYS = ['daily', 'work', 'home', 'personal'];
+  var CONTENT_KEYS = BASE_KEYS.slice();
+
+  var favorites = [];
+  try { var stored = localStorage.getItem('jp_favorites'); if (stored) favorites = JSON.parse(stored); } catch (e) { favorites = []; }
+  function saveFavorites() { try { localStorage.setItem('jp_favorites', JSON.stringify(favorites)); } catch (e) {} }
+  function isFav(id) { return favorites.indexOf(id) !== -1; }
+  function toggleFav(id) {
+    var idx = favorites.indexOf(id);
+    if (idx === -1) favorites.push(id); else favorites.splice(idx, 1);
+    saveFavorites();
+  }
+
+  var allItemsById = {};
+  function rebuildIndex() {
+    allItemsById = {};
+    CONTENT_KEYS.forEach(function (key) {
+      categories[key].items.forEach(function (item, i) {
+        var id = key + '-' + i;
+        allItemsById[id] = { id: id, jp: item[0], hira: item[1], ar: item[2] };
+      });
+    });
+  }
+  rebuildIndex();
+
+  categories.all = { label: 'الكل', items: [] };
+  categories.favorites = { label: '⭐ المفضلة', items: [] };
+
+  var currentCat = 'all';
+  var order = [];
+  var cardIndex = 0;
+  var isAutoPlaying = false;
+  var autoPlayTimer = null;
+
+  function log(msg) { statusEl.textContent += '\n' + msg; statusEl.scrollTop = statusEl.scrollHeight; }
+  function ttsAvailable() { return !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TtsPlugin); }
+  function speak(text) {
+    if (!ttsAvailable()) { log('❌ TtsPlugin مش متاح.'); return; }
+    window.Capacitor.Plugins.TtsPlugin.speak({ text: text, lang: 'ja' }).catch(function (err) { log('❌ خطأ: ' + (err && err.message ? err.message : JSON.stringify(err))); });
+  }
+  function stopSpeak() { if (ttsAvailable()) window.Capacitor.Plugins.TtsPlugin.stop().catch(function () {}); }
+
+  function getCurrentItems() {
+    if (currentCat === 'favorites') return favorites.map(function (id) { return allItemsById[id]; }).filter(Boolean);
+    if (currentCat === 'all') {
+      var all = [];
+      CONTENT_KEYS.forEach(function (key) {
+        categories[key].items.forEach(function (item, i) { all.push({ id: key + '-' + i, jp: item[0], hira: item[1], ar: item[2] }); });
+      });
+      return all;
+    }
+    return categories[currentCat].items.map(function (item, i) { return { id: currentCat + '-' + i, jp: item[0], hira: item[1], ar: item[2] }; });
+  }
+
+  var catRow = document.getElementById('catRow');
+  var bulkCatList = document.getElementById('bulkCatList');
+  var catNameLabel = document.getElementById('catNameLabel');
+
+  function buildTabs() {
+    catRow.innerHTML = '';
+    ['all'].concat(CONTENT_KEYS).concat(['favorites']).forEach(function (key) {
+      var btn = document.createElement('button');
+      btn.textContent = categories[key].label;
+      if (key === currentCat) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        stopAutoPlay();
+        currentCat = key;
+        Array.prototype.forEach.call(catRow.children, function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        catNameLabel.textContent = categories[key].label.replace(/^[^\u0600-\u06FF]+/, '').trim() || categories[key].label;
+        order = getCurrentItems().map(function (_, i) { return i; });
+        cardIndex = 0;
+        renderCard();
+        renderList();
+      });
+      catRow.appendChild(btn);
+    });
+    catNameLabel.textContent = categories[currentCat].label.replace(/^[^\u0600-\u06FF]+/, '').trim() || categories[currentCat].label;
+  }
+
+  function buildBulkPanel() {
+    bulkCatList.innerHTML = '';
+    CONTENT_KEYS.forEach(function (key) {
+      var id = 'bulkchk-' + key;
+      var label = document.createElement('label');
+      label.innerHTML = '<input type="checkbox" id="' + id + '"> ' + categories[key].label;
+      bulkCatList.appendChild(label);
+    });
+  }
+
+  function paragraphForItems(items) {
+    var parts = [];
+    items.forEach(function (it) { parts.push(it.jp); parts.push(it.jp); });
+    return parts.join(' ');
+  }
+
+  document.getElementById('readSelectedCatsBtn').addEventListener('click', function () {
+    var chosenItems = [], chosenLabels = [];
+    CONTENT_KEYS.forEach(function (key) {
+      var chk = document.getElementById('bulkchk-' + key);
+      if (chk && chk.checked) { chosenLabels.push(categories[key].label); categories[key].items.forEach(function (item) { chosenItems.push({ jp: item[0] }); }); }
+    });
+    if (chosenItems.length === 0) { log('⚠️ اختر قسمًا واحدًا على الأقل.'); return; }
+    log('▶ قراءة: ' + chosenLabels.join('، ') + ' (' + chosenItems.length + ' جملة)');
+    speak(paragraphForItems(chosenItems));
+  });
+  document.getElementById('readAllBtn').addEventListener('click', function () {
+    var chosenItems = [];
+    CONTENT_KEYS.forEach(function (key) { categories[key].items.forEach(function (item) { chosenItems.push({ jp: item[0] }); }); });
+    log('▶ قراءة كل الجمل (' + chosenItems.length + ' جملة)...');
+    speak(paragraphForItems(chosenItems));
+  });
+
+  function renderList() {
+    listEl.innerHTML = '';
+    var items = getCurrentItems();
+    if (items.length === 0) {
+      var empty = document.createElement('div'); empty.className = 'emptyMsg'; empty.textContent = 'لا توجد جمل هنا بعد.'; listEl.appendChild(empty); return;
+    }
+    items.forEach(function (s, i) {
+      var row = document.createElement('div'); row.className = 'sentenceItem';
+      var checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.id = 'chk-' + i; checkbox.checked = true;
+      var txt = document.createElement('div'); txt.className = 'txt';
+      txt.innerHTML = '<div class="jp"><span class="num">' + (i + 1) + '.</span> ' + s.jp + '</div><div class="hira">' + s.hira + '</div><div class="ar">' + s.ar + '</div>';
+      var starBtn = document.createElement('button'); starBtn.className = 'starBtn' + (isFav(s.id) ? ' faved' : ''); starBtn.textContent = isFav(s.id) ? '★' : '☆';
+      starBtn.addEventListener('click', function () {
+        toggleFav(s.id); renderList();
+        order = getCurrentItems().map(function (_, i2) { return i2; });
+        if (cardIndex >= order.length) cardIndex = 0;
+        renderCard();
+      });
+      row.appendChild(checkbox); row.appendChild(txt); row.appendChild(starBtn); listEl.appendChild(row);
+    });
+  }
+
+  function getSelectedSentences() {
+    var items = getCurrentItems(), selected = [];
+    items.forEach(function (s, i) { var chk = document.getElementById('chk-' + i); if (chk && chk.checked) selected.push(s.jp); });
+    return selected;
+  }
+  function buildParagraph(selected) { var parts = []; selected.forEach(function (s) { parts.push(s); parts.push(s); }); return parts.join(' '); }
+
+  document.getElementById('selectAllBtn').addEventListener('click', function () { getCurrentItems().forEach(function (s, i) { var c = document.getElementById('chk-' + i); if (c) c.checked = true; }); });
+  document.getElementById('clearAllBtn').addEventListener('click', function () { getCurrentItems().forEach(function (s, i) { var c = document.getElementById('chk-' + i); if (c) c.checked = false; }); });
+  document.getElementById('startBtn').addEventListener('click', function () {
+    var selected = getSelectedSentences();
+    if (selected.length === 0) { log('⚠️ محتاج تختار جملة واحدة على الأقل.'); return; }
+    log('▶ بعتنا فقرة فيها ' + selected.length + ' جملة...'); speak(buildParagraph(selected));
+  });
+  document.getElementById('stopBtn').addEventListener('click', stopSpeak);
+
+  /* ---- flashcard ---- */
+  var flashcardEl = document.getElementById('flashcard');
+  var flashJpEl = document.getElementById('flashJp');
+  var flashHiraEl = document.getElementById('flashHira');
+  var flashArEl = document.getElementById('flashAr');
+  var progressFillEl = document.getElementById('progressFill');
+  var progressCountEl = document.getElementById('progressCount');
+  var cardFavBtn = document.getElementById('cardFavBtn');
+  var cardSpeakBtn = document.getElementById('cardSpeakBtn');
+
+  function renderCard() {
+    var items = getCurrentItems();
+    if (items.length === 0 || order.length === 0) {
+      flashJpEl.textContent = 'لا توجد جمل'; flashHiraEl.textContent = ''; flashArEl.textContent = '';
+      progressFillEl.style.width = '0%'; progressCountEl.textContent = '0 / 0';
+      return;
+    }
+    var it = items[order[cardIndex]];
+    flashJpEl.textContent = it.jp;
+    flashHiraEl.textContent = it.hira;
+    flashArEl.textContent = it.ar;
+    flashcardEl.classList.remove('revealed');
+    var pct = ((cardIndex + 1) / order.length) * 100;
+    progressFillEl.style.width = pct + '%';
+    progressCountEl.textContent = order.length + ' / ' + (cardIndex + 1);
+    cardFavBtn.textContent = isFav(it.id) ? '★' : '☆';
+    cardFavBtn.className = 'iconBtn favBtn' + (isFav(it.id) ? ' faved' : '');
+  }
+
+  flashcardEl.addEventListener('click', function (e) {
+    if (e.target === cardFavBtn || e.target === cardSpeakBtn) return;
+    flashcardEl.classList.toggle('revealed');
+  });
+  document.getElementById('flipBtn').addEventListener('click', function () { flashcardEl.classList.toggle('revealed'); });
+
+  cardFavBtn.addEventListener('click', function () {
+    var items = getCurrentItems(); var it = items[order[cardIndex]];
+    toggleFav(it.id);
+    if (currentCat === 'favorites') {
+      order = getCurrentItems().map(function (_, i) { return i; });
+      if (order.length === 0) cardIndex = 0; else if (cardIndex >= order.length) cardIndex = order.length - 1;
+    }
+    renderCard();
+  });
+  cardSpeakBtn.addEventListener('click', function () {
+    var items = getCurrentItems(); if (order.length === 0) return;
+    var it = items[order[cardIndex]]; speak(it.jp + ' ' + it.jp);
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', function () { if (order.length === 0) return; cardIndex = (cardIndex + 1) % order.length; renderCard(); });
+  document.getElementById('prevBtn').addEventListener('click', function () { if (order.length === 0) return; cardIndex = (cardIndex - 1 + order.length) % order.length; renderCard(); });
+
+  var autoPlayBtn = document.getElementById('autoPlayBtn');
+  function startAutoPlay() {
+    var items = getCurrentItems();
+    if (items.length === 0) { log('⚠️ لا توجد جمل في هذا القسم.'); return; }
+    if (!ttsAvailable()) { log('❌ TtsPlugin مش متاح.'); return; }
+    if (order.length !== items.length) order = items.map(function (_, i) { return i; });
+    cardIndex = 0;
+    // بنبني مصفوفة الجمل بنفس ترتيب "order" (يحترم الخلط العشوائي)، كل جملة مكررة مرتين
+    var texts = [];
+    order.forEach(function (idx) { var it = items[idx]; texts.push(it.jp); texts.push(it.jp); });
+
+    isAutoPlaying = true;
+    autoPlayBtn.textContent = '⏹ إيقاف القراءة';
+    autoPlayBtn.classList.add('playing');
+    renderCard();
+    log('▶ قراءة تلقائية مع تنقّل البطاقات (' + items.length + ' جملة)...');
+
+    window.Capacitor.Plugins.TtsPlugin.speakSequence({ texts: texts, lang: 'ja' })
+      .catch(function (err) { log('❌ خطأ: ' + (err && err.message ? err.message : JSON.stringify(err))); stopAutoPlay(); });
+  }
+  function stopAutoPlay() {
+    isAutoPlaying = false;
+    stopSpeak();
+    autoPlayBtn.textContent = '▶ تشغيل تلقائي مع النطق'; autoPlayBtn.classList.remove('playing');
+  }
+  autoPlayBtn.addEventListener('click', function () {
+    if (isAutoPlaying) { stopAutoPlay(); }
+    else { startAutoPlay(); }
+  });
+
+  // الأندرويد بيبلّغنا بأي جملة بتتقرأ دلوقتي فعليًا (event حقيقي من محرك TTS)،
+  // فتنقّل البطاقات بيبقى متزامن تمامًا مع الصوت، ومش معتمد على مؤقّت جافاسكريبت
+  if (ttsAvailable() && window.Capacitor.Plugins.TtsPlugin.addListener) {
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceIndex', function (data) {
+      if (!isAutoPlaying) return;
+      var pos = Math.floor((data && data.index || 0) / 2);
+      if (pos >= 0 && pos < order.length) { cardIndex = pos; renderCard(); }
+    });
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceDone', function () {
+      if (!isAutoPlaying) return;
+      isAutoPlaying = false;
+      autoPlayBtn.textContent = '▶ تشغيل تلقائي مع النطق'; autoPlayBtn.classList.remove('playing');
+      log('✅ خلصت القراءة التلقائية.');
+    });
+  }
+
+  /* ---- mode toggle ---- */
+  var modeToggle = document.getElementById('modeToggle');
+  var cardSection = document.getElementById('cardSection');
+  var listSection = document.getElementById('listSection');
+  var inListMode = false;
+  modeToggle.addEventListener('click', function () {
+    stopAutoPlay();
+    inListMode = !inListMode;
+    cardSection.style.display = inListMode ? 'none' : '';
+    listSection.style.display = inListMode ? '' : 'none';
+    modeToggle.textContent = inListMode ? '🗂 عرض البطاقات' : '📋 عرض القائمة';
+    if (inListMode) renderList();
+  });
+
+  /* ---- cloud lessons merge ---- */
+  function mergeCloudLessons(list) {
+    if (!list || list.length === 0) return;
+    list.forEach(function (lesson) {
+      var mapped = lesson.items.map(function (it) { return [it.jp || '', it.hira || '', it.ar || '']; });
+      if (categories[lesson.id] && CONTENT_KEYS.indexOf(lesson.id) !== -1) {
+        categories[lesson.id].items = categories[lesson.id].items.concat(mapped);
+      } else if (lesson.id !== 'all' && lesson.id !== 'favorites') {
+        categories[lesson.id] = { label: lesson.label, items: mapped };
+        CONTENT_KEYS.push(lesson.id);
+      }
+    });
+    rebuildIndex();
+    buildTabs(); buildBulkPanel();
+    order = getCurrentItems().map(function (_, i) { return i; });
+    renderCard(); renderList();
+    log('☁️ تم تحميل ' + list.length + ' درس إضافي من Firebase.');
+  }
+
+  /* ---- init ---- */
+  buildTabs(); buildBulkPanel();
+  order = getCurrentItems().map(function (_, i) { return i; });
+  renderCard(); renderList();
+  statusEl.textContent = 'فحص البيئة:';
+  log('window.Capacitor موجود؟ ' + (typeof window.Capacitor !== 'undefined'));
+  if (window.Capacitor) { log('TtsPlugin موجود؟ ' + ttsAvailable()); } else { log('⚠️ الصفحة مش شغالة جوه تطبيق Capacitor أصلاً.'); }
+
+  window.addEventListener('load', function () {
+    var tries = 0;
+    var waitForFirebase = setInterval(function () {
+      tries++;
+      if (window.__fetchCloudLessons) {
+        clearInterval(waitForFirebase);
+        window.__fetchCloudLessons().then(function (list) {
+          if (!list || list.length === 0) {
+            log('☁️ الاتصال بـ Firebase تم، لكن مفيش دروس في مجموعة "lessons" حاليًا (أو الرفع لسه ما نجحش).');
+          }
+          mergeCloudLessons(list);
+        });
+      }
+      else if (tries > 40) { clearInterval(waitForFirebase); log('⚠️ تعذر تحميل Firebase (تحقق من الاتصال بالإنترنت).'); }
+    }, 150);
+  });
+</script>
+
+<!-- ================================================================== -->
+<!-- Visual/navigation wiring ONLY: builds the Home / Lessons / Favorites -->
+<!-- screens and the full-screen player, using the SAME data (categories, -->
+<!-- favorites, allItemsById) and the SAME functions/buttons defined above -->
+<!-- (speak, toggleFav, renderCard, renderList, autoplay, mode toggle...). -->
+<!-- No reading/TTS/data logic is added, changed or duplicated here. -->
+<!-- ================================================================== -->
+<script>
+(function () {
+  var ICONS = { daily: '👋', work: '💼', home: '🏠', personal: '⭐' };
+
+  function labelNoEmoji(key) {
+    return categories[key].label.replace(/^[^\u0600-\u06FF]+/, '').trim() || categories[key].label;
+  }
+
+  function clickTabByLabelStartsWith(prefix) {
+    var buttons = document.getElementById('catRow').children;
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].textContent.indexOf(prefix) === 0) { buttons[i].click(); return true; }
+    }
+    return false;
+  }
+
+  function openPlayer() { document.getElementById('playerOverlay').classList.add('show'); }
+  function closePlayer() { document.getElementById('playerOverlay').classList.remove('show'); }
+  function ensureCardMode() { if (document.getElementById('listSection').style.display !== 'none') document.getElementById('modeToggle').click(); }
+  function ensureListMode() { if (document.getElementById('listSection').style.display === 'none') document.getElementById('modeToggle').click(); }
+
+  function openLesson(key, mode) {
+    clickTabByLabelStartsWith(categories[key].label);
+    if (mode === 'list') { ensureListMode(); } else { ensureCardMode(); }
+    openPlayer();
+    if (mode === 'card-auto') { document.getElementById('autoPlayBtn').click(); }
+  }
+
+  function showScreen(id, navId) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+    document.getElementById(id).classList.add('active');
+    var items = document.querySelectorAll('.navItem');
+    for (var j = 0; j < items.length; j++) items[j].classList.remove('active');
+    if (navId) document.getElementById(navId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ---- build a lesson-card element matching the screenshots ---- */
+  function buildLessonCard(key) {
+    var cat = categories[key];
+    var count = cat.items.length;
+    var card = document.createElement('div');
+    card.className = 'lessonCard';
+    card.innerHTML =
+      '<div class="lessonTop">' +
+        '<button class="lessonPlayBtn">▶ تشغيل الكل<span class="lessonBadge">N5</span></button>' +
+        '<div class="lessonInfo"><div class="lessonTitle">' + labelNoEmoji(key) + '</div>' +
+          '<div class="lessonCount">' + count + ' مفردة وعبارة للتعلم</div></div>' +
+        '<div class="lessonIcon">' + ICONS[key] + '</div>' +
+      '</div>' +
+      '<div class="lessonSubLabel">الأقسام الأربعة (اضغط للتشغيل الفوري):</div>' +
+      '<div class="lessonSubRow">' +
+        '<button class="subBtn sub-listen" data-mode="card-auto"><div class="si">🎧</div><div class="sl">استماع</div><div class="sc">' + count + '</div></button>' +
+        '<button class="subBtn sub-kanji" data-mode="list"><div class="si">⛩️</div><div class="sl">الكانجي</div><div class="sc">' + count + '</div></button>' +
+        '<button class="subBtn sub-sentence" data-mode="card"><div class="si">📝</div><div class="sl">الجمل</div><div class="sc">' + count + '</div></button>' +
+        '<button class="subBtn sub-words" data-mode="list"><div class="si">💬</div><div class="sl">الكلمات</div><div class="sc">' + count + '</div></button>' +
+      '</div>';
+    card.querySelector('.lessonPlayBtn').addEventListener('click', function () { openLesson(key, 'card-auto'); });
+    var subBtns = card.querySelectorAll('.subBtn');
+    for (var i = 0; i < subBtns.length; i++) {
+      (function (btn) { btn.addEventListener('click', function () { openLesson(key, btn.getAttribute('data-mode')); }); })(subBtns[i]);
+    }
+    return card;
+  }
+
+  function buildLessonLists() {
+    var full = document.getElementById('lessonsFullList');
+    var preview = document.getElementById('homeLessonsPreview');
+    full.innerHTML = ''; preview.innerHTML = '';
+    CONTENT_KEYS.forEach(function (key, idx) {
+      full.appendChild(buildLessonCard(key));
+      if (idx < 2) preview.appendChild(buildLessonCard(key));
+    });
+  }
+
+  /* ---- favorites screen ---- */
+  function renderFavoritesScreen() {
+    var wrap = document.getElementById('favListPreview');
+    var empty = document.getElementById('favEmptyState');
+    wrap.innerHTML = '';
+    if (!favorites.length) { empty.classList.remove('hide'); wrap.classList.remove('show'); return; }
+    empty.classList.add('hide'); wrap.classList.add('show');
+    var panel = document.createElement('div'); panel.className = 'panel';
+    favorites.forEach(function (id, i) {
+      var it = allItemsById[id]; if (!it) return;
+      var row = document.createElement('div'); row.className = 'sentenceItem';
+      row.innerHTML = '<div class="txt"><div class="jp"><span class="num">' + (i + 1) + '.</span> ' + it.jp + '</div>' +
+        '<div class="hira">' + it.hira + '</div><div class="ar">' + it.ar + '</div></div>';
+      var star = document.createElement('button'); star.className = 'starBtn faved'; star.textContent = '★';
+      star.addEventListener('click', function () { toggleFav(id); renderFavoritesScreen(); updateHomeStats(); });
+      row.appendChild(star);
+      panel.appendChild(row);
+    });
+    wrap.appendChild(panel);
+  }
+
+  /* ---- home progress stat (based on favorited / total items, read-only) ---- */
+  function updateHomeStats() {
+    var total = Object.keys(allItemsById).length;
+    var saved = favorites.length;
+    var pct = total ? Math.round((saved / total) * 100) : 0;
+    document.getElementById('homePct').textContent = pct + '%';
+    document.getElementById('homeProgressFill').style.width = pct + '%';
+  }
+  var _origToggleFav = window.toggleFav;
+  window.toggleFav = function (id) { _origToggleFav(id); updateHomeStats(); renderFavoritesScreen(); };
+
+  /* ---- wire buttons ---- */
+  document.getElementById('heroPlayAllBtn').addEventListener('click', function () {
+    clickTabByLabelStartsWith('الكل'); ensureCardMode(); openPlayer();
+    document.getElementById('autoPlayBtn').click();
+  });
+  document.getElementById('browseLessonsBtn').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('seeAllLessonsBtn').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('lessonsPlayAllBtn').addEventListener('click', function () {
+    clickTabByLabelStartsWith('الكل'); ensureCardMode(); openPlayer();
+    document.getElementById('autoPlayBtn').click();
+  });
+  document.getElementById('favPlayAllBtn').addEventListener('click', function () {
+    clickTabByLabelStartsWith('⭐ المفضلة'); ensureCardMode(); openPlayer();
+    document.getElementById('autoPlayBtn').click();
+  });
+
+  var grid = document.getElementById('shortcutGrid');
+  grid.addEventListener('click', function (e) {
+    var card = e.target.closest ? e.target.closest('.gridCard') : null;
+    if (!card) return;
+    openLesson(card.getAttribute('data-cat'), card.getAttribute('data-mode'));
+  });
+
+  document.getElementById('navHome').addEventListener('click', function () { showScreen('screenHome', 'navHome'); });
+  document.getElementById('homeLogoBtn').addEventListener('click', function () { showScreen('screenHome', 'navHome'); });
+  document.getElementById('navLessons').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('navFav').addEventListener('click', function () { renderFavoritesScreen(); showScreen('screenFavorites', 'navFav'); });
+  document.getElementById('navQuiz').addEventListener('click', function () { showScreen('screenFavorites', 'navQuiz'); renderFavoritesScreen(); });
+  document.getElementById('searchIconBtn').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('themeIconBtn').addEventListener('click', function () { document.body.classList.toggle('darkMode'); });
+  document.getElementById('playerCloseBtn').addEventListener('click', function () { closePlayer(); });
+
+  buildLessonLists();
+  updateHomeStats();
+  renderFavoritesScreen();
+})();
+</script>
+</body>
+</html>
