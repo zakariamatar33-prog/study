@@ -1,0 +1,3220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ساكورا نيهونغو - تعلّم الياباني</title>
+<style>
+  :root {
+    --red: #d0342f;
+    --red-dark: #b32a26;
+    --red-soft: #fdeceb;
+    --orange: #f0a83a;
+    --orange-dark: #d4860f;
+    --orange-soft: #fdf3e2;
+    --bg: #f5f4f7;
+    --card: #ffffff;
+    --ink: #1c1c1e;
+    --sub: #7b7b85;
+    --line: #ece9f1;
+    --purple-soft: #f1edfb;
+    --green-soft: #e8f6ee;
+    --blue-soft: #eaf1fd;
+    --yellow-soft: #fdf6e3;
+    --navy-sheet: #232c3d;
+    --navy-sheet-2: #1b222f;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", Tahoma, sans-serif;
+    background: var(--bg);
+    margin: 0;
+    color: var(--ink);
+    padding-bottom: 78px;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 16px 16px 20px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* ===== header (shared) ===== */
+  .appHeader { display: flex; align-items: center; justify-content: space-between; padding: 4px 2px 18px; }
+  .headerIcons { display: flex; gap: 14px; align-items: center; }
+  .headerIcons button { border: none; background: none; font-size: 19px; color: var(--ink); cursor: pointer; padding: 4px; }
+  .headerTitleBox { text-align: center; flex: 1; }
+  .appName { font-size: 19px; font-weight: 800; color: var(--ink); }
+  .appSub { font-size: 12px; color: var(--sub); margin-top: 2px; }
+  .logoBtn {
+    width: 46px; height: 46px; border-radius: 14px; background: var(--red); border: none; color: #fff;
+    font-size: 19px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+    box-shadow: 0 6px 14px rgba(208,52,47,0.35);
+  }
+
+  /* ===== HOME ===== */
+  .hero {
+    background: linear-gradient(135deg, var(--red) 0%, #a92a26 100%);
+    border-radius: 22px; padding: 22px 20px 24px; color: #fff; position: relative; overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.07) 2px, transparent 2px);
+    background-size: 18px 18px; opacity: 0.5;
+  }
+  .heroTag { display: inline-block; background: rgba(255,255,255,0.18); border-radius: 999px; font-size: 12px; font-weight: 700; padding: 6px 14px; margin-bottom: 14px; position: relative; }
+  .heroTitle { font-size: 22px; font-weight: 800; line-height: 1.5; position: relative; margin-bottom: 8px; }
+  .heroDesc { font-size: 13px; line-height: 1.8; opacity: 0.92; position: relative; margin-bottom: 18px; }
+  .heroBtns { display: flex; gap: 10px; position: relative; }
+  .heroBtnGhost, .heroBtnSolid {
+    flex: 1; border: none; border-radius: 999px; padding: 13px 10px; font-weight: 700; font-size: 13.5px;
+    cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .heroBtnGhost { background: rgba(0,0,0,0.18); color: #fff; }
+  .heroBtnSolid { background: #fff; color: var(--red); }
+
+  .progressCard { background: var(--card); border-radius: 16px; padding: 16px 18px; margin-bottom: 22px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); }
+  .progressTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .progressPct { font-weight: 800; font-size: 14px; color: var(--red); }
+  .progressLbl { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+  .progressTrackHome { height: 6px; background: #efeaf6; border-radius: 4px; overflow: hidden; }
+
+  .sectionLabel { font-size: 16px; font-weight: 800; margin: 4px 2px 12px; display: flex; align-items: center; gap: 6px; }
+
+  .gridFour { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+  .gridCard { background: var(--card); border-radius: 16px; padding: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(28,28,30,0.04); border: none; text-align: right; font-family: inherit; }
+  .gridCard .gi { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 20px; }
+  .gridCard .gt { font-size: 14px; font-weight: 800; color: var(--ink); }
+  .gridCard .gs { font-size: 11.5px; color: var(--sub); margin-top: 3px; }
+  .gc1 .gi { background: var(--green-soft); } .gc2 .gi { background: var(--blue-soft); }
+  .gc3 .gi { background: var(--yellow-soft); } .gc4 .gi { background: var(--purple-soft); }
+
+  .rowHead { display: flex; align-items: center; justify-content: space-between; margin: 4px 2px 12px; }
+  .seeAll { color: var(--red); font-size: 13px; font-weight: 700; text-decoration: none; background: none; border: none; cursor: pointer; font-family: inherit; }
+
+  /* ===== lesson card (shared: Home preview + Lessons list) ===== */
+  .lessonCard { background: var(--card); border-radius: 20px; padding: 18px; margin-bottom: 14px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); }
+  .lessonTop { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .lessonPlayBtn { background: var(--red); color: #fff; border: none; border-radius: 999px; padding: 12px 18px; font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .lessonBadge { background: var(--red-soft); color: var(--red-dark); font-size: 11px; font-weight: 800; border-radius: 8px; padding: 3px 7px; margin-inline-start: 8px; }
+  .lessonInfo { text-align: right; flex: 1; }
+  .lessonTitle { font-size: 16px; font-weight: 800; line-height: 1.4; }
+  .lessonCount { font-size: 12.5px; color: var(--sub); margin-top: 4px; }
+  .lessonIcon { width: 46px; height: 46px; border-radius: 14px; background: var(--red-soft); display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; }
+  .lessonSubLabel { font-size: 12px; color: var(--sub); margin-bottom: 8px; }
+  .lessonSubRow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .subBtn { border: none; border-radius: 14px; padding: 10px 4px; text-align: center; cursor: pointer; font-family: inherit; }
+  .subBtn .si { font-size: 17px; margin-bottom: 6px; }
+  .subBtn .sl { font-size: 11.5px; font-weight: 700; color: var(--ink); }
+  .subBtn .sc { font-size: 10.5px; color: var(--sub); margin-top: 1px; }
+  .sub-listen { background: var(--yellow-soft); } .sub-kanji { background: var(--purple-soft); }
+  .sub-sentence { background: var(--green-soft); } .sub-words { background: var(--blue-soft); }
+
+  /* ===== LESSONS screen ===== */
+  .lessonsHead { margin-bottom: 6px; }
+  .lessonsMainBtn { width: 100%; background: var(--red); color: #fff; border: none; border-radius: 999px; padding: 15px; font-weight: 700; font-size: 14.5px; margin: 14px 0 14px; cursor: pointer; font-family: inherit; }
+  .levelTabs { display: flex; flex-wrap: nowrap; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 16px; }
+  .levelTabs::-webkit-scrollbar { display: none; }
+  .levelTabs button { flex-shrink: 0; white-space: nowrap; border: none; border-radius: 999px; padding: 11px 18px; font-size: 13px; font-weight: 700; background: var(--card); color: var(--ink); cursor: pointer; font-family: inherit; }
+  .levelTabs button.active { background: var(--red); color: #fff; }
+
+  /* ===== FAVORITES screen ===== */
+  .favBanner { width: 100%; background: var(--orange); color: #fff; border: none; border-radius: 999px; padding: 16px; font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; font-family: inherit; margin-bottom: 8px; }
+  .favEmpty { text-align: center; padding: 70px 20px; color: var(--sub); font-size: 14px; }
+  .favEmpty .fes { font-size: 46px; color: #dcd9e6; display: block; margin-bottom: 16px; }
+  .favListWrap { display: none; }
+  .favListWrap.show { display: block; }
+  .favEmpty.hide { display: none; }
+
+  /* ===== bottom nav ===== */
+  .bottomNav { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-top: 1px solid var(--line); display: flex; justify-content: space-around; padding: 10px 6px calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 40; }
+  .navItem { border: none; background: none; display: flex; flex-direction: column; align-items: center; gap: 4px; font-family: inherit; font-size: 11px; font-weight: 700; color: var(--sub); cursor: pointer; padding: 4px 10px; }
+  .navItem .ni { font-size: 19px; }
+  .navItem.active { color: var(--red); }
+
+  /* ===== PLAYER overlay ===== */
+  #playerOverlay {
+    position: fixed; inset: 0; background: var(--bg); z-index: 100; overflow-y: auto;
+    display: none; padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+  #playerOverlay.show { display: block; }
+  .playerTopBar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .playerTopBar .miniTitle { font-size: 12.5px; color: var(--sub); font-weight: 700; }
+  #playerCloseBtn { border: none; background: none; font-size: 20px; color: var(--ink); cursor: pointer; }
+  .favBtnWrap { display: flex; align-items: center; gap: 6px; }
+  .favBtnWrap .favBtnLabel { font-size: 11px; font-weight: 700; color: var(--sub); }
+  .lessonTagLine { text-align: center; font-size: 13.5px; font-weight: 800; color: var(--ink); margin-bottom: 16px; }
+  .playerListToggle { border: none; background: var(--red-soft); color: var(--red-dark); font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 6px 12px; cursor: pointer; font-family: inherit; }
+
+  .flashcard {
+    background: var(--navy-sheet-2); border-radius: 22px; min-height: 300px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 34px 20px 26px; position: relative; cursor: pointer; user-select: none;
+    margin-bottom: 14px; overflow: hidden;
+  }
+  .cardProgTrack { position: absolute; top: 0; left: 0; right: 0; height: 4px; background: rgba(255,255,255,0.12); }
+  .cardProgTrack .progressFill { height: 100%; background: var(--red); }
+  .jpBig { font-size: 40px; font-weight: 800; direction: ltr; line-height: 1.35; color: #fff; }
+  .hiraBig { font-size: 19px; color: #e58e8a; margin-top: 14px; direction: ltr; font-weight: 700; }
+  .arBig { font-size: 19px; color: #fff; direction: rtl; display: none; font-weight: 700; margin-top: 20px; background: rgba(255,255,255,0.08); border-radius: 14px; padding: 13px 16px; width: 100%; }
+  .flashcard.revealed .arBig { display: block; }
+  .flashcard.revealed .flashHint { display: none; }
+  .flashHint { font-size: 12.5px; color: #8a8fa3; margin-top: 22px; }
+  #flipBtn { display: none; }
+
+  .transportPanel { background: var(--navy-sheet); border-radius: 22px; padding: 16px 18px 18px; }
+  .transRow { display: flex; align-items: center; justify-content: space-between; padding: 8px 2px; font-size: 12.5px; color: #b9bdca; font-weight: 700; }
+  .transRow .decoSlider { width: 90px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 3px; position: relative; }
+  .transRow .decoSlider::after { content:''; position:absolute; right: 30%; top:50%; width:14px; height:14px; border-radius:50%; background: var(--red); transform: translateY(-50%); }
+  .speedPills { display: flex; gap: 8px; }
+  .speedPills button { border: none; border-radius: 999px; padding: 6px 14px; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; background: rgba(255,255,255,0.08); color: #fff; }
+  .speedPills button.active { background: var(--red); }
+  .controlsRow { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; padding: 0 4px; }
+  .navCircle { width: 44px; height: 44px; border-radius: 50%; border: none; background: rgba(255,255,255,0.08); color: #fff; font-size: 17px; cursor: pointer; }
+  .decoIcon { border: none; background: none; color: #b9bdca; font-size: 19px; cursor: default; }
+  .speakerBtn { border: none; background: rgba(255,255,255,0.08); color: #fff; width: 44px; height: 44px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+  .favBtn { border: none; background: none; font-size: 22px; cursor: pointer; color: #c9c7d2; line-height: 1; }
+  .favBtn.faved { color: var(--orange); }
+
+  .arSwitch { width: 42px; height: 24px; border-radius: 999px; border: none; background: rgba(255,255,255,0.15); position: relative; cursor: pointer; padding: 0; }
+  .arSwitch .arKnob { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: right .15s; }
+  .arSwitch[aria-pressed="true"] { background: var(--red); }
+  .arSwitch[aria-pressed="true"] .arKnob { right: 21px; }
+
+  #miniPlayerBar {
+    display: none; position: fixed; left: 12px; right: 12px; bottom: 78px; z-index: 45;
+    background: var(--navy-sheet-2); color: #fff; border: none; border-radius: 999px;
+    padding: 12px 16px; align-items: center; gap: 10px; font-family: inherit; cursor: pointer;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+  }
+  #miniPlayerBar.show { display: flex; }
+  #miniPlayerBar .mpbDot { width: 9px; height: 9px; border-radius: 50%; background: var(--red); flex-shrink: 0; animation: mpbPulse 1.2s infinite; }
+  #miniPlayerBar .mpbText { font-size: 12.5px; font-weight: 700; flex: 1; text-align: right; }
+  #miniPlayerBar .mpbArrow { font-size: 16px; color: #b9bdca; }
+  @keyframes mpbPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  #autoPlayBtn {
+    width: 58px; height: 58px; border-radius: 50%; border: none; background: var(--red); cursor: pointer;
+    position: relative; color: transparent; font-size: 0; flex-shrink: 0;
+  }
+  #autoPlayBtn::before { content: '▶'; color: #fff; font-size: 21px; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #autoPlayBtn.playing::before { content: '⏸'; }
+  .counterLine { text-align: center; font-size: 12.5px; color: #b9bdca; margin-top: 12px; }
+
+  /* ---- list mode (secondary, inside player) ---- */
+  #listSection { display: none; }
+  .panel { background: var(--card); border-radius: 18px; box-shadow: 0 4px 14px rgba(28,28,30,0.05); padding: 16px; margin-bottom: 14px; }
+  .panelTitle { font-size: 13.5px; font-weight: 800; color: var(--ink); margin-bottom: 10px; }
+  .bulkCatList { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .bulkCatList label { display: flex; align-items: center; gap: 5px; background: var(--red-soft); color: var(--red-dark); border-radius: 20px; padding: 7px 13px; font-size: 12.5px; font-weight: 600; }
+  .rowBtns { display: flex; gap: 8px; }
+  .btn { border: none; border-radius: 999px; padding: 12px; font-weight: 700; font-size: 13.5px; cursor: pointer; flex: 1; font-family: inherit; }
+  .btn.primary { background: var(--red); color: #fff; }
+  .btn.ghost { background: var(--red-soft); color: var(--red-dark); }
+  .btn.muted { background: #f1eff5; color: var(--ink); }
+  #sentencesList { max-height: 360px; overflow-y: auto; }
+  .sentenceItem { display: flex; align-items: flex-start; gap: 8px; padding: 13px 4px; direction: ltr; text-align: left; border-bottom: 1px solid var(--line); }
+  .sentenceItem:last-child { border-bottom: none; }
+  .sentenceItem input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 4px; accent-color: var(--red); }
+  .sentenceItem .txt { line-height: 1.55; flex: 1; }
+  .sentenceItem .jp { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .sentenceItem .hira { font-size: 12.5px; color: var(--sub); }
+  .sentenceItem .ar { font-size: 13px; color: var(--sub); direction: rtl; text-align: right; margin-top: 3px; }
+  .num { color: var(--red); font-weight: 800; }
+  .starBtn { border: none; background: none; font-size: 20px; cursor: pointer; flex-shrink: 0; margin-top: 2px; color: #d8dce1; }
+  .starBtn.faved { color: var(--orange); }
+  .toolsRow { display: flex; gap: 8px; margin-bottom: 10px; }
+  .emptyMsg { padding: 30px 10px; text-align: center; color: var(--sub); font-size: 14px; }
+
+  /* hidden functional control surface (real category tabs, driven programmatically) */
+  #catRow { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+  .catHeaderRow { display: none; }
+
+  #status { font-size: 11.5px; color: var(--sub); background: var(--card); border-radius: 12px; padding: 10px; margin-top: 12px; white-space: pre-wrap; line-height: 1.7; max-height: 90px; overflow-y: auto; }
+
+  /* ===== QUIZ screen + player ===== */
+  .quizCard { background: var(--card); border-radius: 18px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); display: flex; align-items: center; gap: 12px; }
+  .quizCard .qIcon { width: 46px; height: 46px; border-radius: 14px; background: var(--purple-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .quizCard .qInfo { flex: 1; text-align: right; }
+  .quizCard .qTitle { font-size: 14.5px; font-weight: 800; }
+  .quizCard .qSub { font-size: 12px; color: var(--sub); margin-top: 3px; }
+  .quizCard .qGoBtn { background: var(--red); color: #fff; border: none; border-radius: 999px; padding: 10px 16px; font-weight: 700; font-size: 12.5px; cursor: pointer; font-family: inherit; white-space: nowrap; }
+  .quizEmpty { text-align: center; padding: 60px 20px; color: var(--sub); font-size: 13.5px; line-height: 1.8; }
+  .quizEmpty .qes { font-size: 42px; display: block; margin-bottom: 14px; }
+
+  #quizOverlay { position: fixed; inset: 0; background: var(--bg); z-index: 110; overflow-y: auto; display: none; padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+  #quizOverlay.show { display: block; }
+  .quizTopBar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .quizTopBar .qCounter { font-size: 12.5px; color: var(--sub); font-weight: 700; }
+  #quizCloseBtn { border: none; background: none; font-size: 20px; color: var(--ink); cursor: pointer; }
+  .quizProgTrack { height: 6px; background: #efeaf6; border-radius: 4px; overflow: hidden; margin-bottom: 22px; }
+  .quizProgFill { height: 100%; background: var(--red); border-radius: 4px; transition: width .2s; }
+  .quizQCard { background: var(--card); border-radius: 20px; padding: 30px 20px; text-align: center; margin-bottom: 18px; box-shadow: 0 4px 14px rgba(28,28,30,0.05); }
+  .quizJp { font-size: 26px; font-weight: 800; direction: ltr; }
+  .quizHira { font-size: 14px; color: var(--sub); margin-top: 10px; direction: ltr; }
+  .quizAnswers { display: flex; flex-direction: column; gap: 10px; }
+  .qAnsBtn { border: 2px solid var(--line); background: var(--card); border-radius: 14px; padding: 14px 16px; font-size: 14px; font-weight: 700; text-align: right; cursor: pointer; font-family: inherit; color: var(--ink); }
+  .qAnsBtn.correct { border-color: #2fa365; background: #e8f6ee; color: #1e7a4a; }
+  .qAnsBtn.wrong { border-color: var(--red); background: var(--red-soft); color: var(--red-dark); }
+  .qAnsBtn.disabledBtn { pointer-events: none; opacity: 0.75; }
+  .quizResult { text-align: center; padding: 30px 10px; }
+  .quizResult .scoreCircle { width: 120px; height: 120px; border-radius: 50%; background: var(--red-soft); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: 800; margin: 0 auto 18px; }
+  .quizResult .rTitle { font-size: 16px; font-weight: 800; margin-bottom: 6px; }
+  .quizResult .rSub { font-size: 13px; color: var(--sub); margin-bottom: 22px; }
+  .quizResult .rBtns { display: flex; gap: 10px; }
+
+  /* ===== extra tools row (letters / verbs pages) ===== */
+  .toolsGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
+  .toolCard { background: var(--card); border-radius: 16px; padding: 14px; cursor: pointer; box-shadow: 0 4px 14px rgba(28,28,30,0.04); border: none; text-align: right; font-family: inherit; }
+  .toolCard .gi { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 19px; margin-bottom: 20px; background: var(--orange-soft); }
+  .toolCard .gt { font-size: 14px; font-weight: 800; color: var(--ink); }
+  .toolCard .gs { font-size: 11.5px; color: var(--sub); margin-top: 3px; }
+
+  /* ===== KANJI LEVELS screen ===== */
+  .kanjiLevelCard { background: var(--card); border-radius: 18px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); display: flex; align-items: center; gap: 12px; cursor: pointer; border: none; width: 100%; text-align: right; font-family: inherit; }
+  .kanjiLevelCard .qIcon { width: 46px; height: 46px; border-radius: 14px; background: var(--purple-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .kanjiLevelCard .qInfo { flex: 1; text-align: right; }
+  .kanjiLevelCard .qTitle { font-size: 14.5px; font-weight: 800; }
+  .kanjiLevelCard .qSub { font-size: 12px; color: var(--sub); margin-top: 3px; }
+
+  /* ===== KANJI VIEWER overlay ===== */
+  #kanjiOverlay { position: fixed; inset: 0; background: var(--bg); z-index: 110; overflow-y: auto; display: none; padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+  #kanjiOverlay.show { display: block; }
+  .kanjiTopBar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .kanjiTopBar .miniTitle { font-size: 12.5px; color: var(--sub); font-weight: 700; }
+  #kanjiCloseBtn { border: none; background: none; font-size: 20px; color: var(--ink); cursor: pointer; }
+  .kanjiOptionsPanel { background: var(--card); border-radius: 18px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); }
+  .kanjiOptRow { display: flex; align-items: center; justify-content: space-between; padding: 7px 2px; font-size: 12.5px; color: var(--ink); font-weight: 700; }
+  .kanjiSlide { background: linear-gradient(180deg, var(--navy-sheet) 0%, var(--navy-sheet-2) 100%); border-radius: 26px;
+    min-height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 28px 18px 22px; box-shadow: 0 14px 30px rgba(0,0,0,0.18); margin-bottom: 14px; }
+  .kBig { font-size: 88px; font-weight: 800; color: #fff; line-height: 1; cursor: pointer; }
+  .kTap { font-size: 11px; color: #c9cbe0; margin-top: 6px; font-weight: 700; }
+  .kPairsRow { display: flex; gap: 10px; margin-top: 20px; width: 100%; flex-wrap: wrap; justify-content: center; }
+  .kPairChip { flex: 1 1 auto; min-width: 90px; background: rgba(255,255,255,0.08); border-radius: 16px; padding: 10px 8px; text-align: center; cursor: pointer; }
+  .kPairChip .kh { font-size: 15px; font-weight: 800; color: #fff; direction: ltr; }
+  .kPairChip .ka { font-size: 11.5px; color: #e2c9c8; margin-top: 3px; font-weight: 700; }
+  .kanjiViewToggle { display: flex; gap: 8px; margin-bottom: 14px; }
+  .kanjiViewToggle button { flex: 1; border: none; background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 10px; font-family: inherit; font-weight: 700; font-size: 12px; cursor: pointer; }
+  .kanjiViewToggle button.active { background: var(--red); color: #fff; }
+  .kanjiGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 90px; }
+  .kanjiCard { background: var(--card); border-radius: 16px; padding: 14px 6px; text-align: center; box-shadow: 0 4px 12px rgba(28,28,30,0.05); cursor: pointer; border: 2px solid transparent; position: relative; }
+  .kanjiCard.kActive { border-color: var(--red); transform: scale(1.05); box-shadow: 0 8px 20px rgba(208,52,47,0.18); }
+  .kanjiCard .kgBig { font-size: 28px; font-weight: 800; color: var(--ink); line-height: 1.2; }
+  .kanjiCard .kgHira { font-size: 11.5px; color: var(--sub); margin-top: 4px; direction: ltr; }
+  .kanjiCard .kgAr { font-size: 11px; color: var(--red-dark); margin-top: 3px; font-weight: 700; }
+  .kanjiCard .kgMore { position: absolute; top: 4px; left: 6px; font-size: 9.5px; color: #fff; background: var(--accent-blue,#3b6fd6); border-radius: 999px; padding: 1px 5px; font-weight: 800; }
+  .kanjiNavRow { display: flex; align-items: center; gap: 10px; margin-bottom: 90px; }
+  .kanjiNavBtn { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 50%; border: none; background: var(--card);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); font-size: 17px; cursor: pointer; }
+  .kanjiCnt { flex: 1; text-align: center; font-size: 12.5px; font-weight: 800; color: var(--sub); }
+  #kanjiAutoBar { display: none; position: fixed; left: 12px; right: 12px; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 115; max-width: 448px; margin: 0 auto; background: var(--navy-sheet-2); border-radius: 999px; padding: 12px 18px; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 24px rgba(0,0,0,0.22); border: none; color: #fff; font-family: inherit; font-weight: 700; font-size: 13.5px; cursor: pointer; width: calc(100% - 24px); }
+  #kanjiAutoBar.show { display: flex; }
+  #status { display: none !important; }
+  #kanjiAutoBar.playing { background: #d4860f; }
+
+  #pageOverlay { position: fixed; inset: 0; background: #fff; z-index: 130; display: none; flex-direction: column; }
+  #pageOverlay.show { display: flex; }
+  #pageOverlayBar { flex: 0 0 auto; display: flex; align-items: center; padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top, 0px)); background: var(--navy-sheet-2); }
+  #pageOverlayBack { border: none; background: rgba(255,255,255,0.15); color: #fff; border-radius: 10px; padding: 9px 16px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: inherit; }
+  #pageFrame { flex: 1 1 auto; width: 100%; border: 0; background: #fff; }
+
+  /* --- requested tweaks --- */
+  .playerListToggle, #modeToggle { display: none !important; }
+  .arBig { display: block !important; }
+  .flashHint { display: none !important; }
+  .flashcard { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+  #quizListenToggle { border: none; background: var(--purple-soft); color: var(--ink); border-radius: 999px; padding: 7px 14px; font-family: inherit; font-weight: 700; font-size: 12px; cursor: pointer; }
+  .quizJp.listenMode { font-size: 54px; cursor: pointer; }
+  .kanjiMatchBtnsRow { display: flex; gap: 8px; margin-bottom: 14px; }
+  .kanjiMatchBtnsRow button { flex:1; border: none; background: var(--red); color: #fff; border-radius: 999px; padding: 9px 6px; font-family: inherit; font-weight: 700; font-size: 11.5px; cursor: pointer; }
+  #kanjiMatchOverlay { position: fixed; inset: 0; background: var(--bg); z-index: 120; overflow-y: auto; display: none; padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+  #kanjiMatchOverlay.show { display: block; }
+  #kmClose { border: none; background: none; font-size: 20px; color: var(--ink); cursor: pointer; }
+  .kmStats { text-align: center; font-size: 12.5px; font-weight: 700; color: var(--sub); margin: 4px 0 6px; }
+  .kmHint { text-align: center; font-size: 12px; color: var(--sub); margin-bottom: 14px; }
+  #kmBoard { position: relative; margin-top: 8px; }
+  #kmSvg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+  #kmCols { position: relative; z-index: 2; display: flex; flex-direction: row; direction: ltr; justify-content: space-between; gap: 60px; }
+  .kmCol { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .kmItem { background: var(--card); border: 2px solid transparent; border-radius: 16px; padding: 14px 8px; text-align: center; cursor: pointer; box-shadow: 0 4px 12px rgba(28,28,30,0.05); min-height: 62px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--ink); }
+  .kmItem.kmK { font-size: 30px; }
+  .kmItem.kmM { font-size: 13px; direction: rtl; }
+  .kmItem.kmH { font-size: 17px; direction: ltr; }
+  .kmItem.sel { border-color: var(--red); }
+  .kmItem.ok { border-color: #2f9e5f; background: #e6f6ec; pointer-events: none; }
+  .kmItem.bad { border-color: var(--red); background: #fdeceb; }
+
+  /* ===== GRAMMAR (colored sentences) ===== */
+  .grammarLessonCard { background: var(--card); border-radius: 18px; padding: 16px; margin-bottom: 12px; box-shadow: 0 4px 14px rgba(28,28,30,0.04); display: flex; align-items: center; gap: 12px; cursor: pointer; border: none; width: 100%; text-align: right; font-family: inherit; }
+  .grammarLessonCard .qIcon { width: 46px; height: 46px; border-radius: 14px; background: var(--purple-soft); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .grammarLessonCard .qInfo { flex: 1; text-align: right; }
+  .grammarLessonCard .qTitle { font-size: 14.5px; font-weight: 800; }
+  .grammarLessonCard .qSub { font-size: 12px; color: var(--sub); margin-top: 3px; }
+  #grammarOverlay { position: fixed; inset: 0; background: var(--bg); z-index: 110; overflow-y: auto; display: none; padding: 18px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+  #grammarOverlay.show { display: block; }
+  .grammarTopBar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  #grammarCloseBtn { border: none; background: none; font-size: 20px; color: var(--ink); cursor: pointer; }
+  .posLegend { display: flex; flex-wrap: wrap; gap: 8px; background: var(--card); border-radius: 16px; padding: 12px 14px; margin-bottom: 14px; }
+  .posLegend span { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px; }
+  .posNoun { color: #2e6fdb; }
+  .posPronoun { color: #d4860f; }
+  .posVerb { color: #2f9e5f; }
+  .posAdj { color: #8a4fd1; }
+  .posParticle { color: #d0342f; font-weight: 900; text-decoration: underline; text-decoration-thickness: 2px; }
+  .legendChip.posNoun { background: #e8f0fd; }
+  .legendChip.posPronoun { background: #fdf1e0; }
+  .legendChip.posVerb { background: #e6f7ee; }
+  .legendChip.posAdj { background: #f2e9fc; }
+  .legendChip.posParticle { background: #fdeceb; }
+  .gramSentCard { background: var(--card); border-radius: 16px; padding: 16px; margin-bottom: 10px; box-shadow: 0 4px 12px rgba(28,28,30,0.04); cursor: pointer; }
+  .gramJp { font-size: 21px; font-weight: 800; line-height: 1.7; direction: ltr; text-align: right; }
+  .gramHira { font-size: 13px; color: var(--sub); margin-top: 6px; direction: ltr; text-align: right; }
+  .gramAr { font-size: 13px; color: var(--red-dark); margin-top: 6px; font-weight: 700; }
+  .gramNote { font-size: 11.5px; color: var(--sub); margin-top: 6px; background: #f7f6fa; border-radius: 10px; padding: 6px 10px; }
+  .gramSectionLabel { font-size: 13.5px; font-weight: 800; margin: 18px 0 10px; }
+  .gramWordChip { display: inline-block; background: var(--card); border-radius: 12px; padding: 8px 12px; margin: 0 6px 8px 0; box-shadow: 0 3px 8px rgba(28,28,30,0.05); cursor: pointer; }
+  .gramWordChip .gwJp { font-size: 13.5px; font-weight: 800; }
+  .gramWordChip .gwAr { font-size: 11px; color: var(--sub); }
+  #gramQuizBtn { width: 100%; margin-top: 18px; margin-bottom: 90px; border: none; border-radius: 999px; background: var(--red); color: #fff; font-weight: 800; font-size: 14px; padding: 14px; cursor: pointer; }
+
+  #hagaQuizOv { position: fixed; inset: 0; background: var(--bg); z-index: 120; display: none; flex-direction: column; padding: 16px; }
+  #hagaQuizOv.show { display: flex; }
+  .hgTop { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .hgTop button { border: none; background: #2f3542; color: #fff; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 12.5px; cursor: pointer; }
+  .hgProg { font-size: 12.5px; font-weight: 800; color: var(--sub); }
+  .hgCard { background: var(--card); border-radius: 20px; padding: 24px 16px; text-align: center; box-shadow: 0 8px 22px rgba(0,0,0,0.08); margin-bottom: 16px; }
+  .hgSent { font-size: 19px; font-weight: 800; direction: ltr; line-height: 1.8; }
+  .hgBlank { color: var(--red); font-weight: 900; }
+  .hgAr { font-size: 12.5px; color: var(--sub); margin-top: 10px; }
+  .hgOpts { display: flex; gap: 14px; justify-content: center; }
+  .hgOpt { flex: 1; max-width: 140px; background: var(--card); border: 2px solid #eee; border-radius: 14px; padding: 18px 8px; font-size: 22px; font-weight: 900; cursor: pointer; }
+  .hgOpt.correct { border-color: var(--green,#2f9e5f); background: #e9f9ef; }
+  .hgOpt.wrong { border-color: var(--red); background: #fdeceb; }
+  .hgResult { text-align: center; margin-top: 20px; }
+  .hgResult h2 { font-size: 20px; margin-bottom: 6px; }
+  .hgResult button { margin-top: 16px; border: none; background: var(--red); color: #fff; border-radius: 999px; padding: 12px 24px; font-weight: 800; font-size: 14px; cursor: pointer; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="appHeader">
+    <div style="width:46px;"></div>
+    <div class="headerTitleBox">
+      <div class="appName">ساكورا نيهونغو</div>
+      <div class="appSub">منهج التحدث والقراءة التلقائية</div>
+    </div>
+    <button class="logoBtn" id="homeLogoBtn" title="الرئيسية">📅</button>
+  </div>
+
+  <!-- ============ HOME SCREEN ============ -->
+  <div class="screen active" id="screenHome">
+    <div class="hero">
+      <span class="heroTag">العرض الصوتي التفاعلي</span>
+      <div class="heroTitle">شغّل القراءة التلقائية وانطلق!</div>
+      <div class="heroDesc">استمع للكلمات والجمل والكانجي مترجمة ومقروءة تلقائياً بدون الحاجة للضغط المتكرر.</div>
+      <div class="heroBtns">
+        <button class="heroBtnGhost" id="browseLessonsBtn">استعراض الدروس</button>
+        <button class="heroBtnSolid" id="heroPlayAllBtn">▶ تشغيل الكل تلقائياً</button>
+      </div>
+    </div>
+
+    <div class="progressCard">
+      <div class="progressTop">
+        <span class="progressPct" id="homePct">0%</span>
+        <span class="progressLbl">مستوى التقدم في المنهج</span>
+      </div>
+      <div class="progressTrackHome"><div id="homeProgressFill" style="height:100%;background:var(--red);border-radius:4px;width:0%"></div></div>
+    </div>
+
+    <div class="sectionLabel">🧩 الأقسام</div>
+    <div class="toolsGrid">
+      <button class="toolCard" id="openLettersBtn"><div class="gi">🈁</div><div class="gt">تعلم الحروف</div><div class="gs">هيراغانا وكاتاكانا</div></button>
+      <button class="toolCard" id="kanjiGridBtn"><div class="gi">⛩️</div><div class="gt">الكانجي</div><div class="gs">الرموز حسب المستوى</div></button>
+      <button class="toolCard" id="grammarBtn"><div class="gi">📘</div><div class="gt">القواعد</div><div class="gs">قواعد اللغة اليابانية</div></button>
+      <button class="toolCard" id="listenGridBtn"><div class="gi">🎧</div><div class="gt">المحادثة والاستماع</div><div class="gs">كل الدروس</div></button>
+      <button class="toolCard" id="openVerbsBtn"><div class="gi">🈺</div><div class="gt">تعلم الأفعال</div><div class="gs">50 فعل مع التصريفات</div></button>
+      <button class="toolCard" id="openLetterWordBtn"><div class="gi">🔤</div><div class="gt">حرف وكلمة</div><div class="gs">تعلّم الأطفال بالصور</div></button>
+    </div>
+
+    <div class="rowHead">
+      <button class="seeAll" id="seeAllLessonsBtn">عرض كل الدروس ←</button>
+      <div class="sectionLabel" style="margin:0;">الدروس الرئيسية</div>
+    </div>
+    <div id="homeLessonsPreview"></div>
+  </div>
+
+  <!-- ============ LESSONS SCREEN ============ -->
+  <div class="screen" id="screenLessons">
+    <div class="lessonsHead">
+      <div class="sectionLabel">قائمة دروس المنهج الكامل</div>
+      <div class="appSub" style="margin-bottom:2px;">كل درس يحتوي على 4 أقسام في سطر واحد</div>
+    </div>
+    <button class="lessonsMainBtn" id="lessonsPlayAllBtn">▶ تشغيل الكل</button>
+<div class="levelTabs" id="levelTabs"></div>
+    <div id="lessonsFullList"></div>
+  </div>
+
+  <!-- ============ FAVORITES SCREEN ============ -->
+  <div class="screen" id="screenFavorites">
+    <div class="sectionLabel">⭐ المفضلة</div>
+    <button class="favBanner" id="favPlayAllBtn">▶ تشغيل المفضلة تلقائياً</button>
+    <div class="favEmpty" id="favEmptyState">
+      <span class="fes">☆</span>
+      لا توجد كلمات أو جمل محفوظة في المفضلة بعد.
+    </div>
+    <div class="favListWrap" id="favListPreview"></div>
+  </div>
+
+  <!-- ============ QUIZ (الاختبار) SCREEN ============ -->
+  <div class="screen" id="screenQuiz">
+    <div class="sectionLabel">🎓 الاختبار</div>
+    <div class="appSub" style="margin-bottom:14px;">اختر درسًا لبدء اختبار من اختيارات متعددة</div>
+    <div id="quizList"></div>
+  </div>
+
+  <!-- ============ GRAMMAR (colored sentence lessons) ============ -->
+  <div class="screen" id="screenGrammar">
+    <div class="sectionLabel">📘 القواعد</div>
+    <div id="grammarLessonsList"></div>
+  </div>
+
+  <!-- ============ KANJI LEVELS SCREEN ============ -->
+  <div class="screen" id="screenKanjiLevels">
+    <div class="sectionLabel">⛩️ الكانجي حسب المستوى</div>
+    <div class="appSub" style="margin-bottom:14px;">اختر مستوى JLPT لعرض قائمة الكانجي الخاصة به</div>
+    <div id="kanjiLevelsList"></div>
+  </div>
+
+</div>
+
+<button id="miniPlayerBar">
+  <span class="mpbDot"></span>
+  <span class="mpbText">جارٍ التشغيل التلقائي — اضغط للعودة للمشغّل</span>
+  <span class="mpbArrow">›</span>
+</button>
+
+<div class="bottomNav">
+  <button class="navItem" id="navFav"><span class="ni">⭐</span>المفضلة</button>
+  <button class="navItem" id="navQuiz"><span class="ni">🎓</span>الاختبار</button>
+  <button class="navItem" id="navLessons"><span class="ni">📖</span>الدروس</button>
+  <button class="navItem active" id="navHome"><span class="ni">🏠</span>الرئيسية</button>
+</div>
+
+<!-- ============ PLAYER (full-screen, dark card + transport panel) ============ -->
+<div id="playerOverlay">
+  <div class="playerTopBar">
+    <span class="favBtnWrap"><button class="favBtn" id="cardFavBtn">☆</button><span class="favBtnLabel">إضافة للمفضلة</span></span>
+    <span class="miniTitle">مشغّل القراءة والعرض التلقائي</span>
+    <button id="playerCloseBtn">⌄</button>
+  </div>
+  <div class="lessonTagLine">الدرس: <span id="catNameLabel">-</span> • كافة الأقسام</div>
+  <div style="text-align:center;margin-bottom:14px;">
+    <button class="playerListToggle" id="modeToggle">📋 عرض القائمة</button>
+  </div>
+
+  <div id="cardSection">
+    <div class="flashcard" id="flashcard">
+      <div class="cardProgTrack"><div class="progressFill" id="progressFill" style="width:0%"></div></div>
+      <div class="jpBig" id="flashJp"></div>
+      <div class="hiraBig" id="flashHira"></div>
+      <div class="arBig" id="flashAr"></div>
+      <div class="flashHint" id="flashHint">☞ اضغط على البطاقة لرؤية المعنى</div>
+    </div>
+
+    <div class="transportPanel">
+      <div class="transRow">
+        <span>تكرار الجملة:</span>
+        <span class="speedPills" id="repeatPills">
+          <button data-count="1" type="button">×1</button>
+          <button data-count="2" class="active" type="button">×2</button>
+          <button data-count="3" type="button">×3</button>
+          <button data-count="4" type="button">×4</button>
+        </span>
+      </div>
+      <div class="transRow">
+        <span>قراءة المعنى بالعربي:</span>
+        <button class="arSwitch" id="arabicMeaningToggle" type="button" aria-pressed="false"><span class="arKnob"></span></button>
+      </div>
+      <div class="controlsRow">
+        <button class="navCircle" id="prevBtn">⏮</button>
+        <button class="navCircle" id="restartPlayBtn" title="البدء من الأول">🔁</button>
+        <button id="autoPlayBtn">▶ تشغيل تلقائي مع النطق</button>
+        <button class="speakerBtn" id="cardSpeakBtn">🔊</button>
+        <button class="navCircle" id="nextBtn">⏭</button>
+      </div>
+      <div class="counterLine" id="progressCount">0 / 0</div>
+    </div>
+    <button id="flipBtn">اقلب البطاقة</button>
+  </div>
+
+  <!-- List / bulk section (secondary) -->
+  <div id="listSection">
+    <div class="panel">
+      <div class="panelTitle">📢 قراءة جماعية لعدة أقسام</div>
+      <div class="bulkCatList" id="bulkCatList"></div>
+      <div class="rowBtns">
+        <button id="readSelectedCatsBtn" class="btn primary">اقرأ الأقسام المحددة</button>
+        <button id="readAllBtn" class="btn muted">اقرأ الكل</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="toolsRow">
+        <button id="selectAllBtn" class="btn ghost">تحديد الكل</button>
+        <button id="clearAllBtn" class="btn ghost">إلغاء التحديد</button>
+      </div>
+      <div id="sentencesList"></div>
+      <div class="rowBtns" style="margin-top:12px;">
+        <button id="startBtn" class="btn primary">▶ ابدأ القراءة</button>
+        <button id="stopBtn" class="btn muted">⏹ إيقاف</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="status">جاري فحص البيئة...</div>
+</div>
+
+<!-- ============ QUIZ PLAYER (multiple choice) ============ -->
+<div id="quizOverlay">
+  <div class="quizTopBar">
+    <button id="quizCloseBtn">⌄</button>
+    <button id="quizListenToggle" type="button">🎧 وضع الاستماع</button>
+    <span class="qCounter" id="quizCounter">سؤال 1 / 10</span>
+  </div>
+  <div class="quizProgTrack"><div class="quizProgFill" id="quizProgFill" style="width:0%"></div></div>
+
+  <div id="quizPlayArea">
+    <div class="quizQCard">
+      <div class="quizJp" id="quizJp"></div>
+      <div class="quizHira" id="quizHira"></div>
+    </div>
+    <div class="quizAnswers" id="quizAnswers"></div>
+  </div>
+
+  <div class="quizResult" id="quizResultArea" style="display:none;">
+    <div class="scoreCircle" id="quizScoreCircle">0%</div>
+    <div class="rTitle" id="quizResultTitle">أحسنت!</div>
+    <div class="rSub" id="quizResultSub">أجبت 0 من 0 إجابات صحيحة</div>
+    <div class="rBtns">
+      <button class="btn primary" id="quizRetryBtn">أعد المحاولة</button>
+      <button class="btn muted" id="quizBackBtn">رجوع للاختبارات</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="pageOverlay">
+  <div id="pageOverlayBar"><button id="pageOverlayBack">← الرجوع للصفحة الرئيسية</button></div>
+  <iframe id="pageFrame" title="page"></iframe>
+</div>
+<script type="text/plain" id="src-letters"><!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعلم اليابانية - الهيراغانا والكاتاكانا معاً</title>
+    <style>
+        :root {
+            --primary: #ff4757;
+            --primary-hover: #ff6b81;
+            --secondary: #2f3542;
+            --accent: #70a1ff;
+            --bg: #f1f2f6;
+            --card-bg: #ffffff;
+            --text-main: #2f3542;
+            --text-muted: #747d8c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            direction: ltr; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-main);
+        }
+
+
+        /* التحكم العلوي */
+        .controls-wrapper {
+            position: sticky;
+            top: 0;
+            background: rgba(241, 242, 246, 0.95);
+            backdrop-filter: blur(10px);
+            width: 100%;
+            padding: 15px 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            padding: 5px 15px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            direction: rtl;
+        }
+
+        .speed-control label {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--text-muted);
+        }
+
+        input[type=range] {
+            cursor: pointer;
+            width: 80px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .tab-btn { background: #fff; color: var(--text-main); border: 1px solid #ddd; }
+        .tab-btn.active { background: var(--secondary); color: white; border-color: var(--secondary); }
+
+        .autoplay-btn { background: var(--primary); color: white; }
+        .autoplay-btn.running { background: #ffa502; }
+
+        /* المحتوى والبطاقات */
+        .content-container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .row-section { margin-bottom: 35px; }
+
+        .row-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .row-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e0e0e0;
+            margin-left: 15px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 12px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 18px 8px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .kana-pair {
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .kana-h { font-size: 2.2rem; color: #1e272e; }
+        .kana-k { font-size: 1.4rem; color: var(--primary); font-weight: bold; opacity: 0.8; }
+
+        .romaji { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+        /* الشاشة الكبيرة */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.98);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .big-card {
+            background: white;
+            padding: 40px;
+            border-radius: 40px;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.1);
+            text-align: center;
+            border: 6px solid var(--primary);
+            min-width: 320px;
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .big-pair { display: flex; justify-content: center; align-items: baseline; gap: 20px; }
+        .big-h { font-size: 10rem; color: var(--secondary); line-height: 1; }
+        .big-k { font-size: 5rem; color: var(--primary); line-height: 1; }
+        .big-romaji { font-size: 3.5rem; color: var(--text-muted); font-weight: bold; margin-top: 15px; }
+
+        .close-autoplay {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .big-h { font-size: 6rem; }
+            .big-k { font-size: 3rem; }
+            .grid-container { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+
+    <div class="controls-wrapper">
+        <div class="controls">
+            <button class="btn tab-btn active" id="h-btn" onclick="switchMode('hiragana')">Hira</button>
+            <button class="btn tab-btn" id="k-btn" onclick="switchMode('katakana')">Kata</button>
+            <button class="btn tab-btn" id="b-btn" onclick="switchMode('both')">Both / كلاهما</button>
+            
+            <div class="speed-control">
+                <label>انتظار:</label>
+                <!-- تم رفع القيمة القصوى هنا إلى 6000 (6 ثواني) -->
+                <input type="range" id="speedRange" min="200" max="6000" step="100" value="1500" oninput="updateSpeedLabel(this.value)">
+                <span id="speedVal" style="font-size: 0.75rem; min-width: 35px;">1.5s</span>
+            </div>
+
+            <button class="btn autoplay-btn" id="auto-btn" onclick="toggleAutoplay()">
+                <span id="auto-icon">▶</span> عرض تلقائي
+            </button>
+        </div>
+    </div>
+
+    <div class="content-container" id="contentArea"></div>
+
+    <div id="overlay">
+        <div class="close-autoplay" onclick="stopAutoplay()">إغلاق ✕</div>
+        <div class="big-card">
+            <div class="big-pair" id="bigPair">
+                <span class="big-h" id="bigH">あ</span>
+                <span class="big-k" id="bigK">ア</span>
+            </div>
+            <span class="big-romaji" id="bigRomaji">A</span>
+        </div>
+        <div style="margin-top: 25px; text-align: center; color: #aaa; font-weight: bold; letter-spacing: 2px;">
+            AUTOPLAY ACTIVE
+        </div>
+    </div>
+
+    <script>
+        const rawData = [
+            { id: 'A', items: [{h:'あ', k:'ア', r:'a'},{h:'い', k:'イ', r:'i'},{h:'う', k:'ウ', r:'u'},{h:'え', k:'エ', r:'e'},{h:'お', k:'オ', r:'o'}] },
+            { id: 'K', items: [{h:'か', k:'カ', r:'ka'},{h:'き', k:'キ', r:'ki'},{h:'く', k:'ク', r:'ku'},{h:'け', k:'ケ', r:'ke'},{h:'こ', k:'コ', r:'ko'}] },
+            { id: 'S', items: [{h:'さ', k:'サ', r:'sa'},{h:'し', k:'シ', r:'shi'},{h:'す', k:'ス', r:'su'},{h:'せ', k:'セ', r:'se'},{h:'そ', k:'ソ', r:'so'}] },
+            { id: 'T', items: [{h:'た', k:'タ', r:'ta'},{h:'ち', k:'チ', r:'chi'},{h:'つ', k:'ツ', r:'tsu'},{h:'て', k:'テ', r:'te'},{h:'ط', k:'ト', r:'to'}] },
+            { id: 'N', items: [{h:'な', k:'ナ', r:'na'},{h:'に', k:'ニ', r:'ni'},{h:'ぬ', k:'ヌ', r:'nu'},{h:'ね', k:'ネ', r:'ne'},{h:'の', k:'ノ', r:'no'}] },
+            { id: 'H', items: [{h:'は', k:'ハ', r:'ha'},{h:'ひ', k:'ヒ', r:'hi'},{h:'ふ', k:'フ', r:'fu'},{h:'へ', k:'ヘ', r:'he'},{h:'ほ', k:'ホ', r:'ho'}] },
+            { id: 'M', items: [{h:'ま', k:'マ', r:'ma'},{h:'み', k:'ミ', r:'mi'},{h:'む', k:'ム', r:'mu'},{h:'め', k:'メ', r:'me'},{h:'も', k:'モ', r:'mo'}] },
+            { id: 'Y', items: [{h:'や', k:'ヤ', r:'ya'},{h:'ゆ', k:'ユ', r:'yu'},{h:'よ', k:'ヨ', r:'yo'}] },
+            { id: 'R', items: [{h:'ら', k:'ラ', r:'ra'},{h:'り', k:'リ', r:'ri'},{h:'る', k:'ル', r:'ru'},{h:'れ', k:'レ', r:'re'},{h:'ろ', k:'ロ', r:'ro'}] },
+            { id: 'W', items: [{h:'わ', k:'ワ', r:'wa'},{h:'を', k:'ヲ', r:'wo'},{h:'ん', k:'ン', r:'n'}] }
+        ];
+
+        let currentMode = 'hiragana'; 
+        let isAutoplayRunning = false;
+        let flatList = [];
+        let autoplayIndex = 0;
+        let autoplayTimeout;
+        let currentInterval = 1500;
+
+        const contentArea = document.getElementById('contentArea');
+        const overlay = document.getElementById('overlay');
+        const bigH = document.getElementById('bigH');
+        const bigK = document.getElementById('bigK');
+        const bigRomaji = document.getElementById('bigRomaji');
+
+        function speak(text, callback) {
+            window.parent.nativeSpeak(text, 'ja').then(function () { if (callback) callback(); });
+        }
+
+        function render() {
+            contentArea.innerHTML = '';
+            flatList = [];
+
+            rawData.forEach(section => {
+                const sectionEl = document.createElement('div');
+                sectionEl.className = 'row-section';
+                const header = document.createElement('div');
+                header.className = 'row-header';
+                header.innerText = section.id + '-Group';
+                const grid = document.createElement('div');
+                grid.className = 'grid-container';
+
+                section.items.forEach(item => {
+                    flatList.push(item);
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => speak(item.h);
+
+                    let content = '';
+                    if (currentMode === 'hiragana') {
+                        content = `<span class="kana-h">${item.h}</span>`;
+                    } else if (currentMode === 'katakana') {
+                        content = `<span class="kana-h">${item.k}</span>`;
+                    } else {
+                        content = `
+                            <div class="kana-pair">
+                                <span class="kana-h">${item.h}</span>
+                                <span class="kana-k">${item.k}</span>
+                            </div>`;
+                    }
+                    
+                    card.innerHTML = content + `<span class="romaji">${item.r}</span>`;
+                    grid.appendChild(card);
+                });
+
+                sectionEl.appendChild(header);
+                sectionEl.appendChild(grid);
+                contentArea.appendChild(sectionEl);
+            });
+        }
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(mode === 'hiragana') document.getElementById('h-btn').classList.add('active');
+            if(mode === 'katakana') document.getElementById('k-btn').classList.add('active');
+            if(mode === 'both') document.getElementById('b-btn').classList.add('active');
+            
+            if(isAutoplayRunning) stopAutoplay();
+            render();
+        }
+
+        function updateSpeedLabel(val) {
+            currentInterval = parseInt(val);
+            document.getElementById('speedVal').innerText = (val / 1000).toFixed(1) + 's';
+        }
+
+        function toggleAutoplay() {
+            if (isAutoplayRunning) stopAutoplay(); else startAutoplay();
+        }
+
+        function startAutoplay() {
+            isAutoplayRunning = true;
+            autoplayIndex = 0;
+            overlay.style.display = 'flex';
+            document.getElementById('auto-btn').classList.add('running');
+            document.getElementById('auto-icon').innerText = '⏹';
+            runStep();
+        }
+
+        function stopAutoplay() {
+            isAutoplayRunning = false;
+            clearTimeout(autoplayTimeout);
+            overlay.style.display = 'none';
+            document.getElementById('auto-btn').classList.remove('running');
+            document.getElementById('auto-icon').innerText = '▶';
+            window.parent.nativeStop();
+        }
+
+        function runStep() {
+            if (!isAutoplayRunning) return;
+            if (autoplayIndex >= flatList.length) { stopAutoplay(); return; }
+
+            const item = flatList[autoplayIndex];
+            
+            // تحديث العرض المكبر بناءً على الوضع
+            if (currentMode === 'hiragana') {
+                bigH.innerText = item.h;
+                bigK.style.display = 'none';
+            } else if (currentMode === 'katakana') {
+                bigH.innerText = item.k;
+                bigK.style.display = 'none';
+            } else {
+                bigH.innerText = item.h;
+                bigK.innerText = item.k;
+                bigK.style.display = 'inline';
+            }
+            
+            bigRomaji.innerText = item.r;
+            
+            speak(item.h, () => {
+                if (!isAutoplayRunning) return;
+                autoplayIndex++;
+                autoplayTimeout = setTimeout(runStep, currentInterval);
+            });
+        }
+
+        render();
+    <\/script>
+</body>
+</html>
+</script>
+<script type="text/plain" id="src-letterword"><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>حرف وكلمة</title>
+<style>
+  :root { --red:#d0342f; --red-dark:#b32a26; --bg:#f5f4f7; --card:#ffffff; --ink:#1c1c1e; --sub:#7b7b85;
+          --navy:#232c3d; --navy2:#1b222f; --green:#2f9e5f; --orange:#d4860f; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI",Tahoma,sans-serif; background:var(--bg); color:var(--ink);
+         padding: 14px 14px 26px; }
+  .wrap { max-width: 460px; margin: 0 auto; }
+  .backBar { display:flex; justify-content:flex-start; margin-bottom: 10px; }
+  #backBtn { border:none; background:#2f3542; color:#fff; border-radius:10px; padding:9px 16px; font-weight:700; font-size:13px; cursor:pointer; }
+  .levelBar { background: var(--card); border-radius: 16px; padding: 10px 14px; margin-bottom: 12px;
+              display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:700; color:var(--sub); }
+  .levelBar b { color: var(--ink); }
+  .topRow { display:flex; align-items:center; justify-content:space-between; margin-bottom: 10px; }
+  .cnt { font-size: 12.5px; font-weight: 800; color: var(--sub); }
+  .slide { background: linear-gradient(180deg, var(--navy) 0%, var(--navy2) 100%); border-radius: 26px;
+           min-height: 340px; display:flex; flex-direction: column; align-items:center; justify-content:center;
+           padding: 28px 18px 22px; box-shadow: 0 14px 30px rgba(0,0,0,0.18); }
+  .kanaBig { font-size: 96px; font-weight: 800; color:#fff; line-height:1; cursor:pointer; }
+  .kanaTap { font-size: 11.5px; color:#c9cbe0; margin-top:6px; font-weight:700; }
+  .wordsRow { display:flex; flex-wrap: wrap; gap:10px; margin-top: 22px; width:100%; }
+  .wchip { flex:1 1 calc(33% - 8px); min-width: 84px; background: rgba(255,255,255,0.08); border-radius: 16px; padding: 10px 6px; text-align:center; cursor:pointer; }
+  .wchip .wh { font-size: 14.5px; font-weight: 800; color:#fff; }
+  .wchip .wa { font-size: 10.5px; color:#e2c9c8; margin-top: 4px; font-weight:700; }
+  .wchip.active { background: var(--red); }
+  .viewSw { display:inline-flex; gap:6px; }
+  .viewSw button { border:none; border-radius:999px; padding:7px 14px; font-size:12px; font-weight:800; background:#efeaf6; color:var(--sub); cursor:pointer; font-family:inherit; }
+  .viewSw button.on { background:var(--red); color:#fff; }
+  .moreBtn { margin-top:16px; border:none; border-radius:999px; background:rgba(255,255,255,0.14); color:#fff; font-weight:800; font-size:13px; padding:10px 22px; cursor:pointer; font-family:inherit; }
+  .moreBtn.open { background:rgba(255,255,255,0.06); color:#c9cbe0; }
+  .navRow { display:flex; align-items:center; gap: 10px; margin-top: 14px; }
+  .navBtn { flex:0 0 auto; width:46px; height:46px; border-radius:50%; border:none; background:var(--card);
+            box-shadow:0 4px 12px rgba(0,0,0,0.08); font-size:18px; cursor:pointer; }
+  .playBtn { flex:1; border:none; border-radius:999px; background:var(--red); color:#fff; font-weight:800;
+             font-size:13.5px; padding:13px 6px; cursor:pointer; }
+  .playBtn.playing { background: var(--orange); }
+  .playBtn:disabled { background:#c9c7d2; cursor:default; }
+  .quizGateBtn { width:100%; margin-top:10px; border:none; border-radius:999px; background: var(--green); color:#fff;
+                 font-weight:800; font-size:13.5px; padding:13px 6px; cursor:pointer; }
+  .quizGateBtn:disabled { background:#c9c7d2; cursor:default; }
+
+  #quizOv { position:fixed; inset:0; background:var(--bg); z-index:50; display:none; flex-direction:column; padding:16px; }
+  #quizOv.show { display:flex; }
+  .qTop { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .qTop button { border:none; background:#2f3542; color:#fff; border-radius:10px; padding:8px 14px; font-weight:700; font-size:12.5px; cursor:pointer; }
+  .qProg { font-size:12.5px; font-weight:800; color:var(--sub); }
+  .qCard { background:var(--card); border-radius:20px; padding:26px 16px; text-align:center; box-shadow:0 8px 22px rgba(0,0,0,0.08); margin-bottom:16px; }
+  .qPrompt { font-size:15px; color:var(--sub); font-weight:700; margin-bottom:10px; }
+  .qMain { font-size:34px; font-weight:800; color:var(--ink); }
+  .qOpts { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .qOpt { background:var(--card); border:2px solid #eee; border-radius:14px; padding:14px 8px; font-size:14px; font-weight:700; cursor:pointer; }
+  .qOpt.correct { border-color:var(--green); background:#e9f9ef; }
+  .qOpt.wrong { border-color:var(--red); background:#fdeceb; }
+  .qResult { text-align:center; margin-top:20px; }
+  .qResult h2 { font-size:20px; margin-bottom:6px; }
+  .qResult p { color:var(--sub); font-size:13.5px; }
+  .qResult button { margin-top:16px; border:none; background:var(--red); color:#fff; border-radius:999px; padding:12px 24px; font-weight:800; font-size:14px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="levelBar">
+    <span class="viewSw"><button id="vOne">كلمة واحدة</button><button id="vSix">6 كلمات</button></span>
+    <span id="listenLabel">استمعت 0 / 2</span>
+  </div>
+  <div class="topRow"><span class="cnt" id="cnt">1 / 46</span></div>
+  <div class="slide" id="slide">
+    <div class="kanaBig" id="kanaBig">あ</div>
+    <div class="kanaTap">اضغط للاستماع</div>
+    <div class="wordsRow" id="wordsRow"></div>
+    <button class="moreBtn" id="moreBtn" style="display:none"></button>
+  </div>
+  <div class="navRow">
+    <button class="navBtn" id="prevBtn">▶</button>
+    <button class="playBtn" id="playBtn">▶ استمع للدرس</button>
+    <button class="navBtn" id="nextBtn">◀</button>
+  </div>
+  <button class="quizGateBtn" id="quizGateBtn" disabled>🎯 استمع مرتين أولاً لفتح الاختبار</button>
+</div>
+
+<div id="quizOv">
+  <div class="qTop"><button id="quizCloseBtn">✕ إغلاق</button><span class="qProg" id="qProg">سؤال 1 / 20</span></div>
+  <div class="qCard">
+    <div class="qPrompt" id="qPrompt">ما معنى هذه الكلمة؟</div>
+    <div class="qMain" id="qMain">-</div>
+  </div>
+  <div class="qOpts" id="qOpts"></div>
+  <div class="qResult" id="qResult" style="display:none;">
+    <h2 id="qScoreTitle"></h2>
+    <p id="qScoreDesc"></p>
+    <button id="qResultBtn">تم</button>
+  </div>
+</div>
+
+<script>
+var SLIDES = [{"k": "あ", "w": [{"h": "あり", "ar": "نملة"}, {"h": "あめ", "ar": "مطر / حلوى"}, {"h": "あさ", "ar": "صباح"}], "w2": [{"h": "あひる", "ar": "بطة"}, {"h": "あか", "ar": "أحمر"}, {"h": "あさがお", "ar": "زهرة الصباح"}]}, {"k": "い", "w": [{"h": "いぬ", "ar": "كلب"}, {"h": "いえ", "ar": "بيت"}, {"h": "いろ", "ar": "لون"}], "w2": [{"h": "いか", "ar": "حبار"}, {"h": "いちご", "ar": "فراولة"}, {"h": "いす", "ar": "كرسي"}]}, {"k": "う", "w": [{"h": "うみ", "ar": "بحر"}, {"h": "うさぎ", "ar": "أرنب"}, {"h": "うた", "ar": "أغنية"}], "w2": [{"h": "うし", "ar": "بقرة"}, {"h": "うちわ", "ar": "مروحة يدوية"}, {"h": "うま", "ar": "حصان"}]}, {"k": "え", "w": [{"h": "えき", "ar": "محطة"}, {"h": "えんぴつ", "ar": "قلم رصاص"}, {"h": "えほん", "ar": "كتاب مصور"}], "w2": [{"h": "えだ", "ar": "غصن"}, {"h": "えび", "ar": "جمبري"}, {"h": "えいが", "ar": "فيلم"}]}, {"k": "お", "w": [{"h": "おかし", "ar": "حلوى"}, {"h": "おちゃ", "ar": "شاي"}, {"h": "おうち", "ar": "المنزل"}], "w2": [{"h": "おに", "ar": "غول (أوني)"}, {"h": "おとうさん", "ar": "الأب"}, {"h": "おかあさん", "ar": "الأم"}]}, {"k": "か", "w": [{"h": "かさ", "ar": "مظلة"}, {"h": "かに", "ar": "سلطعون"}, {"h": "かみ", "ar": "ورق"}], "w2": [{"h": "かえる", "ar": "ضفدع"}, {"h": "かぎ", "ar": "مفتاح"}, {"h": "かめ", "ar": "سلحفاة"}]}, {"k": "き", "w": [{"h": "きつね", "ar": "ثعلب"}, {"h": "きいろ", "ar": "أصفر"}, {"h": "きって", "ar": "طابع بريد"}], "w2": [{"h": "きのこ", "ar": "فطر"}, {"h": "きんぎょ", "ar": "سمكة ذهبية"}, {"h": "きゅうり", "ar": "خيار"}]}, {"k": "く", "w": [{"h": "くつ", "ar": "حذاء"}, {"h": "くも", "ar": "سحابة / عنكبوت"}, {"h": "くるま", "ar": "سيارة"}], "w2": [{"h": "くじら", "ar": "حوت"}, {"h": "くり", "ar": "كستناء"}, {"h": "くすり", "ar": "دواء"}]}, {"k": "け", "w": [{"h": "けーき", "ar": "كعكة"}, {"h": "けむり", "ar": "دخان"}, {"h": "けさ", "ar": "هذا الصباح"}], "w2": [{"h": "けいと", "ar": "خيط صوف"}, {"h": "けが", "ar": "إصابة"}, {"h": "けむし", "ar": "يرقة/دودة"}]}, {"k": "こ", "w": [{"h": "こども", "ar": "طفل"}, {"h": "こおり", "ar": "ثلج"}, {"h": "こねこ", "ar": "قطة صغيرة"}], "w2": [{"h": "こま", "ar": "خذروف"}, {"h": "こんぶ", "ar": "عشب بحري"}, {"h": "こうえん", "ar": "حديقة عامة"}]}, {"k": "さ", "w": [{"h": "さかな", "ar": "سمكة"}, {"h": "さる", "ar": "قرد"}, {"h": "さくら", "ar": "زهر الكرز"}], "w2": [{"h": "さい", "ar": "وحيد القرن"}, {"h": "さとう", "ar": "سكر"}, {"h": "さんかく", "ar": "مثلث"}]}, {"k": "し", "w": [{"h": "しろ", "ar": "أبيض"}, {"h": "しか", "ar": "غزال"}, {"h": "しま", "ar": "جزيرة"}], "w2": [{"h": "しお", "ar": "ملح"}, {"h": "しっぽ", "ar": "ذيل"}, {"h": "しんぶん", "ar": "جريدة"}]}, {"k": "す", "w": [{"h": "すいか", "ar": "بطيخ"}, {"h": "すし", "ar": "سوشي"}, {"h": "すな", "ar": "رمل"}], "w2": [{"h": "すずめ", "ar": "عصفور"}, {"h": "すいとう", "ar": "قارورة ماء"}, {"h": "すべりだい", "ar": "زحليقة"}]}, {"k": "せ", "w": [{"h": "せみ", "ar": "زيز/حشرة صيف"}, {"h": "せんせい", "ar": "معلّم"}, {"h": "せかい", "ar": "العالم"}], "w2": [{"h": "せなか", "ar": "الظهر"}, {"h": "せんたく", "ar": "غسيل"}, {"h": "せんぷうき", "ar": "مروحة"}]}, {"k": "そ", "w": [{"h": "そら", "ar": "سماء"}, {"h": "そうじ", "ar": "تنظيف"}, {"h": "そば", "ar": "قريب / صوبا"}], "w2": [{"h": "そうじき", "ar": "مكنسة كهربائية"}, {"h": "そで", "ar": "كُم القميص"}, {"h": "そうめん", "ar": "شعيرية باردة"}]}, {"k": "た", "w": [{"h": "たまご", "ar": "بيضة"}, {"h": "たいよう", "ar": "شمس"}, {"h": "たこ", "ar": "أخطبوط / طائرة ورقية"}], "w2": [{"h": "たいこ", "ar": "طبل"}, {"h": "たね", "ar": "بذرة"}, {"h": "たぬき", "ar": "راكون ياباني"}]}, {"k": "ち", "w": [{"h": "ちず", "ar": "خريطة"}, {"h": "ちいさい", "ar": "صغير"}, {"h": "ちから", "ar": "قوة"}], "w2": [{"h": "ちきゅう", "ar": "الأرض"}, {"h": "ちょう", "ar": "فراشة"}, {"h": "ちゃいろ", "ar": "بني"}]}, {"k": "つ", "w": [{"h": "つき", "ar": "قمر"}, {"h": "つくえ", "ar": "مكتب"}, {"h": "つばめ", "ar": "طائر السنونو"}], "w2": [{"h": "つの", "ar": "قرن الحيوان"}, {"h": "つみき", "ar": "مكعبات بناء"}, {"h": "つえ", "ar": "عصا"}]}, {"k": "て", "w": [{"h": "てがみ", "ar": "رسالة"}, {"h": "てんき", "ar": "طقس"}, {"h": "てぶくろ", "ar": "قفازات"}], "w2": [{"h": "てんとうむし", "ar": "دعسوقة"}, {"h": "てじな", "ar": "خدعة سحرية"}, {"h": "てんし", "ar": "ملاك"}]}, {"k": "と", "w": [{"h": "とり", "ar": "طائر"}, {"h": "ともだち", "ar": "صديق"}, {"h": "とけい", "ar": "ساعة"}], "w2": [{"h": "とんぼ", "ar": "يعسوب"}, {"h": "とうもろこし", "ar": "ذرة"}, {"h": "とら", "ar": "نمر"}]}, {"k": "な", "w": [{"h": "なつ", "ar": "صيف"}, {"h": "なみだ", "ar": "دموع"}, {"h": "なまえ", "ar": "اسم"}], "w2": [{"h": "なす", "ar": "باذنجان"}, {"h": "なわとび", "ar": "نط الحبل"}, {"h": "なべ", "ar": "قدر طبخ"}]}, {"k": "に", "w": [{"h": "にじ", "ar": "قوس قزح"}, {"h": "にわとり", "ar": "دجاجة"}, {"h": "にく", "ar": "لحم"}], "w2": [{"h": "にんじん", "ar": "جزر"}, {"h": "にわ", "ar": "حديقة منزل"}, {"h": "にもつ", "ar": "أمتعة"}]}, {"k": "ぬ", "w": [{"h": "ぬいぐるみ", "ar": "دمية محشوة"}, {"h": "ぬま", "ar": "مستنقع"}, {"h": "ぬの", "ar": "قماش"}], "w2": [{"h": "ぬりえ", "ar": "كتاب تلوين"}, {"h": "ぬくもり", "ar": "دفء"}, {"h": "ぬかづけ", "ar": "مخلل ياباني"}]}, {"k": "ね", "w": [{"h": "ねこ", "ar": "قطة"}, {"h": "ねつ", "ar": "حمّى"}, {"h": "ねぎ", "ar": "بصل أخضر"}], "w2": [{"h": "ねずみ", "ar": "فأر"}, {"h": "ねっこ", "ar": "جذر"}, {"h": "ねぼう", "ar": "نوم متأخر"}]}, {"k": "の", "w": [{"h": "のはら", "ar": "حقل / مرج"}, {"h": "のり", "ar": "نوري / صمغ"}, {"h": "のみもの", "ar": "مشروب"}], "w2": [{"h": "のこぎり", "ar": "منشار"}, {"h": "のど", "ar": "حلق"}, {"h": "のうか", "ar": "مزرعة"}]}, {"k": "は", "w": [{"h": "はな", "ar": "زهرة"}, {"h": "はし", "ar": "عيدان أكل / جسر"}, {"h": "はる", "ar": "ربيع"}], "w2": [{"h": "はと", "ar": "حمامة"}, {"h": "はさみ", "ar": "مقص"}, {"h": "はっぱ", "ar": "ورقة شجر"}]}, {"k": "ひ", "w": [{"h": "ひ", "ar": "نار / شمس"}, {"h": "ひこうき", "ar": "طائرة"}, {"h": "ひつじ", "ar": "خروف"}], "w2": [{"h": "ひまわり", "ar": "عباد الشمس"}, {"h": "ひも", "ar": "خيط/رباط"}, {"h": "ひげ", "ar": "لحية"}]}, {"k": "ふ", "w": [{"h": "ふね", "ar": "سفينة"}, {"h": "ふゆ", "ar": "شتاء"}, {"h": "ふうせん", "ar": "بالون"}], "w2": [{"h": "ふくろう", "ar": "بومة"}, {"h": "ふとん", "ar": "فراش نوم"}, {"h": "ふえ", "ar": "مزمار"}]}, {"k": "へ", "w": [{"h": "へび", "ar": "ثعبان"}, {"h": "へや", "ar": "غرفة"}, {"h": "へいわ", "ar": "سلام"}], "w2": [{"h": "へそ", "ar": "السرة"}, {"h": "へんじ", "ar": "رد/جواب"}, {"h": "へちま", "ar": "لوف (خضار)"}]}, {"k": "ほ", "w": [{"h": "ほし", "ar": "نجمة"}, {"h": "ほん", "ar": "كتاب"}, {"h": "ほうき", "ar": "مكنسة"}], "w2": [{"h": "ほたる", "ar": "يراعة"}, {"h": "ほお", "ar": "الخد"}, {"h": "ほね", "ar": "عظم"}]}, {"k": "ま", "w": [{"h": "まど", "ar": "نافذة"}, {"h": "まめ", "ar": "حبوب/فاصوليا"}, {"h": "まつり", "ar": "مهرجان"}], "w2": [{"h": "まくら", "ar": "وسادة"}, {"h": "まち", "ar": "بلدة"}, {"h": "まる", "ar": "دائرة"}]}, {"k": "み", "w": [{"h": "みず", "ar": "ماء"}, {"h": "みみ", "ar": "أذن"}, {"h": "みかん", "ar": "يوسفي"}], "w2": [{"h": "みち", "ar": "طريق"}, {"h": "みどり", "ar": "أخضر"}, {"h": "みなと", "ar": "ميناء"}]}, {"k": "む", "w": [{"h": "むし", "ar": "حشرة"}, {"h": "むら", "ar": "قرية"}, {"h": "むぎ", "ar": "قمح"}], "w2": [{"h": "むかし", "ar": "قديماً"}, {"h": "むね", "ar": "الصدر"}, {"h": "むすめ", "ar": "ابنة"}]}, {"k": "め", "w": [{"h": "め", "ar": "عين"}, {"h": "めがね", "ar": "نظارة"}, {"h": "めろん", "ar": "شمام"}], "w2": [{"h": "めだか", "ar": "سمكة ميداكا"}, {"h": "めざまし", "ar": "منبه"}, {"h": "めん", "ar": "قناع / نودلز"}]}, {"k": "も", "w": [{"h": "もも", "ar": "خوخ"}, {"h": "もり", "ar": "غابة"}, {"h": "もち", "ar": "موتشي"}], "w2": [{"h": "もん", "ar": "بوابة"}, {"h": "もじ", "ar": "حرف/رمز"}, {"h": "もみじ", "ar": "ورقة القيقب"}]}, {"k": "や", "w": [{"h": "やま", "ar": "جبل"}, {"h": "やさい", "ar": "خضار"}, {"h": "やきゅう", "ar": "بيسبول"}], "w2": [{"h": "やね", "ar": "سقف"}, {"h": "やおや", "ar": "بائع خضار"}, {"h": "やぎ", "ar": "ماعز"}]}, {"k": "ゆ", "w": [{"h": "ゆき", "ar": "ثلج"}, {"h": "ゆめ", "ar": "حلم"}, {"h": "ゆびわ", "ar": "خاتم"}], "w2": [{"h": "ゆび", "ar": "إصبع"}, {"h": "ゆう", "ar": "المساء"}, {"h": "ゆかた", "ar": "رداء ياباني صيفي"}]}, {"k": "よ", "w": [{"h": "よる", "ar": "ليل"}, {"h": "ようふく", "ar": "ملابس"}, {"h": "よっつ", "ar": "أربعة أشياء"}], "w2": [{"h": "よこ", "ar": "الجانب"}, {"h": "ようちえん", "ar": "روضة أطفال"}, {"h": "よやく", "ar": "حجز موعد"}]}, {"k": "ら", "w": [{"h": "らくだ", "ar": "جمل"}, {"h": "らいおん", "ar": "أسد"}, {"h": "らっぱ", "ar": "بوق"}], "w2": [{"h": "らじお", "ar": "راديو"}, {"h": "らく", "ar": "راحة/سهولة"}, {"h": "らいねん", "ar": "العام القادم"}]}, {"k": "り", "w": [{"h": "りんご", "ar": "تفاحة"}, {"h": "りゆう", "ar": "سبب"}, {"h": "りす", "ar": "سنجاب"}], "w2": [{"h": "りゅう", "ar": "تنين"}, {"h": "りょうり", "ar": "طبخ"}, {"h": "りぼん", "ar": "ربطة شعر"}]}, {"k": "る", "w": [{"h": "るす", "ar": "غياب عن المنزل"}, {"h": "るーる", "ar": "قاعدة/قانون"}, {"h": "るり", "ar": "أزرق لازوردي"}], "w2": [{"h": "るすばん", "ar": "حراسة المنزل"}, {"h": "るーぷ", "ar": "حلقة"}, {"h": "るりいろ", "ar": "أزرق لازوردي"}]}, {"k": "れ", "w": [{"h": "れいぞうこ", "ar": "ثلاجة"}, {"h": "れんしゅう", "ar": "تمرين"}, {"h": "れもん", "ar": "ليمون"}], "w2": [{"h": "れきし", "ar": "تاريخ"}, {"h": "れんこん", "ar": "جذر اللوتس"}, {"h": "れいぎ", "ar": "آداب السلوك"}]}, {"k": "ろ", "w": [{"h": "ろうそく", "ar": "شمعة"}, {"h": "ろば", "ar": "حمار"}, {"h": "ろく", "ar": "ستة"}], "w2": [{"h": "ろじ", "ar": "زقاق"}, {"h": "ろぼっと", "ar": "روبوت"}, {"h": "ろうか", "ar": "ممر/رواق"}]}, {"k": "わ", "w": [{"h": "わたし", "ar": "أنا"}, {"h": "わに", "ar": "تمساح"}, {"h": "わた", "ar": "قطن"}], "w2": [{"h": "わらい", "ar": "ضحك"}, {"h": "わすれもの", "ar": "غرض منسي"}, {"h": "わかめ", "ar": "عشب بحري"}]}, {"k": "ん", "w": [{"h": "ほん", "ar": "كتاب"}, {"h": "みかん", "ar": "يوسفي"}, {"h": "にんじん", "ar": "جزر"}], "w2": [{"h": "ぱん", "ar": "خبز"}, {"h": "きりん", "ar": "زرافة"}, {"h": "てん", "ar": "نقطة"}]}, {"k": "を", "w": [{"h": "ほんをよむ", "ar": "يقرأ كتابًا"}, {"h": "みずをのむ", "ar": "يشرب ماءً"}, {"h": "てをあらう", "ar": "يغسل يديه"}], "w2": [{"h": "ごはんをたべる", "ar": "يأكل الأرز/الوجبة"}, {"h": "はなをみる", "ar": "ينظر إلى الزهور"}, {"h": "うたをうたう", "ar": "يغني أغنية"}]}];
+/* الكلمات المضافة من Firebase تُحفظ على الجهاز في lw_words_cache (تُجلب عند فتح التطبيق) */
+function loadFbWords() {
+  try { var c = JSON.parse(localStorage.getItem('lw_words_cache') || 'null'); return (c && c.fb) || {}; } catch (e) { return {}; }
+}
+var FB = loadFbWords();
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem('lw_progress') || '{}'); } catch (e) { return {}; }
+}
+function saveState(st) { try { localStorage.setItem('lw_progress', JSON.stringify(st)); } catch (e) {} }
+var state = loadState();
+var listenCount = state.listenCount || 0;
+var opened = state.opened || {};
+
+/* كل كلمات الحرف: كلمات Firebase أولاً ثم الكلمات المضمّنة (بدون تكرار) */
+function wordsForSlide(s) {
+  var seen = {}, out = [];
+  (FB[s.k] || []).concat(s.w, s.w2 || []).forEach(function (w) { if (w && !seen[w.h]) { seen[w.h] = 1; out.push(w); } });
+  return out;
+}
+/* المعروض: كلمة واحدة فقط، وكل الكلمات بعد الضغط على "افتح أكثر" */
+function visibleWords(s) {
+  var all = wordsForSlide(s);
+  if (state.view === 'six') return all.slice(0, 6);
+  return opened[s.k] ? all : all.slice(0, 1);
+}
+function applyView() {
+  var six = state.view === 'six';
+  document.getElementById('vOne').classList.toggle('on', !six);
+  document.getElementById('vSix').classList.toggle('on', six);
+}
+function setView(v) {
+  if (playing) stopPlay();
+  state.view = v; saveState(state);
+  applyView(); render();
+}
+document.getElementById('vOne').addEventListener('click', function () { setView('one'); });
+document.getElementById('vSix').addEventListener('click', function () { setView('six'); });
+
+var i = 0, playing = false, playTimer = null;
+var kanaEl = document.getElementById('kanaBig'), rowEl = document.getElementById('wordsRow'), cntEl = document.getElementById('cnt');
+
+function refreshLevelBar() {
+  document.getElementById('listenLabel').textContent = 'استمعت ' + Math.min(listenCount, 2) + ' / 2';
+  var gate = document.getElementById('quizGateBtn');
+  if (listenCount >= 2) {
+    gate.disabled = false; gate.textContent = '🎯 ابدأ الاختبار';
+  } else {
+    gate.disabled = true; gate.textContent = '🎯 استمع ' + (2 - listenCount) + ' مرة أخرى لفتح الاختبار';
+  }
+}
+
+function render() {
+  var s = SLIDES[i];
+  kanaEl.textContent = s.k;
+  cntEl.textContent = (i + 1) + ' / ' + SLIDES.length;
+  rowEl.innerHTML = '';
+  visibleWords(s).forEach(function (w) {
+    var el = document.createElement('div');
+    el.className = 'wchip';
+    el.innerHTML = '<div class="wh">' + w.h + '</div><div class="wa">' + w.ar + '</div>';
+    el.addEventListener('click', function () { if (!playing) window.parent.nativeSpeak(w.h, 'ja'); });
+    rowEl.appendChild(el);
+  });
+  var total = wordsForSlide(s).length, mb = document.getElementById('moreBtn');
+  mb.style.display = (total > 1 && state.view !== 'six') ? '' : 'none';
+  mb.classList.toggle('open', !!opened[s.k]);
+  mb.textContent = opened[s.k] ? 'إخفاء الكلمات الإضافية' : 'افتح أكثر (+' + (total - 1) + ')';
+}
+document.getElementById('moreBtn').addEventListener('click', function () {
+  if (playing) return;
+  var k = SLIDES[i].k;
+  if (opened[k]) delete opened[k]; else opened[k] = 1;
+  state.opened = opened; saveState(state);
+  render();
+});
+kanaEl.addEventListener('click', function () { if (!playing) window.parent.nativeSpeak(SLIDES[i].k, 'ja'); });
+document.getElementById('prevBtn').addEventListener('click', function () { stopPlay(); i = (i + 1) % SLIDES.length; render(); });
+document.getElementById('nextBtn').addEventListener('click', function () { stopPlay(); i = (i - 1 + SLIDES.length) % SLIDES.length; render(); });
+
+function stopPlay() {
+  playing = false;
+  clearTimeout(playTimer);
+  document.getElementById('playBtn').textContent = '▶ استمع للدرس';
+  document.getElementById('playBtn').classList.remove('playing');
+  window.parent.nativeStop();
+  window.parent.nativeWakeLock && window.parent.nativeWakeLock(false);
+}
+function highlightWord(idx) {
+  Array.prototype.forEach.call(rowEl.children, function (c, ci) { c.classList.toggle('active', ci === idx); });
+}
+
+/* Plays through ALL 46 letters exactly once (no looping), then stops and counts a completed pass. */
+function playLesson() {
+  if (playing) { stopPlay(); return; }
+  playing = true;
+  window.parent.nativeWakeLock && window.parent.nativeWakeLock(true);
+  document.getElementById('playBtn').textContent = '⏹ إيقاف';
+  document.getElementById('playBtn').classList.add('playing');
+  i = 0; render();
+  stepThrough(0);
+}
+function stepThrough(idx) {
+  if (!playing) return;
+  if (idx >= SLIDES.length) {
+    stopPlay();
+    listenCount = Math.min(listenCount + 1, 2);
+    state.listenCount = listenCount; saveState(state);
+    refreshLevelBar();
+    return;
+  }
+  i = idx; render();
+  var s = SLIDES[i];
+  var ws = visibleWords(s);
+  highlightWord(-1);
+  window.parent.nativeSpeak(s.k, 'ja').then(function () {
+    if (!playing) return;
+    var wi = 0;
+    function nextWord() {
+      if (!playing) return;
+      if (wi >= ws.length) { playTimer = setTimeout(function () { stepThrough(idx + 1); }, 400); return; }
+      highlightWord(wi);
+      window.parent.nativeSpeak(ws[wi].h, 'ja').then(function () {
+        wi++;
+        playTimer = setTimeout(nextWord, 200);
+      });
+    }
+    playTimer = setTimeout(nextWord, 250);
+  });
+}
+document.getElementById('playBtn').addEventListener('click', playLesson);
+applyView();
+render();
+refreshLevelBar();
+
+/* ================= QUIZ ================= */
+var quiz = null;
+function buildQuizPool() {
+  var pool = [];
+  SLIDES.forEach(function (s) { visibleWords(s).forEach(function (w) { pool.push({ k: s.k, h: w.h, ar: w.ar }); }); });
+  return pool;
+}
+function shuffle(a) { for (var i2 = a.length - 1; i2 > 0; i2--) { var j = Math.floor(Math.random() * (i2 + 1)); var t = a[i2]; a[i2] = a[j]; a[j] = t; } return a; }
+function startQuiz() {
+  var pool = shuffle(buildQuizPool().slice());
+  if (pool.length < 8) return;
+  var qs = pool.slice(0, 20).map(function (item) {
+    var byAr = Math.random() < 0.5;
+    var wrongPool = pool.filter(function (p) { return p.h !== item.h; });
+    var wrongs = shuffle(wrongPool.slice()).slice(0, 3);
+    var options = shuffle([item].concat(wrongs));
+    return { item: item, byAr: byAr, options: options };
+  });
+  quiz = { qs: qs, idx: 0, correct: 0, answered: false };
+  document.getElementById('quizOv').classList.add('show');
+  document.getElementById('qResult').style.display = 'none';
+  document.getElementById('qOpts').style.display = 'grid';
+  renderQuestion();
+}
+function renderQuestion() {
+  var q = quiz.qs[quiz.idx];
+  quiz.answered = false;
+  document.getElementById('qProg').textContent = 'سؤال ' + (quiz.idx + 1) + ' / ' + quiz.qs.length;
+  document.getElementById('qPrompt').textContent = q.byAr ? 'اختر الكلمة الصحيحة لهذا المعنى:' : 'اختر المعنى الصحيح:';
+  document.getElementById('qMain').textContent = q.byAr ? q.item.ar : q.item.h;
+  if (!q.byAr) window.parent.nativeSpeak(q.item.h, 'ja');
+  var wrap = document.getElementById('qOpts');
+  wrap.innerHTML = '';
+  q.options.forEach(function (opt) {
+    var btn = document.createElement('button');
+    btn.className = 'qOpt';
+    btn.textContent = q.byAr ? opt.h : opt.ar;
+    btn.addEventListener('click', function () { answer(opt, btn); });
+    wrap.appendChild(btn);
+  });
+}
+function answer(opt, btn) {
+  if (quiz.answered) return;
+  quiz.answered = true;
+  var q = quiz.qs[quiz.idx];
+  var isCorrect = opt.h === q.item.h;
+  if (isCorrect) quiz.correct++;
+  btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) {
+    Array.prototype.forEach.call(document.getElementById('qOpts').children, function (b) {
+      var isTheCorrectOne = q.byAr ? b.textContent === q.item.h : b.textContent === q.item.ar;
+      if (isTheCorrectOne) b.classList.add('correct');
+    });
+  }
+  setTimeout(function () {
+    quiz.idx++;
+    if (quiz.idx >= quiz.qs.length) finishQuiz(); else renderQuestion();
+  }, 900);
+}
+function finishQuiz() {
+  document.getElementById('qOpts').style.display = 'none';
+  document.getElementById('qResult').style.display = 'block';
+  var pct = Math.round((quiz.correct / quiz.qs.length) * 100);
+  var passed = pct >= 95;
+  document.getElementById('qScoreTitle').textContent = (passed ? '🎉 ممتاز! ' : '') + quiz.correct + ' / ' + quiz.qs.length + ' (' + pct + '%)';
+  document.getElementById('qScoreDesc').textContent = passed
+    ? 'اجتزت الاختبار! افتح المزيد من الكلمات لتتعلّم أكثر.'
+    : 'تحتاج 95% على الأقل لاجتياز الاختبار. حاول مرة أخرى بعد مراجعة الدرس.';
+  refreshLevelBar();
+}
+document.getElementById('quizGateBtn').addEventListener('click', function () { if (!document.getElementById('quizGateBtn').disabled) startQuiz(); });
+document.getElementById('quizCloseBtn').addEventListener('click', function () {
+  window.parent.nativeStop();
+  document.getElementById('quizOv').classList.remove('show');
+});
+document.getElementById('qResultBtn').addEventListener('click', function () {
+  document.getElementById('quizOv').classList.remove('show');
+  render();
+});
+<\/script>
+</body>
+</html></script>
+<script type="text/plain" id="src-verbs"><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعلم الأفعال - زكي (نسخة الخط الكبير)</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-main: #222;
+            --fav-color: #f1c40f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0; padding-bottom: 50px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        header h1 { font-size: 1.3rem; margin: 0 0 10px 0; }
+
+
+        .controls {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: 8px; padding: 5px;
+        }
+
+        button {
+            padding: 8px 15px; border: none; border-radius: 8px;
+            cursor: pointer; font-size: 14px; font-weight: bold;
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .btn-start { background-color: #27ae60; color: white; }
+        .btn-fav-play { background-color: var(--fav-color); color: #333; }
+        .btn-stop { background-color: #e74c3c; color: white; }
+
+        .options-bar {
+            display: flex; justify-content: center; gap: 15px;
+            margin-top: 10px; background: rgba(0,0,0,0.2);
+            padding: 8px; border-radius: 5px;
+        }
+
+        .toggle-container {
+            display: flex; align-items: center; gap: 5px;
+            color: white; font-size: 13px; font-weight: bold;
+        }
+
+        .container { max-width: 650px; margin: 15px auto; padding: 0 15px; }
+        .verb-list { display: flex; flex-direction: column; gap: 12px; }
+
+        /* تصميم البطاقة */
+        .verb-card {
+            background: var(--card-bg); border-radius: 15px;
+            overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 3px solid transparent; transition: 0.3s;
+        }
+
+        .verb-card.active { border-color: var(--accent-color); transform: scale(1.02); }
+
+        .verb-header {
+            padding: 15px 20px; display: flex;
+            justify-content: space-between; align-items: center; cursor: pointer;
+        }
+
+        /* الكانجي في الحالة العادية */
+        .kanji { 
+            font-size: 32px; /* خط كبير جداً */
+            font-weight: bold; 
+            color: var(--primary-color); 
+            transition: 0.4s;
+        }
+
+        /* تكبير الكانجي عند الفتح */
+        .verb-card.open .kanji {
+            font-size: 60px; /* حجم عملاق عند العرض */
+            color: var(--accent-color);
+            display: block; width: 100%; text-align: center;
+            margin-bottom: 10px;
+            background: #fff5f5; border-radius: 10px; padding: 10px 0;
+        }
+
+        .meaning-preview { font-size: 18px; color: #555; margin-right: 15px; }
+
+        .verb-content {
+            padding: 0 20px; max-height: 0; overflow: hidden;
+            transition: 0.4s ease-in-out; background-color: #fdfdfd;
+        }
+
+        .verb-card.open .verb-content { 
+            max-height: 350px; padding: 20px; border-top: 2px solid #eee; 
+        }
+
+        /* تفاصيل التصريفات بخط كبير */
+        .detail-row { 
+            margin-bottom: 12px; font-size: 22px; 
+            display: flex; justify-content: space-between;
+            border-bottom: 1px dashed #ddd; padding-bottom: 5px;
+        }
+        
+        .detail-label { font-weight: bold; color: var(--accent-color); }
+        .detail-val { font-weight: 500; color: #333; }
+
+        .actions { display: flex; gap: 10px; }
+        .btn-icon { 
+            background: #eee; border: none; padding: 10px; 
+            border-radius: 10px; cursor: pointer; font-size: 20px;
+        }
+        .is-fav { color: var(--fav-color); background: #fffde7; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>مُعلم اليابانية - خط كبير 🇯🇵</h1>
+    <div class="controls">
+        <button id="startBtn" class="btn-start" onclick="startAutoPlay(false)">▶ الكل</button>
+        <button id="startFavBtn" class="btn-fav-play" onclick="startAutoPlay(true)">⭐ المفضل</button>
+        <button id="stopBtn" class="btn-stop" onclick="stopAutoPlay()" disabled>⏹</button>
+    </div>
+    <div class="options-bar">
+        <div class="toggle-container">
+            <input type="checkbox" id="readAllForms" checked>
+            <label for="readAllForms">نطق الصيغ (3)</label>
+        </div>
+        <div class="toggle-container">
+            <input type="checkbox" id="readMeaningToggle" checked>
+            <label for="readMeaningToggle">المعنى بالعربي</label>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <div id="verbList" class="verb-list"></div>
+</div>
+
+<script>
+    // قائمة الـ 50 فعل كاملة مع التصريفات
+    const verbs = [
+        { k: "食べる", h: ["たべる", "たべます", "たべて"], m: "يأكل" },
+        { k: "飲む", h: ["のむ", "のみます", "のんで"], m: "يشرب" },
+        { k: "見る", h: ["みる", "みます", "みて"], m: "يرى" },
+        { k: "聞く", h: ["きく", "ききます", "きいて"], m: "يسمع" },
+        { k: "行く", h: ["いく", "いきます", "いって"], m: "يذهب" },
+        { k: "来る", h: ["くる", "きます", "きて"], m: "يأتي" },
+        { k: "帰る", h: ["かえる", "かえります", "かえって"], m: "يعود" },
+        { k: "書く", h: ["かく", "かきます", "かいて"], m: "يكتب" },
+        { k: "読む", h: ["よむ", "よみます", "よんで"], m: "يقرأ" },
+        { k: "話す", h: ["はなす", "はなします", "はなして"], m: "يتحدث" },
+        { k: "買う", h: ["かう", "かいます", "かって"], m: "يشتري" },
+        { k: "作る", h: ["つくる", "つくります", "つくって"], m: "يصنع" },
+        { k: "寝る", h: ["ねる", "ねます", "ねて"], m: "ينام" },
+        { k: "起きる", h: ["おきる", "おきます", "おきて"], m: "يستيقظ" },
+        { k: "歩く", h: ["あるく", "あるきます", "あるいて"], m: "يمشي" },
+        { k: "走る", h: ["はしる", "はしります", "はしって"], m: "يركض" },
+        { k: "待つ", h: ["まつ", "まちます", "まって"], m: "ينتظر" },
+        { k: "持つ", h: ["もつ", "もちます", "もって"], m: "يحمل" },
+        { k: "使う", h: ["つかう", "つかいます", "つかって"], m: "يستخدم" },
+        { k: "会う", h: ["あう", "あいます", "あって"], m: "يقابل" },
+        { k: "遊ぶ", h: ["あそぶ", "あそびます", "あそんで"], m: "يلعب" },
+        { k: "働く", h: ["はたらく", "はたらきます", "はたらいて"], m: "يعمل" },
+        { k: "休む", h: ["やすむ", "やすみます", "やすんで"], m: "يرتاح" },
+        { k: "教える", h: ["おしえる", "おしえます", "おしえて"], m: "يعلّم" },
+        { k: "習う", h: ["ならう", "ならいます", "ならって"], m: "يتعلّم" },
+        { k: "笑う", h: ["わらう", "わらいます", "わらって"], m: "يضحك" },
+        { k: "泣く", h: ["なく", "なきます", "ないて"], m: "يبكي" },
+        { k: "怒る", h: ["おこる", "おこります", "おこって"], m: "يغضب" },
+        { k: "勝つ", h: ["かつ", "かちます", "かって"], m: "يفوز" },
+        { k: "負ける", h: ["まける", "まけます", "まけて"], m: "يخسر" },
+        { k: "死ぬ", h: ["しぬ", "しにます", "しんで"], m: "يموت" },
+        { k: "生きる", h: ["いきる", "いきます", "いきて"], m: "يعيش" },
+        { k: "洗う", h: ["あらう", "あらいます", "あらって"], m: "يغسل" },
+        { k: "歌う", h: ["うたう", "うたいます", "うたって"], m: "يغني" },
+        { k: "踊る", h: ["おどる", "おどります", "おどって"], m: "يرقص" },
+        { k: "飛ぶ", h: ["とぶ", "とびます", "とんで"], m: "يقفز" },
+        { k: "乗る", h: ["のる", "のります", "のって"], m: "يركب" },
+        { k: "降りる", h: ["おりる", "おります", "おりて"], m: "ينزل" },
+        { k: "入る", h: ["はいる", "はいります", "はいって"], m: "يدخل" },
+        { k: "出る", h: ["でる", "でます", "でて"], m: "يخرج" },
+        { k: "開ける", h: ["あける", "あけます", "あけて"], m: "يفتح" },
+        { k: "閉める", h: ["しめる", "しめます", "しめて"], m: "يغلق" },
+        { k: "座る", h: ["すわる", "すわります", "すわって"], m: "يجلس" },
+        { k: "立つ", h: ["たつ", "たちます", "たって"], m: "يقف" },
+        { k: "探す", h: ["さがす", "さがします", "さがして"], m: "يبحث" },
+        { k: "見つける", h: ["みつける", "みつけます", "みつけて"], m: "يجد" },
+        { k: "助ける", h: ["たすける", "たすけます", "たすけて"], m: "ينقذ" },
+        { k: "選ぶ", h: ["えらぶ", "えらびます", "えらんで"], m: "يختار" },
+        { k: "運ぶ", h: ["はこぶ", "はこびます", "はこんで"], m: "ينقل" },
+        { k: "呼ぶ", h: ["よぶ", "よびます", "よんで"], m: "ينادي" }
+    ];
+
+    let isAutoPlaying = false;
+    let favorites = JSON.parse(localStorage.getItem('jp_favs_large')) || [];
+
+    function init() {
+        const list = document.getElementById('verbList');
+        list.innerHTML = '';
+        verbs.forEach((v, i) => {
+            const isFav = favorites.includes(i);
+            const card = document.createElement('div');
+            card.className = `verb-card`;
+            card.id = `card-${i}`;
+            card.innerHTML = `
+                <div class="verb-header" onclick="toggleCard(${i})">
+                    <div style="display:flex; align-items:center;">
+                        <span class="kanji">${v.k}</span>
+                        <span class="meaning-preview">${v.m}</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-icon ${isFav ? 'is-fav' : ''}" onclick="event.stopPropagation(); toggleFav(${i})">${isFav ? '★' : '☆'}</button>
+                        <button class="btn-icon" onclick="event.stopPropagation(); speakBoth(${i})">🔊</button>
+                    </div>
+                </div>
+                <div class="verb-content">
+                    <div class="detail-row"><span class="detail-label">Dictionary:</span> <span class="detail-val">${v.h[0]}</span></div>
+                    <div class="detail-row"><span class="detail-label">Masu-form:</span> <span class="detail-val">${v.h[1]}</span></div>
+                    <div class="detail-row"><span class="detail-label">Te-form:</span> <span class="detail-val">${v.h[2]}</span></div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function toggleFav(index) {
+        if (favorites.includes(index)) {
+            favorites = favorites.filter(id => id !== index);
+        } else {
+            favorites.push(index);
+        }
+        localStorage.setItem('jp_favs_large', JSON.stringify(favorites));
+        init();
+    }
+
+    function toggleCard(index) {
+        document.getElementById(`card-${index}`).classList.toggle('open');
+    }
+
+    async function speak(text, lang) {
+        return window.parent.nativeSpeak(text, (lang || '').indexOf('ar') === 0 ? 'ar' : 'ja');
+    }
+
+    async function speakBoth(index) {
+        const v = verbs[index];
+        const readAll = document.getElementById('readAllForms').checked;
+        const readMeaning = document.getElementById('readMeaningToggle').checked;
+
+        if (readAll) {
+            for (const form of v.h) {
+                await speak(form, 'ja-JP');
+                await new Promise(r => setTimeout(r, 700)); // فاصل أطول بين التصريفات
+            }
+        } else {
+            await speak(v.h[0], 'ja-JP');
+            await new Promise(r => setTimeout(r, 500));
+        }
+
+        if (readMeaning) {
+            await speak(v.m, 'ar-SA');
+        }
+    }
+
+    async function startAutoPlay(onlyFavs) {
+        if (isAutoPlaying) return;
+        if (onlyFavs && favorites.length === 0) return alert("المفضلة فارغة!");
+        
+        isAutoPlaying = true;
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('startFavBtn').disabled = true;
+        document.getElementById('stopBtn').disabled = false;
+
+        for (let i = 0; i < verbs.length; i++) {
+            if (!isAutoPlaying) break;
+            if (onlyFavs && !favorites.includes(i)) continue;
+
+            document.querySelectorAll('.verb-card').forEach(c => c.classList.remove('active', 'open'));
+            const card = document.getElementById(`card-${i}`);
+            card.classList.add('active', 'open');
+            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            await speakBoth(i);
+            await new Promise(r => setTimeout(r, 1800)); // فاصل طويل بين فعل وآخر
+        }
+        stopAutoPlay();
+    }
+
+    function stopAutoPlay() {
+        isAutoPlaying = false;
+        window.parent.nativeStop();
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('startFavBtn').disabled = false;
+        document.getElementById('stopBtn').disabled = true;
+    }
+
+    window.onload = init;
+<\/script>
+</body>
+</html>
+</script>
+
+<!-- ============ GRAMMAR LESSON OVERLAY ============ -->
+<div id="grammarOverlay">
+  <div class="grammarTopBar">
+    <button id="grammarCloseBtn">⌄</button>
+    <span class="miniTitle" id="grammarTitle">-</span>
+    <span></span>
+  </div>
+  <div class="posLegend">
+    <span class="legendChip posNoun">اسم</span>
+    <span class="legendChip posPronoun">ضمير</span>
+    <span class="legendChip posVerb">فعل</span>
+    <span class="legendChip posAdj">صفة</span>
+    <span class="legendChip posParticle">は / が</span>
+  </div>
+  <div class="gramSectionLabel">✍️ الجمل (20)</div>
+  <div id="gramSentList"></div>
+  <div class="gramSectionLabel">🆕 كلمات جديدة</div>
+  <div id="gramWordsList"></div>
+  <button id="gramQuizBtn">🎯 اختبار: は أم が؟</button>
+</div>
+
+<div id="hagaQuizOv">
+  <div class="hgTop"><button id="hgCloseBtn">✕ إغلاق</button><span class="hgProg" id="hgProg">سؤال 1 / 20</span></div>
+  <div class="hgCard">
+    <div class="hgSent" id="hgSent">-</div>
+    <div class="hgAr" id="hgAr">-</div>
+  </div>
+  <div class="hgOpts" id="hgOpts">
+    <button class="hgOpt" data-p="は">は</button>
+    <button class="hgOpt" data-p="が">が</button>
+  </div>
+  <div class="hgResult" id="hgResult" style="display:none;">
+    <h2 id="hgScoreTitle"></h2>
+    <button id="hgResultBtn">تم</button>
+  </div>
+</div>
+
+<!-- ============ KANJI VIEWER (level cards + autoplay) ============ -->
+<div id="kanjiOverlay">
+  <div class="kanjiTopBar">
+    <button id="kanjiCloseBtn">⌄</button>
+    <span class="miniTitle">مستوى: <span id="kanjiLevelLabel">-</span></span>
+    <span></span>
+  </div>
+  <div class="kanjiMatchBtnsRow">
+    <button id="kanjiMatchBtn" type="button">🎯 توصيل المعنى</button>
+    <button id="kanjiMatchHiraBtn" type="button">🈁 توصيل الهيراغانا</button>
+  </div>
+
+  <div class="kanjiOptionsPanel">
+    <div class="kanjiOptRow">
+      <span>عدد مرات القراءة لكل كانجي:</span>
+      <span class="speedPills" id="kanjiRepeatPills" style="display:flex;gap:6px;">
+        <button data-count="1" type="button" style="background:#f1eff5;color:var(--ink);border:none;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;">×1</button>
+        <button data-count="2" class="kActivePill" type="button" style="background:var(--red);color:#fff;border:none;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;">×2</button>
+        <button data-count="3" type="button" style="background:#f1eff5;color:var(--ink);border:none;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;">×3</button>
+      </span>
+    </div>
+    <div class="kanjiOptRow">
+      <span>قراءة المعنى بالعربي بعد كل كانجي:</span>
+      <button class="arSwitch" id="kanjiArabicToggle" type="button" aria-pressed="false"><span class="arKnob"></span></button>
+    </div>
+  </div>
+
+  <div class="kanjiViewToggle">
+    <button id="kanjiViewSliderBtn" class="active">🖼 بطاقات</button>
+    <button id="kanjiViewGridBtn">🔲 شبكة (3 بالسطر)</button>
+  </div>
+  <div class="kanjiGrid" id="kanjiGrid" style="display:none;"></div>
+  <div class="kanjiSlide" id="kanjiSlide">
+    <div class="kBig" id="kanjiSlideBig">-</div>
+    <div class="kTap">اضغط للاستماع</div>
+    <div class="kPairsRow" id="kanjiSlidePairs"></div>
+  </div>
+  <div class="kanjiNavRow">
+    <button class="kanjiNavBtn" id="kanjiPrevBtn">▶</button>
+    <span class="kanjiCnt" id="kanjiSlideCnt">1 / 50</span>
+    <button class="kanjiNavBtn" id="kanjiNextBtn">◀</button>
+  </div>
+</div>
+<div id="kanjiMatchOverlay">
+  <div class="kanjiTopBar">
+    <button id="kmClose" type="button">⌄</button>
+    <span class="miniTitle">توصيل الكانجي • <span id="kmLevel">-</span></span>
+    <span></span>
+  </div>
+  <div class="kmStats" id="kmStats">✓ 0 • ✗ 0 • جولة 1</div>
+  <div class="kmHint">اضغط كانجي ثم اضغط معناه العربي لتوصيلهما</div>
+  <div id="kmBoard">
+    <svg id="kmSvg" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div id="kmCols"><div class="kmCol" id="kmLeft"></div><div class="kmCol" id="kmRight"></div></div>
+  </div>
+</div>
+<button id="kanjiAutoBar">▶ عرض تلقائي لهذا المستوى</button>
+
+<!-- hidden functional control surface required by the original logic (category tabs) -->
+<div class="pillTabs" id="catRow"></div>
+<div class="catHeaderRow"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyA-OUfKoXFa-VceEdSatx_c38uwlhh4Qf8",
+    authDomain: "learn-99f04.firebaseapp.com",
+    projectId: "learn-99f04",
+    storageBucket: "learn-99f04.firebasestorage.app",
+    messagingSenderId: "1042095955824",
+    appId: "1:1042095955824:web:689166a89249d1822579b5"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var __db = firebase.firestore();
+  /* قراءة من قاعدة البيانات المسماة "learn" عبر REST (الـ SDK هنا يقرأ الافتراضية فقط) */
+  var __DB_ID = "learn";
+  function __fsVal(v) {
+    if (!v) return null;
+    if (v.stringValue !== undefined) return v.stringValue;
+    if (v.integerValue !== undefined) return parseInt(v.integerValue, 10);
+    if (v.doubleValue !== undefined) return v.doubleValue;
+    if (v.booleanValue !== undefined) return v.booleanValue;
+    if (v.arrayValue !== undefined) return (v.arrayValue.values || []).map(__fsVal);
+    if (v.mapValue !== undefined) return __fsFields(v.mapValue.fields || {});
+    return null;
+  }
+  function __fsFields(f) { var o = {}; Object.keys(f || {}).forEach(function (k) { o[k] = __fsVal(f[k]); }); return o; }
+  window.__restGet = function (collection, pageSize) {
+    var url = "https://firestore.googleapis.com/v1/projects/" + firebaseConfig.projectId + "/databases/" + encodeURIComponent(__DB_ID) + "/documents/" + collection + "?pageSize=" + (pageSize || 300) + "&key=" + firebaseConfig.apiKey;
+    return fetch(url).then(function (res) {
+      return res.json().then(function (data) {
+        if (!res.ok) throw new Error((data.error && data.error.message) || ("HTTP " + res.status));
+        var docs = (data.documents || []).map(function (d) {
+          var fields = __fsFields(d.fields || {});
+          return { id: d.name.substring(d.name.lastIndexOf("/") + 1), data: function () { return fields; } };
+        });
+        return { forEach: function (fn) { docs.forEach(fn); } };
+      });
+    });
+  };
+  window.__fetchCloudLessons = function () {
+    return window.__restGet("lessons", 10).then(function (snap) {
+      var out = [];
+      snap.forEach(function (docSnap) {
+        var d = docSnap.data();
+        out.push({ id: docSnap.id, label: d.label || docSnap.id, order: d.order || 0, items: Array.isArray(d.items) ? d.items : [] });
+      });
+      out.sort(function (a, b) { return a.order - b.order; });
+      return out;
+    }).catch(function (e) { console.log("cloud lessons fetch failed", e); return []; });
+  };
+</script>
+
+<script>
+/* كلمات الحروف: تُجلب من Firebase (مجموعة letter_words) وتُحفظ على جهاز المستخدم في lw_words_cache.
+   كل مستند: { k: "あ", words: [ {h: "あり", ar: "نملة"}, ... ] }  — أول كلمة هي التي تظهر افتراضياً */
+(function () {
+  var KEY = 'lw_words_cache';
+  function save(fb) { try { localStorage.setItem(KEY, JSON.stringify({ v: 1, at: Date.now(), fb: fb })); } catch (e) {} }
+  var has = false;
+  try { has = !!JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+  if (!has) save({}); /* أول فتح للتطبيق: تجهيز التخزين المحلي فوراً */
+  var syncing = false;
+  function sync() {
+    if (syncing || !window.__restGet) return;
+    syncing = true;
+    window.__restGet('letter_words', 300).then(function (snap) {
+      var fb = {};
+      snap.forEach(function (ds) {
+        var d = ds.data(), k = d.k || d.letter;
+        if (!k) { try { k = decodeURIComponent(ds.id); } catch (e) { k = ds.id; } }
+        var ws = (Array.isArray(d.words) ? d.words : []).filter(function (w) { return w && w.h && w.ar; })
+          .map(function (w) { return { h: String(w.h), ar: String(w.ar) }; });
+        if (ws.length) fb[k] = ws;
+      });
+      save(fb);
+    }).catch(function (e) { console.log('letter_words sync failed', e); }).then(function () { syncing = false; });
+  }
+  window.addEventListener('load', sync);
+  window.addEventListener('online', sync);
+})();
+</script>
+
+<script>
+  var statusEl = document.getElementById('status');
+  var listEl = document.getElementById('sentencesList');
+
+  var categories = {};
+
+  var BASE_KEYS = [];
+  var CONTENT_KEYS = BASE_KEYS.slice();
+
+  var favorites = [];
+  try { var stored = localStorage.getItem('jp_favorites'); if (stored) favorites = JSON.parse(stored); } catch (e) { favorites = []; }
+  function saveFavorites() { try { localStorage.setItem('jp_favorites', JSON.stringify(favorites)); } catch (e) {} }
+  function isFav(id) { return favorites.indexOf(id) !== -1; }
+  function toggleFav(id) {
+    var idx = favorites.indexOf(id);
+    if (idx === -1) favorites.push(id); else favorites.splice(idx, 1);
+    saveFavorites();
+  }
+
+  var allItemsById = {};
+  function rebuildIndex() {
+    allItemsById = {};
+    CONTENT_KEYS.forEach(function (key) {
+      categories[key].items.forEach(function (item, i) {
+        var id = key + '-' + i;
+        allItemsById[id] = { id: id, jp: item[0], hira: item[1], ar: item[2], t: item[3] || '' };
+      });
+    });
+  }
+  rebuildIndex();
+
+  categories.all = { label: 'الكل', items: [] };
+  categories.favorites = { label: '⭐ المفضلة', items: [] };
+
+  var currentCat = 'all';
+  var order = [];
+  var cardIndex = 0;
+  var isAutoPlaying = false;
+  var autoPlayTimer = null;
+
+  function log(msg) { statusEl.textContent += '\n' + msg; statusEl.scrollTop = statusEl.scrollHeight; }
+  function ttsAvailable() { return !!(window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TtsPlugin); }
+  var __ttsLastStart = 0, __ttsLastStop = 0, __ttsGen = 0, __ttsChain = Promise.resolve();
+  function __ttsWait(ms) { return new Promise(function (r) { setTimeout(r, ms > 0 ? ms : 0); }); }
+  /* يمنع إيقاف خدمة الصوت قبل أن تبدأ (سبب ForegroundServiceDidNotStartInTimeException) ويمنع بدء خدمة قبل اكتمال إيقاف السابقة */
+  function __tts(kind, args) {
+    if (kind === 'stop') __ttsGen++;
+    var gen = __ttsGen;
+    var job = __ttsChain.then(function () {
+      if (kind !== 'stop' && gen !== __ttsGen) return undefined;
+      var P = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.TtsPlugin;
+      if (!P) return undefined;
+      var now = Date.now();
+      var wait = kind === 'stop' ? 900 - (now - __ttsLastStart) : 600 - (now - __ttsLastStop);
+      return __ttsWait(wait).then(function () {
+        if (kind !== 'stop' && gen !== __ttsGen) return undefined;
+        if (kind === 'stop') { __ttsLastStop = Date.now(); return P.stop(); }
+        __ttsLastStart = Date.now();
+        return P[kind](args);
+      });
+    });
+    __ttsChain = job.catch(function () {});
+    return job;
+  }
+  function speak(text) {
+    if (!ttsAvailable()) { log('❌ TtsPlugin مش متاح.'); return; }
+    __tts('speak', { text: text, lang: 'ja' }).catch(function (err) { log('❌ خطأ: ' + (err && err.message ? err.message : JSON.stringify(err))); });
+  }
+  function stopSpeak() { if (ttsAvailable()) __tts('stop').catch(function () {}); }
+
+  var lessonsLoaded = false;
+  var pendingLesson = null; // { key, mode, filter } — retried once lessons arrive
+  var contentFilter = 'all';
+  function isSentenceText(jp) { return /[。？！?!]\s*$/.test(jp || ''); }
+  function isSentenceItem(it) {
+    if (it.t === 'w' || it.t === 'word') return false;
+    if (it.t === 's' || it.t === 'sentence') return true;
+    return isSentenceText(it.jp);
+  }
+  function getCurrentItems() {
+    var raw = getCurrentItemsRaw();
+    if (contentFilter === 'all') return raw;
+    return raw.filter(function (it) { return contentFilter === 'sentences' ? isSentenceItem(it) : !isSentenceItem(it); });
+  }
+  function getCurrentItemsRaw() {
+    if (currentCat === 'favorites') return favorites.map(function (id) { return allItemsById[id]; }).filter(Boolean);
+    if (currentCat === 'all') {
+      var all = [];
+      CONTENT_KEYS.forEach(function (key) {
+        categories[key].items.forEach(function (item, i) { all.push({ id: key + '-' + i, jp: item[0], hira: item[1], ar: item[2], t: item[3] || '' }); });
+      });
+      return all;
+    }
+    return categories[currentCat].items.map(function (item, i) { return { id: currentCat + '-' + i, jp: item[0], hira: item[1], ar: item[2], t: item[3] || '' }; });
+  }
+
+  var catRow = document.getElementById('catRow');
+  var bulkCatList = document.getElementById('bulkCatList');
+  var catNameLabel = document.getElementById('catNameLabel');
+
+  function buildTabs() {
+    catRow.innerHTML = '';
+    ['all'].concat(CONTENT_KEYS).concat(['favorites']).forEach(function (key) {
+      var btn = document.createElement('button');
+      btn.textContent = categories[key].label;
+      if (key === currentCat) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        stopAutoPlay();
+        currentCat = key;
+        Array.prototype.forEach.call(catRow.children, function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        catNameLabel.textContent = categories[key].label.replace(/^[^\u0600-\u06FF]+/, '').trim() || categories[key].label;
+        order = getCurrentItems().map(function (_, i) { return i; });
+        cardIndex = 0;
+        renderCard();
+        renderList();
+      });
+      catRow.appendChild(btn);
+    });
+    catNameLabel.textContent = categories[currentCat].label.replace(/^[^\u0600-\u06FF]+/, '').trim() || categories[currentCat].label;
+  }
+
+  function buildBulkPanel() {
+    bulkCatList.innerHTML = '';
+    CONTENT_KEYS.forEach(function (key) {
+      var id = 'bulkchk-' + key;
+      var label = document.createElement('label');
+      label.innerHTML = '<input type="checkbox" id="' + id + '"> ' + categories[key].label;
+      bulkCatList.appendChild(label);
+    });
+  }
+
+  function paragraphForItems(items) {
+    var parts = [];
+    items.forEach(function (it) { parts.push(it.jp); parts.push(it.jp); });
+    return parts.join(' ');
+  }
+
+  document.getElementById('readSelectedCatsBtn').addEventListener('click', function () {
+    var chosenItems = [], chosenLabels = [];
+    CONTENT_KEYS.forEach(function (key) {
+      var chk = document.getElementById('bulkchk-' + key);
+      if (chk && chk.checked) { chosenLabels.push(categories[key].label); categories[key].items.forEach(function (item) { chosenItems.push({ jp: item[0] }); }); }
+    });
+    if (chosenItems.length === 0) { log('⚠️ اختر قسمًا واحدًا على الأقل.'); return; }
+    log('▶ قراءة: ' + chosenLabels.join('، ') + ' (' + chosenItems.length + ' جملة)');
+    speak(paragraphForItems(chosenItems));
+  });
+  document.getElementById('readAllBtn').addEventListener('click', function () {
+    var chosenItems = [];
+    CONTENT_KEYS.forEach(function (key) { categories[key].items.forEach(function (item) { chosenItems.push({ jp: item[0] }); }); });
+    log('▶ قراءة كل الجمل (' + chosenItems.length + ' جملة)...');
+    speak(paragraphForItems(chosenItems));
+  });
+
+  function renderList() {
+    listEl.innerHTML = '';
+    var items = getCurrentItems();
+    if (items.length === 0) {
+      var empty = document.createElement('div'); empty.className = 'emptyMsg'; empty.textContent = 'لا توجد جمل هنا بعد.'; listEl.appendChild(empty); return;
+    }
+    items.forEach(function (s, i) {
+      var row = document.createElement('div'); row.className = 'sentenceItem';
+      var checkbox = document.createElement('input'); checkbox.type = 'checkbox'; checkbox.id = 'chk-' + i; checkbox.checked = true;
+      var txt = document.createElement('div'); txt.className = 'txt';
+      txt.innerHTML = '<div class="jp"><span class="num">' + (i + 1) + '.</span> ' + s.jp + '</div><div class="hira">' + s.hira + '</div><div class="ar">' + s.ar + '</div>';
+      var starBtn = document.createElement('button'); starBtn.className = 'starBtn' + (isFav(s.id) ? ' faved' : ''); starBtn.textContent = isFav(s.id) ? '★' : '☆';
+      starBtn.addEventListener('click', function () {
+        toggleFav(s.id); renderList();
+        order = getCurrentItems().map(function (_, i2) { return i2; });
+        if (cardIndex >= order.length) cardIndex = 0;
+        renderCard();
+      });
+      row.appendChild(checkbox); row.appendChild(txt); row.appendChild(starBtn); listEl.appendChild(row);
+    });
+  }
+
+  function getSelectedSentences() {
+    var items = getCurrentItems(), selected = [];
+    items.forEach(function (s, i) { var chk = document.getElementById('chk-' + i); if (chk && chk.checked) selected.push(s.jp); });
+    return selected;
+  }
+  function buildParagraph(selected) { var parts = []; selected.forEach(function (s) { parts.push(s); parts.push(s); }); return parts.join(' '); }
+
+  document.getElementById('selectAllBtn').addEventListener('click', function () { getCurrentItems().forEach(function (s, i) { var c = document.getElementById('chk-' + i); if (c) c.checked = true; }); });
+  document.getElementById('clearAllBtn').addEventListener('click', function () { getCurrentItems().forEach(function (s, i) { var c = document.getElementById('chk-' + i); if (c) c.checked = false; }); });
+  document.getElementById('startBtn').addEventListener('click', function () {
+    var selected = getSelectedSentences();
+    if (selected.length === 0) { log('⚠️ محتاج تختار جملة واحدة على الأقل.'); return; }
+    log('▶ بعتنا فقرة فيها ' + selected.length + ' جملة...'); speak(buildParagraph(selected));
+  });
+  document.getElementById('stopBtn').addEventListener('click', stopSpeak);
+
+  /* ---- flashcard ---- */
+  var flashcardEl = document.getElementById('flashcard');
+  var flashJpEl = document.getElementById('flashJp');
+  var flashHiraEl = document.getElementById('flashHira');
+  var flashArEl = document.getElementById('flashAr');
+  var progressFillEl = document.getElementById('progressFill');
+  var progressCountEl = document.getElementById('progressCount');
+  var cardFavBtn = document.getElementById('cardFavBtn');
+  var cardSpeakBtn = document.getElementById('cardSpeakBtn');
+
+  function renderCard() {
+    var items = getCurrentItems();
+    if (items.length === 0 || order.length === 0) {
+      flashJpEl.textContent = lessonsLoaded ? 'لا توجد جمل' : '⏳ جاري تحميل الدرس...';
+      flashHiraEl.textContent = ''; flashArEl.textContent = '';
+      progressFillEl.style.width = '0%'; progressCountEl.textContent = '0 / 0';
+      return;
+    }
+    var it = items[order[cardIndex]];
+    flashJpEl.textContent = it.jp;
+    flashHiraEl.textContent = it.hira;
+    flashArEl.textContent = it.ar;
+    flashcardEl.classList.remove('revealed');
+    var pct = ((cardIndex + 1) / order.length) * 100;
+    progressFillEl.style.width = pct + '%';
+    progressCountEl.textContent = order.length + ' / ' + (cardIndex + 1);
+    cardFavBtn.textContent = isFav(it.id) ? '★' : '☆';
+    cardFavBtn.className = 'iconBtn favBtn' + (isFav(it.id) ? ' faved' : '');
+  }
+
+  flashcardEl.addEventListener('click', function (e) {
+    if (e.target === cardFavBtn || e.target === cardSpeakBtn) return;
+    flashcardEl.classList.toggle('revealed');
+  });
+  document.getElementById('flipBtn').addEventListener('click', function () { flashcardEl.classList.toggle('revealed'); });
+
+  cardFavBtn.addEventListener('click', function () {
+    var items = getCurrentItems(); var it = items[order[cardIndex]];
+    toggleFav(it.id);
+    if (currentCat === 'favorites') {
+      order = getCurrentItems().map(function (_, i) { return i; });
+      if (order.length === 0) cardIndex = 0; else if (cardIndex >= order.length) cardIndex = order.length - 1;
+    }
+    renderCard();
+  });
+  cardSpeakBtn.addEventListener('click', function () {
+    var items = getCurrentItems(); if (order.length === 0) return;
+    var it = items[order[cardIndex]]; speak(it.jp + ' ' + it.jp);
+  });
+
+  document.getElementById('nextBtn').addEventListener('click', function () { if (order.length === 0) return; cardIndex = (cardIndex + 1) % order.length; renderCard(); });
+  document.getElementById('prevBtn').addEventListener('click', function () { if (order.length === 0) return; cardIndex = (cardIndex - 1 + order.length) % order.length; renderCard(); });
+
+  var autoPlayBtn = document.getElementById('autoPlayBtn');
+
+  /* ---- user-configurable playback options ---- */
+  var repeatCount = 2;          // كم مرة تتكرر الجملة اليابانية (زر التكرار)
+  var readArabicMeaning = false; // قراءة المعنى بالعربي بعد انتهاء الجمل اليابانية
+  var playbackPhase = 'jp';     // 'jp' أثناء تكرار الجمل اليابانية، 'ar' أثناء قراءة المعاني
+  var currentRepeatCount = repeatCount;
+  var autoplayStartAt = 0;
+  var heldPause = false;        // true أثناء الضغط المطوّل على البطاقة
+  var resumeTimer = null, holdTimer = null, seqIgnoreUntil = 0, arPending = false;
+
+  function startAutoPlay(fromIndex) {
+    var items = getCurrentItems();
+    if (items.length === 0) { log('⚠️ لا توجد جمل في هذا القسم.'); return; }
+    if (!ttsAvailable()) { log('❌ TtsPlugin مش متاح.'); return; }
+    window.nativeWakeLock ? window.nativeWakeLock(true) : null;
+    if (order.length !== items.length) order = items.map(function (_, i) { return i; });
+    var startAt = (typeof fromIndex === 'number' && fromIndex >= 0 && fromIndex < order.length) ? fromIndex : 0;
+    cardIndex = startAt;
+    playbackPhase = 'jp';
+    currentRepeatCount = repeatCount;
+    autoplayStartAt = startAt;
+
+    // بنبني مصفوفة الجمل بنفس ترتيب "order" بدءًا من موضع الاستئناف، كل جملة مكررة بعدد "repeatCount"
+    var remaining = order.slice(startAt);
+    var texts = [];
+    remaining.forEach(function (idx) {
+      var it = items[idx];
+      for (var r = 0; r < currentRepeatCount; r++) texts.push(it.jp);
+    });
+
+    isAutoPlaying = true;
+    autoPlayBtn.textContent = '⏹ إيقاف القراءة';
+    autoPlayBtn.classList.add('playing');
+    renderCard();
+    if (typeof updateMiniPlayerBar === 'function') updateMiniPlayerBar();
+    log('▶ قراءة تلقائية مع تنقّل البطاقات (' + remaining.length + ' جملة، تكرار×' + currentRepeatCount + ')...');
+
+    seqIgnoreUntil = Date.now() + 400;
+    __tts('speakSequence', { texts: texts, lang: 'ja' })
+      .catch(function (err) { log('❌ خطأ: ' + (err && err.message ? err.message : JSON.stringify(err))); stopAutoPlay(); });
+  }
+
+  function startArabicPass(fromIndex) {
+    var items = getCurrentItems();
+    if (order.length === 0 || !ttsAvailable()) { isAutoPlaying = false; autoPlayBtn.classList.remove('playing'); if (typeof updateMiniPlayerBar === 'function') updateMiniPlayerBar(); return; }
+    var startAt = (typeof fromIndex === 'number' && fromIndex >= 0 && fromIndex < order.length) ? fromIndex : 0;
+    playbackPhase = 'ar';
+    cardIndex = startAt;
+    autoplayStartAt = startAt;
+    var remaining = order.slice(startAt);
+    var texts = remaining.map(function (idx) { return items[idx].ar; });
+
+    isAutoPlaying = true;
+    autoPlayBtn.classList.add('playing');
+    renderCard();
+    if (typeof updateMiniPlayerBar === 'function') updateMiniPlayerBar();
+    log('🗣️ قراءة المعنى بالعربي (' + remaining.length + ' جملة)...');
+
+    seqIgnoreUntil = Date.now() + 400;
+    __tts('speakSequence', { texts: texts, lang: 'ar' })
+      .catch(function (err) { log('❌ خطأ (عربي): ' + (err && err.message ? err.message : JSON.stringify(err))); stopAutoPlay(); });
+  }
+
+  function stopAutoPlay() {
+    isAutoPlaying = false;
+    clearTimeout(resumeTimer); clearTimeout(holdTimer); heldPause = false; arPending = false;
+    stopSpeak();
+    window.nativeWakeLock ? window.nativeWakeLock(false) : null;
+    autoPlayBtn.textContent = '▶ تشغيل تلقائي مع النطق'; autoPlayBtn.classList.remove('playing');
+    playbackPhase = 'jp';
+    if (typeof updateMiniPlayerBar === 'function') updateMiniPlayerBar();
+  }
+  autoPlayBtn.addEventListener('click', function () {
+    if (isAutoPlaying) { stopAutoPlay(); }
+    else { startAutoPlay(cardIndex || 0); }
+  });
+  var restartBusy = false;
+  document.getElementById('restartPlayBtn').addEventListener('click', function () {
+    if (restartBusy) return;
+    restartBusy = true;
+    stopAutoPlay();
+    cardIndex = 0; renderCard();
+    setTimeout(function () { restartBusy = false; startAutoPlay(0); }, 1000);
+  });
+
+  /* ---- press-and-hold the card (0.35s) to pause; release to resume from the same card ---- */
+  var flashcardTouchEl = document.getElementById('flashcard');
+  function pauseForHold() {
+    if (!isAutoPlaying || heldPause) return;
+    heldPause = true;
+    isAutoPlaying = false; // بيمنع أي حدث متأخر من تحريك البطاقة
+    stopSpeak();
+    autoPlayBtn.classList.remove('playing');
+    if (typeof updateMiniPlayerBar === 'function') updateMiniPlayerBar();
+  }
+  function holdDown() {
+    if (!isAutoPlaying) return;
+    clearTimeout(holdTimer);
+    holdTimer = setTimeout(function () { holdTimer = null; pauseForHold(); }, 350);
+  }
+  function holdUp() {
+    if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+    if (!heldPause) return;
+    heldPause = false;
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(function () {
+      if (playbackPhase === 'ar') { startArabicPass(cardIndex); } else { startAutoPlay(cardIndex); }
+    }, 350);
+  }
+  flashcardTouchEl.addEventListener('pointerdown', holdDown);
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) { flashcardTouchEl.addEventListener(ev, holdUp); });
+  flashcardTouchEl.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  // الأندرويد بيبلّغنا بأي جملة بتتقرأ دلوقتي فعليًا (event حقيقي من محرك TTS)،
+  // فتنقّل البطاقات بيبقى متزامن تمامًا مع الصوت، ومش معتمد على مؤقّت جافاسكريبت
+  if (ttsAvailable() && window.Capacitor.Plugins.TtsPlugin.addListener) {
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceIndex', function (data) {
+      if (!isAutoPlaying) return;
+      if (Date.now() < seqIgnoreUntil) return;
+      var raw = (data && data.index) || 0;
+      if (playbackPhase === 'ar') {
+        var posAr = autoplayStartAt + raw;
+        if (posAr >= 0 && posAr < order.length) { cardIndex = posAr; renderCard(); }
+      } else {
+        var pos = autoplayStartAt + Math.floor(raw / currentRepeatCount);
+        if (pos >= 0 && pos < order.length) { cardIndex = pos; renderCard(); }
+      }
+    });
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceDone', function () {
+      if (!isAutoPlaying) return;
+      if (Date.now() < seqIgnoreUntil) return;
+      if (playbackPhase === 'jp' && readArabicMeaning) {
+        if (arPending) return;
+        arPending = true;
+        setTimeout(function () { arPending = false; if (isAutoPlaying) startArabicPass(0); }, 350);
+        return;
+      }
+      isAutoPlaying = false;
+      autoPlayBtn.textContent = '▶ تشغيل تلقائي مع النطق'; autoPlayBtn.classList.remove('playing');
+      playbackPhase = 'jp';
+      if (typeof updateMiniPlayerBar === 'function') updateMiniPlayerBar();
+      log('✅ خلصت القراءة التلقائية.');
+    });
+  }
+
+  /* ---- mode toggle ---- */
+  var modeToggle = document.getElementById('modeToggle');
+  var cardSection = document.getElementById('cardSection');
+  var listSection = document.getElementById('listSection');
+  var inListMode = false;
+  modeToggle.addEventListener('click', function () {
+    stopAutoPlay();
+    inListMode = !inListMode;
+    cardSection.style.display = inListMode ? 'none' : '';
+    listSection.style.display = inListMode ? '' : 'none';
+    modeToggle.textContent = inListMode ? '🗂 عرض البطاقات' : '📋 عرض القائمة';
+    if (inListMode) renderList();
+  });
+
+  /* ---- cloud lessons merge ---- */
+  function mergeCloudLessons(list, authoritative) {
+    if (!list || list.length === 0) return;
+    if (authoritative) {
+      CONTENT_KEYS = CONTENT_KEYS.filter(function (k) {
+        var keep = list.some(function (l) { return l.id === k; });
+        if (!keep) delete categories[k];
+        return keep;
+      });
+    }
+    list.forEach(function (lesson) {
+      var mapped = lesson.items.map(function (it) { return [it.jp || '', it.hira || '', it.ar || '', it.type === 'word' ? 'w' : (it.type === 'sentence' ? 's' : '')]; });
+      var lvl = lesson.level || '';
+      if (categories[lesson.id] && CONTENT_KEYS.indexOf(lesson.id) !== -1) {
+        categories[lesson.id].items = mapped;
+        categories[lesson.id].label = lesson.label;
+        categories[lesson.id].level = lvl;
+      } else if (lesson.id !== 'all' && lesson.id !== 'favorites') {
+        categories[lesson.id] = { label: lesson.label, items: mapped, level: lvl };
+        CONTENT_KEYS.push(lesson.id);
+      }
+    });
+    rebuildIndex();
+    favorites = favorites.filter(function (id) { return !!allItemsById[id]; });
+    saveFavorites();
+    buildTabs(); buildBulkPanel();
+    order = getCurrentItems().map(function (_, i) { return i; });
+    renderCard(); renderList();
+    log('☁️ تم تحميل ' + list.length + ' درس من Firebase.');
+    if (pendingLesson && categories[pendingLesson.key]) {
+      var pl = pendingLesson; pendingLesson = null;
+      openLesson(pl.key, pl.mode, pl.filter);
+    }
+    try { window.dispatchEvent(new Event('lessonsMerged')); } catch (e) {}
+  }
+
+  /* ---- init ---- */
+  buildTabs(); buildBulkPanel();
+  order = getCurrentItems().map(function (_, i) { return i; });
+  renderCard(); renderList();
+  statusEl.textContent = 'فحص البيئة:';
+  log('window.Capacitor موجود؟ ' + (typeof window.Capacitor !== 'undefined'));
+  if (window.Capacitor) { log('TtsPlugin موجود؟ ' + ttsAvailable()); } else { log('⚠️ الصفحة مش شغالة جوه تطبيق Capacitor أصلاً.'); }
+  try {
+    var cachedLessons = JSON.parse(localStorage.getItem('cloud_lessons_cache') || '[]');
+    if (cachedLessons.length) { lessonsLoaded = true; mergeCloudLessons(cachedLessons); }
+  } catch (e) {}
+
+  window.addEventListener('load', function () {
+    var tries = 0;
+    var waitForFirebase = setInterval(function () {
+      tries++;
+      if (window.__fetchCloudLessons) {
+        clearInterval(waitForFirebase);
+        window.__fetchCloudLessons().then(function (list) {
+          if (!list || list.length === 0) {
+            log('☁️ الاتصال بـ Firebase تم، لكن مفيش دروس في مجموعة "lessons" حاليًا (أو الرفع لسه ما نجحش).');
+          }
+          if (list && list.length) { try { localStorage.setItem('cloud_lessons_cache', JSON.stringify(list)); } catch (e) {} }
+          lessonsLoaded = true;
+          mergeCloudLessons(list, true);
+          if (!CONTENT_KEYS.length) { buildLessonLists(); }
+        });
+      }
+      else if (tries > 40) {
+        clearInterval(waitForFirebase);
+        log('⚠️ تعذر تحميل Firebase (تحقق من الاتصال بالإنترنت).');
+        lessonsLoaded = true;
+        buildLessonLists(); renderCard();
+      }
+    }, 150);
+  });
+</script>
+
+<!-- ================================================================== -->
+<!-- Visual/navigation wiring ONLY: builds the Home / Lessons / Favorites -->
+<!-- screens and the full-screen player, using the SAME data (categories, -->
+<!-- favorites, allItemsById) and the SAME functions/buttons defined above -->
+<!-- (speak, toggleFav, renderCard, renderList, autoplay, mode toggle...). -->
+<!-- No reading/TTS/data logic is added, changed or duplicated here. -->
+<!-- ================================================================== -->
+<script>
+(function () {
+  var ICONS = { daily: '👋', work: '💼', home: '🏠', personal: '⭐' };
+
+  /* ================================================================ */
+  /* KANJI (N5-N1): level lists + card viewer + autoplay.              */
+  /* Local defaults below seed N5 with 50 kanji. A Firestore           */
+  /* collection "kanji" (doc id = n5/n4/n3/n2/n1) can add or override  */
+  /* any level later, same shape as "lessons"/"quizzes":               */
+  /*   { label: "N5", items: [ [kanji, hiragana, ar], ... ] }          */
+  /* ================================================================ */
+  var KANJI_LEVEL_ORDER = ['n5', 'n4', 'n3', 'n2', 'n1'];
+  var kanjiData = {
+    n5: { label: 'N5', items: [["日", [["ひ", "شمس"], ["ひ", "يوم"], ["にち", "الأحد (日曜日)"]]], ["月", [["つき", "قمر"], ["がつ", "شهر"], ["げつ", "الاثنين (月曜日)"]]], ["火", [["ひ", "نار"], ["か", "الثلاثاء (火曜日)"]]], ["水", [["みず", "ماء"], ["すい", "الأربعاء (水曜日)"]]], ["木", [["き", "شجرة"], ["もく", "الخميس (木曜日)"]]], ["金", [["かね", "مال"], ["きん", "ذهب"], ["きん", "الجمعة (金曜日)"]]], ["土", [["つち", "تراب"], ["ど", "السبت (土曜日)"]]], ["人", [["ひと", "إنسان"]]], ["子", [["こ", "طفل"]]], ["女", [["おんな", "امرأة"]]], ["男", [["おとこ", "رجل"]]], ["大", [["おおきい", "كبير"]]], ["小", [["ちいさい", "صغير"]]], ["中", [["なか", "وسط"], ["なか", "داخل"]]], ["上", [["うえ", "فوق"]]], ["下", [["した", "تحت"]]], ["左", [["ひだり", "يسار"]]], ["右", [["みぎ", "يمين"]]], ["山", [["やま", "جبل"]]], ["川", [["かわ", "نهر"]]], ["田", [["た", "حقل (أرز)"]]], ["天", [["てん", "سماء"]]], ["空", [["そら", "سماء"], ["から", "فراغ"]]], ["雨", [["あめ", "مطر"]]], ["花", [["はな", "زهرة"]]], ["林", [["はやし", "غابة صغيرة"]]], ["森", [["もり", "غابة"]]], ["石", [["いし", "حجر"]]], ["目", [["め", "عين"]]], ["耳", [["みみ", "أذن"]]], ["口", [["くち", "فم"]]], ["手", [["て", "يد"]]], ["足", [["あし", "قدم"], ["あし", "رجل"]]], ["力", [["ちから", "قوة"]]], ["円", [["えん", "دائرة"], ["えん", "ين (عملة)"]]], ["気", [["き", "هواء"], ["き", "مزاج"]]], ["本", [["ほん", "كتاب"], ["もと", "أصل"]]], ["名", [["な", "اسم"]]], ["学", [["がく", "تعلّم"]]], ["校", [["こう", "مدرسة"]]], ["先", [["さき", "سابق"]]], ["生", [["せい", "حياة"], ["せい", "طالب"]]], ["年", [["とし", "سنة"]]], ["早", [["はやい", "مبكر"]]], ["見", [["みる", "رأى"]]], ["聞", [["きく", "سمع"]]], ["食", [["たべる", "أكل"]]], ["飲", [["のむ", "شرب"]]], ["行", [["いく", "ذهب"]]], ["来", [["くる", "أتى"]]]] },
+    n4: { label: 'N4', items: [] },
+    n3: { label: 'N3', items: [] },
+    n2: { label: 'N2', items: [] },
+    n1: { label: 'N1', items: [] }
+  };
+
+  if (window.__db) {
+    window.__restGet('kanji').then(function (snap) {
+      snap.forEach(function (docSnap) {
+        var d = docSnap.data();
+        var items = Array.isArray(d.items) ? d.items.map(function (it) {
+          var k = it.k || it[0] || '';
+          var pairs;
+          if (Array.isArray(it.r) && it.r.length) pairs = it.r.map(function (p) { return [p.h || p[0] || '', p.ar || p[1] || '']; });
+          else pairs = [[it.h || it[1] || '', it.ar || it[2] || '']];
+          return [k, pairs];
+        }) : [];
+        if (items.length) kanjiData[docSnap.id] = { label: d.label || (kanjiData[docSnap.id] ? kanjiData[docSnap.id].label : docSnap.id), items: items };
+      });
+      if (document.getElementById('screenKanjiLevels').classList.contains('active')) buildKanjiLevelsList();
+      if (document.getElementById('kanjiOverlay').classList.contains('show') && currentKanjiLevel) openKanjiLevel(currentKanjiLevel);
+    }).catch(function (e) { console.log('cloud kanji fetch failed', e); });
+  }
+
+  function labelNoEmoji(key) {
+    return categories[key].label.replace(/^[^\u0600-\u06FF]+/, '').trim() || categories[key].label;
+  }
+
+  function clickTabByLabelStartsWith(prefix) {
+    var buttons = document.getElementById('catRow').children;
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].textContent.indexOf(prefix) === 0) { buttons[i].click(); return true; }
+    }
+    return false;
+  }
+
+  function openPlayer() { document.getElementById('playerOverlay').classList.add('show'); updateMiniPlayerBar(); }
+  function closePlayer() { document.getElementById('playerOverlay').classList.remove('show'); updateMiniPlayerBar(); }
+  function updateMiniPlayerBar() {
+    var bar = document.getElementById('miniPlayerBar');
+    var overlayOpen = document.getElementById('playerOverlay').classList.contains('show');
+    if (isAutoPlaying && !overlayOpen) bar.classList.add('show'); else bar.classList.remove('show');
+  }
+  function ensureCardMode() { if (inListMode) document.getElementById('modeToggle').click(); }
+  function ensureListMode() { if (!inListMode) document.getElementById('modeToggle').click(); }
+
+  function openLesson(key, mode, filter) {
+    if (!categories[key]) {
+      pendingLesson = { key: key, mode: mode, filter: filter };
+      openPlayer();
+      renderCard();
+      return;
+    }
+    contentFilter = filter || 'all';
+    if (!clickTabByLabelStartsWith(categories[key].label)) {
+      currentCat = key; order = getCurrentItems().map(function (_, i) { return i; }); cardIndex = 0; renderCard(); renderList();
+    }
+    ensureCardMode();
+    openPlayer();
+    if (mode === 'card-auto') { document.getElementById('autoPlayBtn').click(); }
+  }
+
+  function showScreen(id, navId) {
+    var screens = document.querySelectorAll('.screen');
+    for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
+    document.getElementById(id).classList.add('active');
+    var items = document.querySelectorAll('.navItem');
+    for (var j = 0; j < items.length; j++) items[j].classList.remove('active');
+    if (navId) document.getElementById(navId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ---- build a lesson-card element matching the screenshots ---- */
+  function buildLessonCard(key) {
+    var cat = categories[key];
+    var count = cat.items.length;
+    var sCount = cat.items.filter(function (it) { return it[3] === 's' ? true : (it[3] === 'w' ? false : isSentenceText(it[0])); }).length;
+    var wCount = count - sCount;
+    var iconM = cat.label.match(/^[^\u0600-\u06FFA-Za-z0-9\s]+/);
+    var card = document.createElement('div');
+    card.className = 'lessonCard';
+    card.innerHTML =
+      '<div class="lessonTop">' +
+        '<button class="lessonPlayBtn">▶ تشغيل الكل<span class="lessonBadge">N5</span></button>' +
+        '<div class="lessonInfo"><div class="lessonTitle">' + labelNoEmoji(key) + '</div>' +
+          '<div class="lessonCount">' + count + ' مفردة وعبارة للتعلم</div></div>' +
+        '<div class="lessonIcon">' + (iconM ? iconM[0].trim() : '📘') + '</div>' +
+      '</div>' +
+      '<div class="lessonSubRow">' +
+        '<button class="subBtn sub-listen" data-mode="card-auto"><div class="si">🎧</div><div class="sl">استماع</div><div class="sc">' + count + '</div></button>' +
+        '<button class="subBtn sub-kanji" data-mode="quiz"><div class="si">🎓</div><div class="sl">اختبار</div><div class="sc">' + count + '</div></button>' +
+        '<button class="subBtn sub-sentence" data-mode="card" data-filter="sentences"><div class="si">📝</div><div class="sl">الجمل</div><div class="sc">' + sCount + '</div></button>' +
+        '<button class="subBtn sub-words" data-mode="card" data-filter="words"><div class="si">💬</div><div class="sl">الكلمات</div><div class="sc">' + wCount + '</div></button>' +
+      '</div>';
+    card.querySelector('.lessonPlayBtn').addEventListener('click', function () { openLesson(key, 'card-auto'); });
+    var subBtns = card.querySelectorAll('.subBtn');
+    for (var i = 0; i < subBtns.length; i++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          var mode = btn.getAttribute('data-mode');
+          if (mode === 'quiz') { startQuiz(key); return; }
+          openLesson(key, mode, btn.getAttribute('data-filter') || 'all');
+        });
+      })(subBtns[i]);
+    }
+    return card;
+  }
+
+  var lessonsLevelFilter = 'all';
+  function buildLevelTabs() {
+    var wrap = document.getElementById('levelTabs');
+    var levels = [];
+    CONTENT_KEYS.forEach(function (key) {
+      var lvl = categories[key].level;
+      if (lvl && levels.indexOf(lvl) === -1) levels.push(lvl);
+    });
+    if (levels.indexOf(lessonsLevelFilter) === -1) lessonsLevelFilter = 'all';
+    wrap.innerHTML = '';
+    function mkTab(val, label) {
+      var btn = document.createElement('button');
+      btn.textContent = label;
+      if (val === lessonsLevelFilter) btn.classList.add('active');
+      btn.addEventListener('click', function () {
+        lessonsLevelFilter = val;
+        Array.prototype.forEach.call(wrap.children, function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        buildLessonLists();
+      });
+      wrap.appendChild(btn);
+    }
+    mkTab('all', 'جميع الدروس 🌸');
+    levels.forEach(function (lvl) { mkTab(lvl, lvl); });
+  }
+
+  function buildLessonLists() {
+    buildLevelTabs();
+    var full = document.getElementById('lessonsFullList');
+    var preview = document.getElementById('homeLessonsPreview');
+    full.innerHTML = ''; preview.innerHTML = '';
+    if (!lessonsLoaded) {
+      var loadingHtml = '<div class="quizEmpty"><span class="qes">⏳</span>جاري تحميل الدروس...</div>';
+      full.innerHTML = loadingHtml; preview.innerHTML = loadingHtml;
+      return;
+    }
+    var keys = CONTENT_KEYS.filter(function (key) { return lessonsLevelFilter === 'all' || categories[key].level === lessonsLevelFilter; });
+    keys.forEach(function (key, idx) {
+      full.appendChild(buildLessonCard(key));
+      if (idx < 2) preview.appendChild(buildLessonCard(key));
+    });
+    if (!keys.length) full.innerHTML = '<div class="quizEmpty"><span class="qes">📖</span>لا توجد دروس لهذا المستوى بعد.</div>';
+  }
+
+  /* ---- favorites screen ---- */
+  function renderFavoritesScreen() {
+    var wrap = document.getElementById('favListPreview');
+    var empty = document.getElementById('favEmptyState');
+    wrap.innerHTML = '';
+    if (!favorites.length) { empty.classList.remove('hide'); wrap.classList.remove('show'); return; }
+    empty.classList.add('hide'); wrap.classList.add('show');
+    var panel = document.createElement('div'); panel.className = 'panel';
+    favorites.forEach(function (id, i) {
+      var it = allItemsById[id]; if (!it) return;
+      var row = document.createElement('div'); row.className = 'sentenceItem';
+      row.innerHTML = '<div class="txt"><div class="jp"><span class="num">' + (i + 1) + '.</span> ' + it.jp + '</div>' +
+        '<div class="hira">' + it.hira + '</div><div class="ar">' + it.ar + '</div></div>';
+      var star = document.createElement('button'); star.className = 'starBtn faved'; star.textContent = '★';
+      star.addEventListener('click', function () { toggleFav(id); renderFavoritesScreen(); updateHomeStats(); });
+      row.appendChild(star);
+      panel.appendChild(row);
+    });
+    wrap.appendChild(panel);
+  }
+
+  /* ---- home progress stat (based on favorited / total items, read-only) ---- */
+  function updateHomeStats() {
+    var total = Object.keys(allItemsById).length;
+    var saved = favorites.length;
+    var pct = total ? Math.round((saved / total) * 100) : 0;
+    document.getElementById('homePct').textContent = pct + '%';
+    document.getElementById('homeProgressFill').style.width = pct + '%';
+  }
+  var _origToggleFav = window.toggleFav;
+  window.toggleFav = function (id) { _origToggleFav(id); updateHomeStats(); renderFavoritesScreen(); };
+
+  /* ---- wire buttons ---- */
+  document.getElementById('heroPlayAllBtn').addEventListener('click', function () {
+    contentFilter = 'all'; clickTabByLabelStartsWith('الكل'); ensureCardMode(); openPlayer();
+    document.getElementById('autoPlayBtn').click();
+  });
+  document.getElementById('browseLessonsBtn').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('seeAllLessonsBtn').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('lessonsPlayAllBtn').addEventListener('click', function () {
+    contentFilter = 'all'; clickTabByLabelStartsWith('الكل'); ensureCardMode(); openPlayer();
+    document.getElementById('autoPlayBtn').click();
+  });
+  document.getElementById('favPlayAllBtn').addEventListener('click', function () {
+    contentFilter = 'all'; clickTabByLabelStartsWith('⭐ المفضلة'); ensureCardMode(); openPlayer();
+    document.getElementById('autoPlayBtn').click();
+  });
+
+  /* ---- native TTS bridge for the embedded letters/verbs/grammar pages ---- */
+  var nativeGen = 0, nativeResolve = null, nativeTimer = null;
+  window.nativeSpeak = function (text, lang) {
+    nativeGen++;
+    var myGen = nativeGen;
+    return new Promise(function (resolve) {
+      clearTimeout(nativeTimer); nativeResolve = null;
+      if (!ttsAvailable()) {
+        try {
+          var u = new SpeechSynthesisUtterance(text);
+          u.lang = lang === 'ar' ? 'ar-SA' : 'ja-JP'; u.rate = 0.85;
+          u.onend = resolve; u.onerror = resolve;
+          window.speechSynthesis.cancel(); window.speechSynthesis.speak(u);
+        } catch (e) { resolve(); }
+        return;
+      }
+      var finished = false;
+      function finish(gen) {
+        if (finished || gen !== myGen) return; finished = true;
+        clearTimeout(nativeTimer);
+        if (nativeResolve === finish) nativeResolve = null;
+        resolve();
+      }
+      nativeResolve = finish;
+      nativeTimer = setTimeout(function () { finish(myGen); }, 20000);
+      __tts('speakSequence', { texts: [text], lang: lang || 'ja' }).catch(function () { finish(myGen); });
+    });
+  };
+  window.nativeStop = function () {
+    nativeGen++; // invalidate any pending resolve
+    clearTimeout(nativeTimer); nativeResolve = null;
+    if (ttsAvailable()) { stopSpeak(); } else { try { window.speechSynthesis.cancel(); } catch (e) {} }
+  };
+  if (ttsAvailable() && window.Capacitor.Plugins.TtsPlugin.addListener) {
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceDone', function () { if (nativeResolve) nativeResolve(nativeGen); });
+  }
+  /* best-effort: keep the screen awake while a lesson is actively playing (mitigates playback stopping on screen lock) */
+  var __wakeLock = null;
+  window.nativeWakeLock = function (on) {
+    try {
+      if (on) {
+        if (!('wakeLock' in navigator)) return;
+        if (__wakeLock) return;
+        navigator.wakeLock.request('screen').then(function (wl) { __wakeLock = wl; }).catch(function () {});
+      } else if (__wakeLock) {
+        __wakeLock.release().catch(function () {});
+        __wakeLock = null;
+      }
+    } catch (e) {}
+  };
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'visible' && __wakeLock === null && (isAutoPlaying || isKanjiAutoPlaying)) window.nativeWakeLock(true);
+  });
+
+  function openPage(srcId) {
+    var END = '<' + '/script>'; var src = document.getElementById(srcId).textContent.split('<\\/script>').join(END);
+    document.getElementById('pageFrame').srcdoc = src;
+    document.getElementById('pageOverlay').classList.add('show');
+  }
+  document.getElementById('openLettersBtn').addEventListener('click', function () { openPage('src-letters'); });
+  document.getElementById('openVerbsBtn').addEventListener('click', function () { openPage('src-verbs'); });
+  document.getElementById('openLetterWordBtn').addEventListener('click', function () { openPage('src-letterword'); });
+  document.getElementById('kanjiGridBtn').addEventListener('click', function () { showScreen('screenKanjiLevels', null); buildKanjiLevelsList(); });
+  document.getElementById('grammarBtn').addEventListener('click', function () { showScreen('screenGrammar', null); });
+  document.getElementById('listenGridBtn').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('pageOverlayBack').addEventListener('click', function () {
+    window.nativeStop();
+    document.getElementById('pageFrame').srcdoc = '';
+    document.getElementById('pageOverlay').classList.remove('show');
+  });
+  
+
+  document.getElementById('navHome').addEventListener('click', function () { showScreen('screenHome', 'navHome'); });
+  document.getElementById('homeLogoBtn').addEventListener('click', function () { showScreen('screenHome', 'navHome'); });
+  document.getElementById('navLessons').addEventListener('click', function () { showScreen('screenLessons', 'navLessons'); });
+  document.getElementById('navFav').addEventListener('click', function () { renderFavoritesScreen(); showScreen('screenFavorites', 'navFav'); });
+  document.getElementById('navQuiz').addEventListener('click', function () { showScreen('screenQuiz', 'navQuiz'); buildQuizList(); });
+  document.getElementById('playerCloseBtn').addEventListener('click', function () { closePlayer(); });
+
+  /* ---- "return to player" floating bar (shown while autoplay is running in the background) ---- */
+  document.getElementById('miniPlayerBar').addEventListener('click', function () { openPlayer(); });
+
+  /* ---- repeat-count pills (×1 ×2 ×3 ×4) ---- */
+  var repeatPillsWrap = document.getElementById('repeatPills');
+  repeatPillsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('button') : null;
+    if (!btn) return;
+    repeatCount = parseInt(btn.getAttribute('data-count'), 10) || 2;
+    Array.prototype.forEach.call(repeatPillsWrap.children, function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    if (isAutoPlaying) {
+      var ph = playbackPhase, ix = cardIndex;
+      isAutoPlaying = false; stopSpeak();
+      clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () { if (ph === 'ar') startArabicPass(ix); else startAutoPlay(ix); }, 350);
+    }
+  });
+
+  /* ---- read-arabic-meaning toggle ---- */
+  var arToggleBtn = document.getElementById('arabicMeaningToggle');
+  arToggleBtn.addEventListener('click', function () {
+    readArabicMeaning = !readArabicMeaning;
+    arToggleBtn.setAttribute('aria-pressed', readArabicMeaning ? 'true' : 'false');
+  });
+
+  buildLessonLists();
+  updateHomeStats();
+  renderFavoritesScreen();
+
+  /* cloud lessons merged: refresh lesson cards + quizzes */
+  window.addEventListener('lessonsMerged', function () {
+    Object.keys(quizzesData).forEach(function (k) {
+      if (!quizzesData[k].fromCloud && CONTENT_KEYS.indexOf(k) === -1) delete quizzesData[k];
+    });
+    CONTENT_KEYS.forEach(function (key) {
+      if (!quizzesData[key] || !quizzesData[key].fromCloud) quizzesData[key] = { label: categories[key].label, items: categories[key].items.slice() };
+    });
+    buildLessonLists(); updateHomeStats(); renderFavoritesScreen();
+    if (document.getElementById('screenQuiz').classList.contains('active')) buildQuizList();
+  });
+
+  /* ================================================================ */
+  /* QUIZ (الاختبار): multiple-choice tests, one per lesson.           */
+  /* By default a quiz is auto-generated from that lesson's own        */
+  /* jp/hira/ar sentences (so the page works immediately). If a        */
+  /* Firestore "quizzes" collection is added later, a matching doc     */
+  /* (same id as a lesson, or any custom id) overrides/adds a quiz.    */
+  /* Doc shape — identical to the existing "lessons" collection:       */
+  /*   { label: "اسم الاختبار", items: [ [jp, hira, ar], ... ] }       */
+  /* ================================================================ */
+  var quizzesData = {};
+  CONTENT_KEYS.forEach(function (key) {
+    quizzesData[key] = { label: categories[key].label, items: categories[key].items.slice() };
+  });
+
+  var quizState = null; // { key, questions: [{jp,hira,options,correctIndex}], index, score }
+
+  function buildOptionsFor(correctAr, pool) {
+    var others = pool.filter(function (a) { return a !== correctAr; });
+    for (var i = others.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = others[i]; others[i] = others[j]; others[j] = t; }
+    var opts = [correctAr].concat(others.slice(0, 3));
+    for (var k = opts.length - 1; k > 0; k--) { var m = Math.floor(Math.random() * (k + 1)); var tmp = opts[k]; opts[k] = opts[m]; opts[m] = tmp; }
+    return { options: opts, correctIndex: opts.indexOf(correctAr) };
+  }
+
+  function buildQuizList() {
+    var wrap = document.getElementById('quizList');
+    wrap.innerHTML = '';
+    var made = 0;
+    Object.keys(quizzesData).forEach(function (key) {
+      var q = quizzesData[key];
+      var card = document.createElement('div'); card.className = 'quizCard';
+      card.innerHTML =
+        '<div style="display:flex;flex-direction:column;gap:6px;"><button class="qGoBtn qNormal">ابدأ الاختبار</button>' +
+        '<button class="qGoBtn qListen">🎧 استماع فقط</button></div>' +
+        '<div class="qInfo"><div class="qTitle">' + q.label + '</div>' +
+          '<div class="qSub">' + q.items.length + ' سؤال اختيار من متعدد</div></div>' +
+        '<div class="qIcon">🎓</div>';
+      card.querySelector('.qNormal').addEventListener('click', function () { startQuiz(key, 'text'); });
+      card.querySelector('.qListen').addEventListener('click', function () { startQuiz(key, 'listen'); });
+      wrap.appendChild(card); made++;
+    });
+    KANJI_LEVEL_ORDER.forEach(function (lvl) {
+      var d = kanjiData[lvl];
+      if (!d || d.items.length < 2) return;
+      var card = document.createElement('div'); card.className = 'quizCard';
+      card.innerHTML =
+        '<button class="qGoBtn">ابدأ التوصيل</button>' +
+        '<div class="qInfo"><div class="qTitle">توصيل الكانجي بالمعنى • ' + d.label + '</div>' +
+          '<div class="qSub">وصّل كل كانجي بمعناه (5 × 5) — ' + d.items.length + ' كانجي</div></div>' +
+        '<div class="qIcon">⛩️</div>';
+      card.querySelector('.qGoBtn').addEventListener('click', function () { openKanjiMatch(lvl, 'ar'); });
+      wrap.appendChild(card); made++;
+
+      var card2 = document.createElement('div'); card2.className = 'quizCard';
+      card2.innerHTML =
+        '<button class="qGoBtn">ابدأ التوصيل</button>' +
+        '<div class="qInfo"><div class="qTitle">توصيل الكانجي بالهيراغانا • ' + d.label + '</div>' +
+          '<div class="qSub">وصّل كل كانجي بقراءته (5 × 5) — ' + d.items.length + ' كانجي</div></div>' +
+        '<div class="qIcon">🈁</div>';
+      card2.querySelector('.qGoBtn').addEventListener('click', function () { openKanjiMatch(lvl, 'h'); });
+      wrap.appendChild(card2); made++;
+    });
+    if (!made) wrap.innerHTML = '<div class="quizEmpty"><span class="qes">🎓</span>لا توجد اختبارات بعد.</div>';
+  }
+
+  function startQuiz(key, mode) {
+    var q = quizzesData[key]; if (!q || !q.items.length) return;
+    var pool = q.items.map(function (it) { return it[2]; });
+    var shuffled = q.items.slice();
+    for (var i = shuffled.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = shuffled[i]; shuffled[i] = shuffled[j]; shuffled[j] = t; }
+    var questions = shuffled.map(function (it) {
+      var built = buildOptionsFor(it[2], pool);
+      return { jp: it[0], hira: it[1], options: built.options, correctIndex: built.correctIndex };
+    });
+    quizState = { key: key, questions: questions, index: 0, score: 0, mode: mode || 'text' };
+    document.getElementById('quizListenToggle').textContent = quizState.mode === 'listen' ? '📝 وضع النص' : '🎧 وضع الاستماع';
+    document.getElementById('quizResultArea').style.display = 'none';
+    document.getElementById('quizPlayArea').style.display = '';
+    document.getElementById('quizOverlay').classList.add('show');
+    renderQuizQuestion();
+  }
+
+  function renderQuizQuestion() {
+    var st = quizState; var q = st.questions[st.index];
+    document.getElementById('quizCounter').textContent = 'سؤال ' + (st.index + 1) + ' / ' + st.questions.length;
+    document.getElementById('quizProgFill').style.width = (((st.index) / st.questions.length) * 100) + '%';
+    var jpEl = document.getElementById('quizJp'), hiraEl = document.getElementById('quizHira');
+    if (st.mode === 'listen') {
+      jpEl.textContent = '🔊'; jpEl.classList.add('listenMode');
+      hiraEl.textContent = 'اضغط للاستماع ثم اختر المعنى الصحيح';
+      setTimeout(function () { if (quizState === st && st.questions[st.index] === q) speak(q.jp); }, 300);
+    } else {
+      jpEl.classList.remove('listenMode');
+      jpEl.textContent = q.jp; hiraEl.textContent = q.hira;
+    }
+    var ansWrap = document.getElementById('quizAnswers'); ansWrap.innerHTML = '';
+    q.options.forEach(function (opt, i) {
+      var btn = document.createElement('button'); btn.className = 'qAnsBtn'; btn.textContent = opt;
+      btn.addEventListener('click', function () { answerQuiz(i); });
+      ansWrap.appendChild(btn);
+    });
+  }
+
+  function answerQuiz(choiceIndex) {
+    var st = quizState; var q = st.questions[st.index];
+    var buttons = document.querySelectorAll('#quizAnswers .qAnsBtn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.add('disabledBtn');
+      if (i === q.correctIndex) buttons[i].classList.add('correct');
+      else if (i === choiceIndex) buttons[i].classList.add('wrong');
+    }
+    if (choiceIndex === q.correctIndex) st.score++;
+    if (st.mode === 'listen') {
+      document.getElementById('quizJp').classList.remove('listenMode');
+      document.getElementById('quizJp').textContent = q.jp;
+      document.getElementById('quizHira').textContent = q.hira;
+    }
+    setTimeout(function () {
+      st.index++;
+      if (st.index < st.questions.length) renderQuizQuestion(); else finishQuiz();
+    }, quizState.mode === 'listen' ? 1500 : 700);
+  }
+
+  function finishQuiz() {
+    var st = quizState;
+    var pct = st.questions.length ? Math.round((st.score / st.questions.length) * 100) : 0;
+    document.getElementById('quizProgFill').style.width = '100%';
+    document.getElementById('quizPlayArea').style.display = 'none';
+    document.getElementById('quizResultArea').style.display = '';
+    document.getElementById('quizScoreCircle').textContent = pct + '%';
+    document.getElementById('quizResultTitle').textContent = pct >= 70 ? 'أحسنت! 🎉' : 'واصل التدريب 💪';
+    document.getElementById('quizResultSub').textContent = 'أجبت ' + st.score + ' من ' + st.questions.length + ' إجابات صحيحة';
+  }
+
+  document.getElementById('quizCloseBtn').addEventListener('click', function () { stopSpeak(); document.getElementById('quizOverlay').classList.remove('show'); });
+  document.getElementById('quizJp').addEventListener('click', function () {
+    if (quizState && quizState.mode === 'listen' && quizState.questions[quizState.index]) speak(quizState.questions[quizState.index].jp);
+  });
+  document.getElementById('quizListenToggle').addEventListener('click', function () {
+    if (!quizState) return;
+    stopSpeak();
+    startQuiz(quizState.key, quizState.mode === 'listen' ? 'text' : 'listen');
+  });
+  document.getElementById('quizRetryBtn').addEventListener('click', function () { startQuiz(quizState.key, quizState.mode); });
+  document.getElementById('quizBackBtn').addEventListener('click', function () { document.getElementById('quizOverlay').classList.remove('show'); buildQuizList(); });
+
+  /* ---- optional cloud quizzes (Firestore collection "quizzes"), same shape as "lessons" ---- */
+  if (window.__db) {
+    window.__restGet('quizzes').then(function (snap) {
+      snap.forEach(function (docSnap) {
+        var d = docSnap.data();
+        var items = Array.isArray(d.items) ? d.items.map(function (it) { return [it.jp || it[0] || '', it.hira || it[1] || '', it.ar || it[2] || '']; }) : [];
+        if (items.length) quizzesData[docSnap.id] = { label: d.label || docSnap.id, items: items, fromCloud: true };
+      });
+      if (document.getElementById('screenQuiz').classList.contains('active')) buildQuizList();
+    }).catch(function (e) { console.log('cloud quizzes fetch failed', e); });
+  }
+
+  /* ================================================================ */
+  /* GRAMMAR (colored sentences): currently one lesson, は vs が        */
+  /* ================================================================ */
+  var GRAMMAR_LESSONS = {
+    ha_ga: {
+      title: 'は مقابل が',
+      icon: '🈴',
+      sentences: [{"segs": [["これ", "pronoun"], ["は", "particle"], ["本", "noun"], ["です。", "other"]], "hira": "これはほんです。", "ar": "هذا كتاب.", "note": "は لتقديم موضوع عام"}, {"segs": [["これ", "pronoun"], ["が", "particle"], ["本", "noun"], ["です。", "other"]], "hira": "これがほんです。", "ar": "هذا هو الكتاب (وليس غيره).", "note": "が للتحديد والتمييز"}, {"segs": [["私", "pronoun"], ["は", "particle"], ["学生", "noun"], ["です。", "other"]], "hira": "わたしはがくせいです。", "ar": "أنا طالب.", "note": "は في التعريف بالنفس"}, {"segs": [["誰", "pronoun"], ["が", "particle"], ["来ました", "verb"], ["か。", "other"]], "hira": "だれがきましたか。", "ar": "من الذي أتى؟", "note": "が بعد كلمة استفهام (من)"}, {"segs": [["田中さん", "noun"], ["が", "particle"], ["来ました。", "verb"]], "hira": "たなかさんがきました。", "ar": "تاناكا هو من أتى (معلومة جديدة).", "note": "が لمعلومة جديدة (جواب على من؟)"}, {"segs": [["田中さん", "noun"], ["は", "particle"], ["来ました。", "verb"]], "hira": "たなかさんはきました。", "ar": "أما تاناكا، فقد أتى.", "note": "は لموضوع معروف مسبقاً"}, {"segs": [["象", "noun"], ["は", "particle"], ["鼻", "noun"], ["が", "particle"], ["長い。", "adjective"]], "hira": "ぞうははながながい。", "ar": "الفيل أنفه طويل.", "note": "は للموضوع العام + が للفاعل الفرعي (تركيب كلاسيكي)"}, {"segs": [["私", "pronoun"], ["は", "particle"], ["日本語", "noun"], ["が", "particle"], ["好きです。", "adjective"]], "hira": "わたしはにほんごがすきです。", "ar": "أنا أحب اللغة اليابانية.", "note": "は للشخص + が للشيء المحبوب"}, {"segs": [["これ", "pronoun"], ["は", "particle"], ["何", "pronoun"], ["ですか。", "other"]], "hira": "これはなんですか。", "ar": "ما هذا؟", "note": "は في سؤال عام عن شيء"}, {"segs": [["何", "pronoun"], ["が", "particle"], ["ありますか。", "verb"]], "hira": "なにがありますか。", "ar": "ماذا يوجد؟", "note": "が مع فعل الوجود (あります)"}, {"segs": [["公園", "noun"], ["に", "other"], ["猫", "noun"], ["が", "particle"], ["います。", "verb"]], "hira": "こうえんにねこがいます。", "ar": "يوجد قطة في الحديقة.", "note": "が لوجود شيء جديد غير معروف"}, {"segs": [["猫", "noun"], ["は", "particle"], ["公園", "noun"], ["に", "other"], ["います。", "verb"]], "hira": "ねこはこうえんにいます。", "ar": "القطة (المعروفة) موجودة في الحديقة.", "note": "は لأن القطة معروفة مسبقاً"}, {"segs": [["雨", "noun"], ["が", "particle"], ["降っています。", "verb"]], "hira": "あめがふっています。", "ar": "إنها تمطر.", "note": "が مع الظواهر الطبيعية"}, {"segs": [["天気", "noun"], ["は", "particle"], ["いいです。", "adjective"]], "hira": "てんきはいいです。", "ar": "الطقس جميل.", "note": "は كموضوع للحديث (الطقس)"}, {"segs": [["山田さん", "noun"], ["は", "particle"], ["先生", "noun"], ["です。", "other"]], "hira": "やまださんはせんせいです。", "ar": "ياماda هو المعلم.", "note": "は لتعريف شخص معروف"}, {"segs": [["どの人", "noun"], ["が", "particle"], ["山田さん", "noun"], ["ですか。", "other"]], "hira": "どのひとがやまださんですか。", "ar": "أي شخص هو ياماda؟", "note": "が بعد أداة استفهام (أي)"}, {"segs": [["あの人", "pronoun"], ["が", "particle"], ["山田さん", "noun"], ["です。", "other"]], "hira": "あのひとがやまださんです。", "ar": "ذلك الشخص هو ياماda.", "note": "が للتحديد (هو بالذات)"}, {"segs": [["私", "pronoun"], ["は", "particle"], ["肉", "noun"], ["より", "other"], ["魚", "noun"], ["が", "particle"], ["好きです。", "adjective"]], "hira": "わたしはにくよりさかながすきです。", "ar": "أنا أفضل السمك على اللحم.", "note": "は للشخص + が للمفضّل في المقارنة"}, {"segs": [["これ", "pronoun"], ["は", "particle"], ["私", "pronoun"], ["の", "other"], ["ペン", "noun"], ["です。", "other"]], "hira": "これはわたしのぺんです。", "ar": "هذا قلمي.", "note": "は لتقديم الشيء (هذا)"}, {"segs": [["だれ", "pronoun"], ["が", "particle"], ["この", "other"], ["ケーキ", "noun"], ["を", "other"], ["作りました", "verb"], ["か。", "other"]], "hira": "だれがこのけーきをつくりましたか。", "ar": "من صنع هذه الكعكة؟", "note": "が بعد كلمة استفهام (من صنع؟)"}],
+      vocab: [{"jp": "学生", "hira": "がくせい", "ar": "طالب"}, {"jp": "誰", "hira": "だれ", "ar": "من (استفهام)"}, {"jp": "来ます", "hira": "きます", "ar": "يأتي"}, {"jp": "象", "hira": "ぞう", "ar": "فيل"}, {"jp": "鼻", "hira": "はな", "ar": "أنف"}, {"jp": "長い", "hira": "ながい", "ar": "طويل"}, {"jp": "好き", "hira": "すき", "ar": "محبوب / مفضّل"}, {"jp": "何", "hira": "なに", "ar": "ماذا"}, {"jp": "あります", "hira": "あります", "ar": "يوجد (لغير الحي)"}, {"jp": "います", "hira": "います", "ar": "يوجد (للحي)"}, {"jp": "公園", "hira": "こうえん", "ar": "حديقة عامة"}, {"jp": "猫", "hira": "ねこ", "ar": "قطة"}, {"jp": "降ります", "hira": "ふります", "ar": "يهطل/ينزل (المطر)"}, {"jp": "天気", "hira": "てんき", "ar": "الطقس"}, {"jp": "いい", "hira": "いい", "ar": "جيد"}, {"jp": "先生", "hira": "せんせい", "ar": "معلّم"}, {"jp": "どの", "hira": "どの", "ar": "أيّ"}, {"jp": "人", "hira": "ひと", "ar": "شخص"}, {"jp": "あの", "hira": "あの", "ar": "ذلك (بعيد)"}, {"jp": "より", "hira": "より", "ar": "أكثر من (مقارنة)"}, {"jp": "ペン", "hira": "ぺん", "ar": "قلم"}, {"jp": "作ります", "hira": "つくります", "ar": "يصنع"}, {"jp": "ケーキ", "hira": "けーき", "ar": "كعكة"}]
+    }
+  };
+
+  function buildGrammarLessonsList() {
+    var wrap = document.getElementById('grammarLessonsList');
+    wrap.innerHTML = '';
+    Object.keys(GRAMMAR_LESSONS).forEach(function (key) {
+      var l = GRAMMAR_LESSONS[key];
+      var card = document.createElement('button');
+      card.className = 'grammarLessonCard';
+      card.innerHTML =
+        '<div class="qIcon">' + l.icon + '</div>' +
+        '<div class="qInfo"><div class="qTitle">' + l.title + '</div>' +
+        '<div class="qSub">' + l.sentences.length + ' جملة، ' + l.vocab.length + ' كلمة جديدة</div></div>';
+      card.addEventListener('click', function () { openGrammarLesson(key); });
+      wrap.appendChild(card);
+    });
+  }
+
+  var currentGrammarLesson = null;
+  var POS_CLASS = { noun: 'posNoun', pronoun: 'posPronoun', verb: 'posVerb', adjective: 'posAdj', particle: 'posParticle', other: '' };
+
+  function sentText(sent) { return sent.segs.map(function (sg) { return sg[0]; }).join(''); }
+
+  function openGrammarLesson(key) {
+    currentGrammarLesson = key;
+    var l = GRAMMAR_LESSONS[key];
+    document.getElementById('grammarTitle').textContent = l.title;
+    var sentWrap = document.getElementById('gramSentList');
+    sentWrap.innerHTML = '';
+    l.sentences.forEach(function (sent) {
+      var card = document.createElement('div');
+      card.className = 'gramSentCard';
+      var jpHtml = sent.segs.map(function (sg) {
+        var cls = POS_CLASS[sg[1]] || '';
+        return '<span class="' + cls + '">' + sg[0] + '</span>';
+      }).join('');
+      card.innerHTML =
+        '<div class="gramJp">' + jpHtml + '</div>' +
+        '<div class="gramHira">' + sent.hira + '</div>' +
+        '<div class="gramAr">' + sent.ar + '</div>' +
+        (sent.note ? '<div class="gramNote">💡 ' + sent.note + '</div>' : '');
+      card.addEventListener('click', function () { speak(sentText(sent)); });
+      sentWrap.appendChild(card);
+    });
+    var wordsWrap = document.getElementById('gramWordsList');
+    wordsWrap.innerHTML = '';
+    l.vocab.forEach(function (w) {
+      var chip = document.createElement('div');
+      chip.className = 'gramWordChip';
+      chip.innerHTML = '<div class="gwJp">' + w.jp + ' <span style="color:var(--sub);font-weight:600;">(' + w.hira + ')</span></div><div class="gwAr">' + w.ar + '</div>';
+      chip.addEventListener('click', function () { speak(w.jp); });
+      wordsWrap.appendChild(chip);
+    });
+    document.getElementById('grammarOverlay').classList.add('show');
+  }
+  document.getElementById('grammarCloseBtn').addEventListener('click', function () {
+    stopSpeak();
+    document.getElementById('grammarOverlay').classList.remove('show');
+  });
+
+  /* ---- は/が fill-in-the-blank quiz ---- */
+  var hgState = null;
+  function hgShuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  document.getElementById('gramQuizBtn').addEventListener('click', function () {
+    var l = GRAMMAR_LESSONS[currentGrammarLesson];
+    var qs = hgShuffle(l.sentences.slice());
+    hgState = { qs: qs, idx: 0, correct: 0, answered: false };
+    document.getElementById('hagaQuizOv').classList.add('show');
+    document.getElementById('hgResult').style.display = 'none';
+    document.getElementById('hgOpts').style.display = 'flex';
+    hgRender();
+  });
+  function hgRender() {
+    var q = hgState.qs[hgState.idx];
+    hgState.answered = false;
+    var particle = null, blankHtml = '';
+    q.segs.forEach(function (sg) {
+      if (sg[1] === 'particle' && (sg[0] === 'は' || sg[0] === 'が')) { particle = sg[0]; blankHtml += '<span class="hgBlank">＿＿</span>'; }
+      else blankHtml += sg[0];
+    });
+    hgState.answerParticle = particle;
+    document.getElementById('hgProg').textContent = 'سؤال ' + (hgState.idx + 1) + ' / ' + hgState.qs.length;
+    document.getElementById('hgSent').innerHTML = blankHtml;
+    document.getElementById('hgAr').textContent = q.ar;
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.hgOpt'), function (btn) {
+    btn.addEventListener('click', function () {
+      if (!hgState || hgState.answered) return;
+      hgState.answered = true;
+      var picked = btn.getAttribute('data-p');
+      var correct = picked === hgState.answerParticle;
+      if (correct) hgState.correct++;
+      btn.classList.add(correct ? 'correct' : 'wrong');
+      if (!correct) {
+        Array.prototype.forEach.call(document.querySelectorAll('.hgOpt'), function (b) {
+          if (b.getAttribute('data-p') === hgState.answerParticle) b.classList.add('correct');
+        });
+      }
+      setTimeout(function () {
+        Array.prototype.forEach.call(document.querySelectorAll('.hgOpt'), function (b) { b.classList.remove('correct', 'wrong'); });
+        hgState.idx++;
+        if (hgState.idx >= hgState.qs.length) hgFinish(); else hgRender();
+      }, 900);
+    });
+  });
+  function hgFinish() {
+    document.getElementById('hgOpts').style.display = 'none';
+    document.getElementById('hgResult').style.display = 'block';
+    var pct = Math.round((hgState.correct / hgState.qs.length) * 100);
+    document.getElementById('hgScoreTitle').textContent = hgState.correct + ' / ' + hgState.qs.length + ' (' + pct + '%)';
+  }
+  document.getElementById('hgCloseBtn').addEventListener('click', function () { document.getElementById('hagaQuizOv').classList.remove('show'); });
+  document.getElementById('hgResultBtn').addEventListener('click', function () { document.getElementById('hagaQuizOv').classList.remove('show'); });
+
+  buildGrammarLessonsList();
+
+  /* ---- kanji levels list ---- */
+  var LEVEL_ICONS = { n5: '🌱', n4: '🌿', n3: '🌳', n2: '⛰️', n1: '🗻' };
+  function buildKanjiLevelsList() {
+    var wrap = document.getElementById('kanjiLevelsList');
+    wrap.innerHTML = '';
+    KANJI_LEVEL_ORDER.forEach(function (lvl) {
+      var d = kanjiData[lvl];
+      var card = document.createElement('button');
+      card.className = 'kanjiLevelCard';
+      card.innerHTML =
+        '<div class="qIcon">' + LEVEL_ICONS[lvl] + '</div>' +
+        '<div class="qInfo"><div class="qTitle">مستوى ' + d.label + '</div>' +
+        '<div class="qSub">' + d.items.length + ' كانجي</div></div>';
+      card.addEventListener('click', function () { openKanjiLevel(lvl); });
+      wrap.appendChild(card);
+    });
+  }
+
+  /* ---- kanji viewer + autoplay ---- */
+  var currentKanjiLevel = null;
+  var kanjiOrder = [];
+  var kanjiIndex = 0;
+  var isKanjiAutoPlaying = false;
+  var kanjiRepeatCount = 2;
+  var kanjiReadArabic = false;
+  var kanjiPlaybackPhase = 'jp';
+  var kanjiAutoplayStartAt = 0;
+  var kanjiViewMode = 'slider';
+  var kanjiCurRepeat = 2, kanjiIgnoreUntil = 0, kanjiArPending = false, kanjiResumeTimer = null;
+
+  function openKanjiLevel(lvl) {
+    currentKanjiLevel = lvl;
+    document.getElementById('kanjiLevelLabel').textContent = kanjiData[lvl].label;
+    kanjiOrder = kanjiData[lvl].items.map(function (_, i) { return i; });
+    kanjiIndex = 0;
+    renderKanjiGridView();
+    renderKanjiSlide(0);
+    document.getElementById('kanjiOverlay').classList.add('show');
+    document.getElementById('kanjiAutoBar').classList.add('show');
+  }
+
+  function setKanjiViewMode(mode) {
+    kanjiViewMode = mode;
+    document.getElementById('kanjiGrid').style.display = mode === 'grid' ? 'grid' : 'none';
+    document.getElementById('kanjiSlide').style.display = mode === 'grid' ? 'none' : 'flex';
+    document.querySelector('.kanjiNavRow').style.display = mode === 'grid' ? 'none' : 'flex';
+    document.getElementById('kanjiViewSliderBtn').classList.toggle('active', mode !== 'grid');
+    document.getElementById('kanjiViewGridBtn').classList.toggle('active', mode === 'grid');
+    highlightKanjiPos(kanjiIndex);
+  }
+  document.getElementById('kanjiViewSliderBtn').addEventListener('click', function () { setKanjiViewMode('slider'); });
+  document.getElementById('kanjiViewGridBtn').addEventListener('click', function () { setKanjiViewMode('grid'); });
+
+  function renderKanjiGridView() {
+    var grid = document.getElementById('kanjiGrid');
+    grid.innerHTML = '';
+    var items = kanjiData[currentKanjiLevel] ? kanjiData[currentKanjiLevel].items : [];
+    if (!items.length) {
+      grid.innerHTML = '<div class="quizEmpty" style="grid-column:1/-1;"><span class="qes">⛩️</span>لا يوجد كانجي في هذا المستوى بعد.</div>';
+      return;
+    }
+    items.forEach(function (it, i) {
+      var p0 = it[1][0];
+      var card = document.createElement('div');
+      card.className = 'kanjiCard';
+      card.id = 'kanjiCard-' + i;
+      card.innerHTML = (it[1].length > 1 ? '<div class="kgMore">+' + (it[1].length - 1) + '</div>' : '') +
+        '<div class="kgBig">' + it[0] + '</div><div class="kgHira">' + p0[0] + '</div><div class="kgAr">' + p0[1] + '</div>';
+      card.addEventListener('click', function () { if (isKanjiAutoPlaying) return; speak(p0[0]); });
+      grid.appendChild(card);
+    });
+  }
+
+  function highlightKanjiPos(pos) {
+    Array.prototype.forEach.call(document.querySelectorAll('.kanjiCard'), function (c) { c.classList.remove('kActive'); });
+    var items = kanjiData[currentKanjiLevel] ? kanjiData[currentKanjiLevel].items : [];
+    if (!items.length || pos < 0 || pos >= kanjiOrder.length) return;
+    var el = document.getElementById('kanjiCard-' + kanjiOrder[pos]);
+    if (el) { el.classList.add('kActive'); if (kanjiViewMode === 'grid') el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  }
+
+  function renderKanjiSlide(pos) {
+    var items = kanjiData[currentKanjiLevel] ? kanjiData[currentKanjiLevel].items : [];
+    var big = document.getElementById('kanjiSlideBig'), pairsWrap = document.getElementById('kanjiSlidePairs');
+    if (!items.length) {
+      big.textContent = '⛩️'; pairsWrap.innerHTML = '<div class="quizEmpty"><span class="qes">⛩️</span>لا يوجد كانجي في هذا المستوى بعد.</div>';
+      document.getElementById('kanjiSlideCnt').textContent = '0 / 0';
+      return;
+    }
+    kanjiIndex = Math.max(0, Math.min(pos, kanjiOrder.length - 1));
+    highlightKanjiPos(kanjiIndex);
+    var it = items[kanjiOrder[kanjiIndex]];
+    big.textContent = it[0];
+    document.getElementById('kanjiSlideCnt').textContent = (kanjiIndex + 1) + ' / ' + kanjiOrder.length;
+    pairsWrap.innerHTML = '';
+    it[1].forEach(function (p) {
+      var chip = document.createElement('div');
+      chip.className = 'kPairChip';
+      chip.innerHTML = '<div class="kh">' + p[0] + '</div><div class="ka">' + p[1] + '</div>';
+      chip.addEventListener('click', function () { if (!isKanjiAutoPlaying) speak(p[0]); });
+      pairsWrap.appendChild(chip);
+    });
+  }
+  document.getElementById('kanjiSlideBig').addEventListener('click', function () {
+    if (isKanjiAutoPlaying) return;
+    var items = kanjiData[currentKanjiLevel] ? kanjiData[currentKanjiLevel].items : [];
+    if (items.length) { var it = items[kanjiOrder[kanjiIndex]]; speak(it[1][0][0]); }
+  });
+  document.getElementById('kanjiPrevBtn').addEventListener('click', function () { stopKanjiAutoPlay(); renderKanjiSlide(kanjiIndex + 1); });
+  document.getElementById('kanjiNextBtn').addEventListener('click', function () { stopKanjiAutoPlay(); renderKanjiSlide(kanjiIndex - 1); });
+
+  function stopKanjiAutoPlay() {
+    isKanjiAutoPlaying = false;
+    clearTimeout(kanjiResumeTimer); kanjiArPending = false;
+    stopSpeak();
+    window.nativeWakeLock ? window.nativeWakeLock(false) : null;
+    kanjiPlaybackPhase = 'jp';
+    document.getElementById('kanjiAutoBar').textContent = '▶ عرض تلقائي لهذا المستوى';
+    document.getElementById('kanjiAutoBar').classList.remove('playing');
+  }
+
+  function startKanjiAutoPlay(fromIndex) {
+    var items = kanjiData[currentKanjiLevel] ? kanjiData[currentKanjiLevel].items : [];
+    if (!items.length || !ttsAvailable()) return;
+    window.nativeWakeLock ? window.nativeWakeLock(true) : null;
+    var startAt = (typeof fromIndex === 'number' && fromIndex >= 0) ? fromIndex : 0;
+    kanjiIndex = startAt;
+    kanjiPlaybackPhase = 'jp';
+    kanjiAutoplayStartAt = startAt;
+    kanjiCurRepeat = kanjiRepeatCount;
+    var remaining = kanjiOrder.slice(startAt);
+    var texts = [];
+    remaining.forEach(function (idx) { for (var r = 0; r < kanjiCurRepeat; r++) texts.push(items[idx][1][0][0]); });
+
+    isKanjiAutoPlaying = true;
+    document.getElementById('kanjiAutoBar').textContent = '⏹ إيقاف العرض';
+    document.getElementById('kanjiAutoBar').classList.add('playing');
+    renderKanjiSlide(startAt);
+
+    kanjiIgnoreUntil = Date.now() + 400;
+    __tts('speakSequence', { texts: texts, lang: 'ja' })
+      .catch(function () { stopKanjiAutoPlay(); });
+  }
+
+  function startKanjiArabicPass(fromIndex) {
+    var items = kanjiData[currentKanjiLevel] ? kanjiData[currentKanjiLevel].items : [];
+    if (!items.length || !ttsAvailable()) { stopKanjiAutoPlay(); return; }
+    var startAt = (typeof fromIndex === 'number' && fromIndex >= 0) ? fromIndex : 0;
+    kanjiPlaybackPhase = 'ar';
+    kanjiIndex = startAt;
+    kanjiAutoplayStartAt = startAt;
+    var remaining = kanjiOrder.slice(startAt);
+    var texts = remaining.map(function (idx) { return items[idx][1].map(function (p) { return p[1]; }).join('، '); });
+
+    isKanjiAutoPlaying = true;
+    kanjiIgnoreUntil = Date.now() + 400;
+    __tts('speakSequence', { texts: texts, lang: 'ar' })
+      .catch(function () { stopKanjiAutoPlay(); });
+  }
+
+  if (ttsAvailable() && window.Capacitor.Plugins.TtsPlugin.addListener) {
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceIndex', function (data) {
+      if (!isKanjiAutoPlaying) return;
+      if (Date.now() < kanjiIgnoreUntil) return;
+      var raw = (data && data.index) || 0;
+      if (kanjiPlaybackPhase === 'ar') {
+        var posAr = kanjiAutoplayStartAt + raw;
+        if (posAr >= 0 && posAr < kanjiOrder.length) renderKanjiSlide(posAr);
+      } else {
+        var pos = kanjiAutoplayStartAt + Math.floor(raw / kanjiCurRepeat);
+        if (pos >= 0 && pos < kanjiOrder.length) renderKanjiSlide(pos);
+      }
+    });
+    window.Capacitor.Plugins.TtsPlugin.addListener('sequenceDone', function () {
+      if (!isKanjiAutoPlaying) return;
+      if (Date.now() < kanjiIgnoreUntil) return;
+      if (kanjiPlaybackPhase === 'jp' && kanjiReadArabic) {
+        if (kanjiArPending) return;
+        kanjiArPending = true;
+        setTimeout(function () { kanjiArPending = false; if (isKanjiAutoPlaying) startKanjiArabicPass(0); }, 350);
+        return;
+      }
+      stopKanjiAutoPlay();
+    });
+  }
+
+  document.getElementById('kanjiCloseBtn').addEventListener('click', function () {
+    stopKanjiAutoPlay();
+    document.getElementById('kanjiOverlay').classList.remove('show');
+    document.getElementById('kanjiAutoBar').classList.remove('show');
+  });
+  document.getElementById('kanjiAutoBar').addEventListener('click', function () {
+    if (isKanjiAutoPlaying) stopKanjiAutoPlay(); else startKanjiAutoPlay(0);
+  });
+  var kanjiRepeatPillsWrap = document.getElementById('kanjiRepeatPills');
+  kanjiRepeatPillsWrap.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('button') : null;
+    if (!btn) return;
+    kanjiRepeatCount = parseInt(btn.getAttribute('data-count'), 10) || 2;
+    Array.prototype.forEach.call(kanjiRepeatPillsWrap.children, function (b) { b.style.background = '#f1eff5'; b.style.color = 'var(--ink)'; });
+    btn.style.background = 'var(--red)'; btn.style.color = '#fff';
+    if (isKanjiAutoPlaying) {
+      var ph = kanjiPlaybackPhase, ix = kanjiIndex;
+      isKanjiAutoPlaying = false; stopSpeak();
+      clearTimeout(kanjiResumeTimer);
+      kanjiResumeTimer = setTimeout(function () { if (ph === 'ar') startKanjiArabicPass(ix); else startKanjiAutoPlay(ix); }, 350);
+    }
+  });
+  var kanjiArToggleBtn = document.getElementById('kanjiArabicToggle');
+  kanjiArToggleBtn.addEventListener('click', function () {
+    kanjiReadArabic = !kanjiReadArabic;
+    kanjiArToggleBtn.setAttribute('aria-pressed', kanjiReadArabic ? 'true' : 'false');
+  });
+
+  /* ---- kanji matching quiz: 5 kanji (right) <-> 5 Arabic meanings (left) ---- */
+  var kmLevel = null, kmField = 'ar', kmPool = [], kmRoundIdx = [], kmMatched = 0, kmRight = 0, kmWrong = 0, kmRound = 0, kmSel = null;
+  function kmShuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function kmUpdateStats() {
+    document.getElementById('kmStats').textContent = '✓ ' + kmRight + ' • ✗ ' + kmWrong + ' • جولة ' + kmRound;
+  }
+  function openKanjiMatch(lvl, field) {
+    var d = kanjiData[lvl];
+    if (!d || d.items.length < 2) return;
+    kmLevel = lvl; kmField = field === 'h' ? 'h' : 'ar'; kmPool = []; kmRight = 0; kmWrong = 0; kmRound = 0;
+    document.getElementById('kmLevel').textContent = d.label + (kmField === 'h' ? ' — بالهيراغانا' : ' — بالمعنى');
+    document.getElementById('kanjiMatchOverlay').classList.add('show');
+    kmNewRound();
+  }
+  function kmNewRound() {
+    var items = kanjiData[kmLevel].items;
+    var n = Math.min(5, items.length);
+    if (kmPool.length < n) {
+      var inPool = {}; kmPool.forEach(function (i) { inPool[i] = 1; });
+      var more = []; for (var i = 0; i < items.length; i++) if (!inPool[i]) more.push(i);
+      kmPool = kmPool.concat(kmShuffle(more));
+    }
+    kmRoundIdx = kmPool.splice(0, n);
+    kmMatched = 0; kmSel = null; kmRound++;
+    document.getElementById('kmSvg').innerHTML = '';
+    var right = document.getElementById('kmRight'), left = document.getElementById('kmLeft');
+    right.innerHTML = ''; left.innerHTML = '';
+    function mk(idx, side, txt) {
+      var el = document.createElement('div');
+      el.className = 'kmItem ' + (side === 'k' ? 'kmK' : (kmField === 'h' ? 'kmH' : 'kmM'));
+      el.textContent = txt;
+      el.setAttribute('data-idx', idx); el.setAttribute('data-side', side); el.setAttribute('data-txt', txt);
+      if (side === 'k') el.setAttribute('data-speak', items[idx][1][0][0]);
+      el.addEventListener('click', function () { kmPick(el); });
+      return el;
+    }
+    kmShuffle(kmRoundIdx.slice()).forEach(function (idx) { right.appendChild(mk(idx, 'k', items[idx][0])); });
+    kmShuffle(kmRoundIdx.slice()).forEach(function (idx) { var p0 = items[idx][1][0]; left.appendChild(mk(idx, 'm', kmField === 'h' ? p0[0] : p0[1])); });
+    kmUpdateStats();
+  }
+  function kmDrawLine(a, b) {
+    var kEl = a.getAttribute('data-side') === 'k' ? a : b;
+    var mEl = kEl === a ? b : a;
+    var board = document.getElementById('kmBoard').getBoundingClientRect();
+    var kr = kEl.getBoundingClientRect(), mr = mEl.getBoundingClientRect();
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', kr.left - board.left); line.setAttribute('y1', kr.top - board.top + kr.height / 2);
+    line.setAttribute('x2', mr.right - board.left); line.setAttribute('y2', mr.top - board.top + mr.height / 2);
+    line.setAttribute('stroke', '#2f9e5f'); line.setAttribute('stroke-width', '3'); line.setAttribute('stroke-linecap', 'round');
+    document.getElementById('kmSvg').appendChild(line);
+  }
+  function kmPick(el) {
+    if (el.classList.contains('ok')) return;
+    if (el.getAttribute('data-side') === 'k') speak(el.getAttribute('data-speak') || el.getAttribute('data-txt'));
+    if (!kmSel) { kmSel = el; el.classList.add('sel'); return; }
+    if (kmSel === el) { el.classList.remove('sel'); kmSel = null; return; }
+    if (kmSel.getAttribute('data-side') === el.getAttribute('data-side')) { kmSel.classList.remove('sel'); kmSel = el; el.classList.add('sel'); return; }
+    var a = kmSel, b = el; kmSel = null; a.classList.remove('sel');
+    if (a.getAttribute('data-idx') === b.getAttribute('data-idx')) {
+      a.classList.add('ok'); b.classList.add('ok');
+      kmRight++; kmMatched++; kmDrawLine(a, b); kmUpdateStats();
+      if (kmMatched === kmRoundIdx.length) setTimeout(kmNewRound, 1100);
+    } else {
+      kmWrong++; a.classList.add('bad'); b.classList.add('bad'); kmUpdateStats();
+      setTimeout(function () { a.classList.remove('bad'); b.classList.remove('bad'); }, 450);
+    }
+  }
+  document.getElementById('kmClose').addEventListener('click', function () {
+    stopSpeak();
+    document.getElementById('kanjiMatchOverlay').classList.remove('show');
+  });
+  document.getElementById('kanjiMatchBtn').addEventListener('click', function () {
+    if (currentKanjiLevel) { stopKanjiAutoPlay(); openKanjiMatch(currentKanjiLevel, 'ar'); }
+  });
+  document.getElementById('kanjiMatchHiraBtn').addEventListener('click', function () {
+    if (currentKanjiLevel) { stopKanjiAutoPlay(); openKanjiMatch(currentKanjiLevel, 'h'); }
+  });
+
+  buildKanjiLevelsList();
+})();
+</script>
+</body>
+</html>
